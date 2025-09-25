@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankManagement
+namespace BankManagement.Models
 {
     internal class Account
     {
@@ -46,7 +46,9 @@ namespace BankManagement
         }
         public void Transfer(Bank bank, string toNum, double amount)
         {
-
+            var to = bank[toNum];
+            if(to == null) throw new Exception("Recipient Account Not Found!");
+            else Transfer(to, amount);
         }
         public bool ChangeInterestRate(double newRate)
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BankManagement
+namespace BankManagement.Models
 {
     internal class Bank
     {
@@ -60,7 +60,7 @@ namespace BankManagement
         public List<Account> FindByBalance(double balance) =>
             BankAccounts.Where(acc => acc.Balance == balance).ToList(); // Find exact balance
         public List<Account> FindByBalance(double min, double max) =>
-            BankAccounts.Where(acc => (acc.Balance >= min && acc.Balance <= max)).ToList(); // Find in range
+            BankAccounts.Where(acc => acc.Balance >= min && acc.Balance <= max).ToList(); // Find in range
         
         // INDEXER, Used to find by Number
         public Account? this[string number] => 
