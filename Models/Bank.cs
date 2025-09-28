@@ -55,7 +55,9 @@ namespace BankManagement.Models
         }
         */
         public List<Account> FindByOwner(string owner) =>
-            BankAccounts.Where(acc => acc.Owner.Contains(owner)).ToList();
+            BankAccounts
+            .Where(acc => $"{acc.Owner.LastName} {acc.Owner.FirstName}".Contains(owner, StringComparison.OrdinalIgnoreCase))
+            .ToList();
         //  [.. BankAccounts.Where(acc => acc.Owner.Contains(owner))]; Using Collection expression
         public List<Account> FindByBalance(double balance) =>
             BankAccounts.Where(acc => acc.Balance == balance).ToList(); // Find exact balance

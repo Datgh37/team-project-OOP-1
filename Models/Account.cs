@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BankManagement.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,8 @@ namespace BankManagement.Models
     {
         private int _number = 10000; // Initial Bank Number
         public string Number { get; } // Bank Account Number, Read Only, Unique
-        public string Owner { get; private set; } // Owner, Read Only, Unique
-        public double Balance { get; private set; } // Balance, No data change from outside
+        public Customer Owner { get; protected set; } // Owner, Read Only, Unique
+        public double Balance { get; protected set; } // Balance, No data change from outside
         public DateTime OpenAt { get; } // Account Open Time, Read Only
         public static double InterestRate { get; private set; } // Invest Rate, default 0.2, private set
         // CONSTRUCTOR
@@ -19,17 +20,20 @@ namespace BankManagement.Models
         {
             InterestRate = 0.2;
         }
-        public Account() : this("Annonymous", 0) { }
+        public Account() : this("Annonymous Annonymous", 0) { }
 
-        public Account(string owner, double balance)
+        public Account(string ownerFullName, double initBalance)
         {
-            if (balance < 0) throw new ArgumentException("Balance must be >= 0");
+            if(string.IsNullOrEmpty(ownerFullName)) throw new ArgumentException("Owner name must not be empty!");
+            if (initBalance < 0) throw new ArgumentException("Balance must be >= 0");
+
+            var (ho, ten) = ownerFullName.TachHoTen();
             Number = (++_number).ToString();
-            Owner = owner;
-            Balance = balance;
+            Balance = initBalance;
             OpenAt = DateTime.Now;
+            Owner = new Customer(ho, ten);
         }
-        public Account(string owner) : this(owner, 0) { }
+        public Account(string ownerFullName) : this(ownerFullName, 0) { }
         public Account(Account acc) // Copy Constructor
         {
             this.Number = acc.Number;
