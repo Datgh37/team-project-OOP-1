@@ -14,6 +14,8 @@ namespace BankManagement
             FormFlash ff = new FormFlash();
             ff.ShowDialog();
             if (ff.DialogResult == DialogResult.OK) { Application.Run(new FormMain()); }
+
+            //Application.Run(new FormUser());
         }
     }
 }
