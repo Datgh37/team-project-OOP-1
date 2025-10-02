@@ -16,7 +16,7 @@ namespace BankManagement
         private User currentUser;
 
         // Constructor for Add/Edit mode
-        public FormAddEdit(int mode) // Truyền tham số giá trị 1 hoặc 0 để đổi mode là đc
+        public FormAddEdit(int mode = 0) // Truyền tham số giá trị 1 hoặc 0 để đổi mode là đc
         {
             InitializeComponent();
 

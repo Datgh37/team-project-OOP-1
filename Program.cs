@@ -15,7 +15,7 @@ namespace BankManagement
             ff.ShowDialog();
             if (ff.DialogResult == DialogResult.OK) { Application.Run(new FormMain()); }
 
-            //Application.Run(new FormUser());
+            //Application.Run(new FormAddEdit(0));
         }
     }
 }
