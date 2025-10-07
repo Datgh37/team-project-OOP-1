@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BankManagement.Models
 {
-    internal class Account
+    internal abstract class Account
     {
         private int _number = 10000; // Initial Bank Number
         public string Number { get; } // Bank Account Number, Read Only, Unique
@@ -42,6 +42,7 @@ namespace BankManagement.Models
             OpenAt = acc.OpenAt;
         }
         // METHODS
+        public abstract string GetAccountType();
         public void Transfer(Account toAcc, double amount)
         {
             if (Balance < amount) throw new Exception("Insufficient Balance!");
