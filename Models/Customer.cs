@@ -86,6 +86,18 @@ namespace BankManagement.Models
         {
             this.UID = c.UID;
         }
+        public Customer(string dataLine)
+        {
+            var line = dataLine.Split(",");
+            UID = Guid.Parse(line[0]);
+            CID = line[1];
+            LastName = line[2];
+            FirstName = line[3];
+            Address = line[4];
+            Email = line[5];
+            Phone = line[6];
+            BirthDate = line[7].ToDateMonthYear();
+        }
         public void UpdateInfo(string lastName, string firstName)
         {
             if (lastName != null) LastName = lastName;

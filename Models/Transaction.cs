@@ -6,22 +6,40 @@ using System.Threading.Tasks;
 
 namespace BankManagement.Models
 {
+    public enum TransactionType
+    {
+        Deposit,
+        Withdraw,
+        Transfer
+    }
     internal class Transaction
     {
-        public string TransactionID { get; set; } = Guid.NewGuid().ToString();
-        public string FromAccount { get; set; }
-        public string ToAccount { get; set; }
-        public double Amount { get; set; }
-        public DateTime TransactionAt { get; set; }
-        public Transaction(string fromAccount, string toAccount, double amount)
+        public string TransactionID { get; } = Guid.NewGuid().ToString();
+        public string? FromAccountNumber { get; } 
+        public string? ToAccountNumber { get; }
+        public double Amount { get; }
+        public TransactionType Type { get; }
+        public DateTime TransactionTime { get; }
+        public Transaction(string? fromAccNum, string? toAccNum, double amount, TransactionType type)
         {
-            if (string.IsNullOrEmpty(fromAccount)) throw new ArgumentException("FromAccount must not be empty!");
-            else if(string.IsNullOrEmpty(toAccount)) throw new ArgumentException("ToAccount must not be empty!");
-            else if (amount <= 0) throw new ArgumentException("Amount must be > 0");
-            FromAccount = fromAccount;
-            ToAccount = toAccount;
+            if (amount <= 0) throw new ArgumentException("Amount must be > 0");
+            if (type == TransactionType.Transfer) // For Transfer transaction
+            {
+                if (string.IsNullOrEmpty(fromAccNum) || string.IsNullOrEmpty(toAccNum))
+                    throw new ArgumentException("Transfer requires both source and target accounts!");
+            }
+            else if (type == TransactionType.Deposit && string.IsNullOrEmpty(toAccNum)) // For Deposit transaction
+                throw new ArgumentException("Deposit requires a destination account!"); 
+            else if (type == TransactionType.Withdraw && string.IsNullOrEmpty(fromAccNum)) // For Withdrawal transation
+                throw new ArgumentException("Withdraw requires a source account!");
+
+            FromAccountNumber = fromAccNum;
+            ToAccountNumber = toAccNum;
             Amount = amount;
-            TransactionAt = DateTime.Now;
+            Type = type;
+            TransactionTime = DateTime.Now;
         }
+        
+
     }
 }

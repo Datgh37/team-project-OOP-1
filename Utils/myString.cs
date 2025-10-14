@@ -37,22 +37,19 @@
         //5 Proper: Capitalize first letter of each word
         public static string Proper(this string s)
         {
-            try
+            if (string.IsNullOrWhiteSpace(s)) return "";
+            s = s.Standard();
+            s = s.ToLower();
+            string[] w = s.Split(" ");
+            for (int i = 0; i < w.Length; ++i)
             {
-                s = s.Standard();
-                s = s.ToLower(); // Convert all to lowercase
-                string[] w = s.Split(" "); // Split by space
-                for (int i = 0; i < w.Length; ++i)
+                string st = w[i];
+                if (st.Length > 0)
                 {
-                    string st = w[i];
-                    if (st.Length > 0)
-                    {
-                        w[i] = char.ToUpper(st[0]) + st.Substring(1); // Capitalize first letter
-                    }
+                    w[i] = char.ToUpper(st[0]) + st.Substring(1);
                 }
-                return string.Join(" ", w); // Join back to string
             }
-            catch { return ""; }
+            return string.Join(" ", w);
         }
         //6 Name in Vietnamese: Ho Ten
         public static (string Ho, string Ten) TachHoTen(this string s)
