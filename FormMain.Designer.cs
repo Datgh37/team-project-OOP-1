@@ -36,6 +36,7 @@
             lblSearch = new Label();
             dataGridView1 = new DataGridView();
             Number = new DataGridViewTextBoxColumn();
+            AccType = new DataGridViewTextBoxColumn();
             Balance = new DataGridViewTextBoxColumn();
             OpenAt = new DataGridViewTextBoxColumn();
             FirstName = new DataGridViewTextBoxColumn();
@@ -110,11 +111,12 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToOrderColumns = true;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Number, Balance, OpenAt, FirstName, LastName, Edit, Delete, Notes });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Number, AccType, Balance, OpenAt, FirstName, LastName, Edit, Delete, Notes });
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(3, 138);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
+            dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(976, 538);
             dataGridView1.TabIndex = 1;
             // 
@@ -122,14 +124,26 @@
             // 
             Number.DataPropertyName = "Number";
             Number.HeaderText = "Number";
+            Number.MinimumWidth = 6;
             Number.Name = "Number";
             Number.ReadOnly = true;
+            Number.Width = 125;
+            // 
+            // AccType
+            // 
+            AccType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            AccType.DataPropertyName = "AccType";
+            AccType.HeaderText = "AccountType";
+            AccType.Name = "AccType";
+            AccType.ReadOnly = true;
+            AccType.Width = 101;
             // 
             // Balance
             // 
             Balance.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             Balance.DataPropertyName = "Balance";
             Balance.HeaderText = "Balance";
+            Balance.MinimumWidth = 6;
             Balance.Name = "Balance";
             Balance.ReadOnly = true;
             Balance.Width = 73;
@@ -139,6 +153,7 @@
             OpenAt.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             OpenAt.DataPropertyName = "OpenAt";
             OpenAt.HeaderText = "OpenAt";
+            OpenAt.MinimumWidth = 6;
             OpenAt.Name = "OpenAt";
             OpenAt.ReadOnly = true;
             OpenAt.Width = 73;
@@ -148,6 +163,7 @@
             FirstName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             FirstName.DataPropertyName = "FirstName";
             FirstName.HeaderText = "FirstName";
+            FirstName.MinimumWidth = 6;
             FirstName.Name = "FirstName";
             FirstName.ReadOnly = true;
             FirstName.Width = 86;
@@ -157,6 +173,7 @@
             LastName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             LastName.DataPropertyName = "LastName";
             LastName.HeaderText = "LastName";
+            LastName.MinimumWidth = 6;
             LastName.Name = "LastName";
             LastName.ReadOnly = true;
             LastName.Width = 85;
@@ -168,6 +185,7 @@
             Edit.HeaderText = "Edit";
             Edit.Image = Properties.Resources.Edit;
             Edit.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            Edit.MinimumWidth = 6;
             Edit.Name = "Edit";
             Edit.ReadOnly = true;
             Edit.Width = 33;
@@ -179,6 +197,7 @@
             Delete.HeaderText = "Delete";
             Delete.Image = Properties.Resources.Delete;
             Delete.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            Delete.MinimumWidth = 6;
             Delete.Name = "Delete";
             Delete.ReadOnly = true;
             Delete.Width = 46;
@@ -188,6 +207,7 @@
             Notes.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Notes.DataPropertyName = "Notes";
             Notes.HeaderText = "Notes";
+            Notes.MinimumWidth = 6;
             Notes.Name = "Notes";
             Notes.ReadOnly = true;
             // 
@@ -218,6 +238,7 @@
         private Label lblSearch;
         private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn Number;
+        private DataGridViewTextBoxColumn AccType;
         private DataGridViewTextBoxColumn Balance;
         private DataGridViewTextBoxColumn OpenAt;
         private DataGridViewTextBoxColumn FirstName;
