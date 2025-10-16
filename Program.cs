@@ -21,7 +21,9 @@ namespace BankManagement
 
             //Application.Run(new FormTransfer());
 
-            Application.Run(new FormBill());
+            //Application.Run(new FormBill());
+
+            Application.Run(new FormCustomer());
         }
     }
 }

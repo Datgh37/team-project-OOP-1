@@ -51,6 +51,7 @@
             panel3 = new Panel();
             panel2 = new Panel();
             panel1 = new Panel();
+            btnFinish = new Button();
             lblSta = new Label();
             lblStatus = new Label();
             lblDescription = new Label();
@@ -65,7 +66,6 @@
             lblToAcc = new Label();
             lblFrom = new Label();
             lblFromAcc = new Label();
-            btnFinish = new Button();
             flowLayoutPanel1.SuspendLayout();
             pnlTittle.SuspendLayout();
             panel6.SuspendLayout();
@@ -304,6 +304,16 @@
             panel1.Size = new Size(794, 405);
             panel1.TabIndex = 1;
             // 
+            // btnFinish
+            // 
+            btnFinish.Location = new Point(349, 305);
+            btnFinish.Name = "btnFinish";
+            btnFinish.Size = new Size(103, 33);
+            btnFinish.TabIndex = 1;
+            btnFinish.Text = "Finish";
+            btnFinish.UseVisualStyleBackColor = true;
+            btnFinish.Click += btnFinish_Click;
+            // 
             // lblSta
             // 
             lblSta.AutoSize = true;
@@ -436,15 +446,6 @@
             lblFromAcc.Size = new Size(143, 25);
             lblFromAcc.TabIndex = 0;
             lblFromAcc.Text = "From Account:";
-            // 
-            // btnFinish
-            // 
-            btnFinish.Location = new Point(349, 305);
-            btnFinish.Name = "btnFinish";
-            btnFinish.Size = new Size(103, 33);
-            btnFinish.TabIndex = 1;
-            btnFinish.Text = "Finish";
-            btnFinish.UseVisualStyleBackColor = true;
             // 
             // FormBill
             // 
