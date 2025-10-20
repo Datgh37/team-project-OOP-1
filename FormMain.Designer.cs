@@ -31,29 +31,30 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             tableLayoutPanel1 = new TableLayoutPanel();
             panelSearch = new Panel();
+            pictureBox1 = new PictureBox();
+            btnSearch = new Button();
             btnAdd = new Button();
             txtSearch = new TextBox();
-            lblSearch = new Label();
             dataGridView1 = new DataGridView();
-            Number = new DataGridViewTextBoxColumn();
-            AccType = new DataGridViewTextBoxColumn();
+            AccountNumber = new DataGridViewTextBoxColumn();
             Balance = new DataGridViewTextBoxColumn();
+            AccType = new DataGridViewTextBoxColumn();
+            InterestRate = new DataGridViewTextBoxColumn();
             OpenAt = new DataGridViewTextBoxColumn();
-            FirstName = new DataGridViewTextBoxColumn();
-            LastName = new DataGridViewTextBoxColumn();
             Edit = new DataGridViewImageColumn();
             Delete = new DataGridViewImageColumn();
-            Notes = new DataGridViewTextBoxColumn();
+            CustomerID = new DataGridViewTextBoxColumn();
             tableLayoutPanel1.SuspendLayout();
             panelSearch.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 80F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 0F));
             tableLayoutPanel1.Controls.Add(panelSearch, 0, 0);
             tableLayoutPanel1.Controls.Add(dataGridView1, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
@@ -62,24 +63,47 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 80F));
-            tableLayoutPanel1.Size = new Size(1228, 679);
+            tableLayoutPanel1.Size = new Size(1004, 461);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // panelSearch
             // 
+            panelSearch.Controls.Add(pictureBox1);
+            panelSearch.Controls.Add(btnSearch);
             panelSearch.Controls.Add(btnAdd);
             panelSearch.Controls.Add(txtSearch);
-            panelSearch.Controls.Add(lblSearch);
             panelSearch.Dock = DockStyle.Fill;
             panelSearch.Location = new Point(3, 3);
             panelSearch.Name = "panelSearch";
-            panelSearch.Size = new Size(976, 129);
+            panelSearch.Size = new Size(998, 86);
             panelSearch.TabIndex = 0;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(862, 24);
+            pictureBox1.Margin = new Padding(3, 2, 3, 2);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(75, 48);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 3;
+            pictureBox1.TabStop = false;
+            // 
+            // btnSearch
+            // 
+            btnSearch.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSearch.Location = new Point(66, 37);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(123, 35);
+            btnSearch.TabIndex = 2;
+            btnSearch.Text = "Search:";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnAdd_Click;
             // 
             // btnAdd
             // 
             btnAdd.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAdd.Location = new Point(782, 50);
+            btnAdd.Location = new Point(700, 37);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(123, 35);
             btnAdd.TabIndex = 2;
@@ -90,20 +114,10 @@
             // txtSearch
             // 
             txtSearch.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtSearch.Location = new Point(138, 52);
+            txtSearch.Location = new Point(195, 39);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(577, 33);
+            txtSearch.Size = new Size(418, 33);
             txtSearch.TabIndex = 1;
-            // 
-            // lblSearch
-            // 
-            lblSearch.AutoSize = true;
-            lblSearch.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblSearch.Location = new Point(56, 55);
-            lblSearch.Name = "lblSearch";
-            lblSearch.Size = new Size(76, 25);
-            lblSearch.TabIndex = 0;
-            lblSearch.Text = "Search:";
             // 
             // dataGridView1
             // 
@@ -111,32 +125,24 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToOrderColumns = true;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Number, AccType, Balance, OpenAt, FirstName, LastName, Edit, Delete, Notes });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { AccountNumber, Balance, AccType, InterestRate, OpenAt, Edit, Delete, CustomerID });
             dataGridView1.Dock = DockStyle.Fill;
-            dataGridView1.Location = new Point(3, 138);
+            dataGridView1.Location = new Point(3, 95);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(976, 538);
+            dataGridView1.Size = new Size(998, 363);
             dataGridView1.TabIndex = 1;
             // 
-            // Number
+            // AccountNumber
             // 
-            Number.DataPropertyName = "Number";
-            Number.HeaderText = "Number";
-            Number.MinimumWidth = 6;
-            Number.Name = "Number";
-            Number.ReadOnly = true;
-            Number.Width = 125;
-            // 
-            // AccType
-            // 
-            AccType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            AccType.DataPropertyName = "AccType";
-            AccType.HeaderText = "AccountType";
-            AccType.Name = "AccType";
-            AccType.ReadOnly = true;
-            AccType.Width = 101;
+            AccountNumber.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            AccountNumber.DataPropertyName = "AccountNumber";
+            AccountNumber.HeaderText = "AccountNumber";
+            AccountNumber.MinimumWidth = 6;
+            AccountNumber.Name = "AccountNumber";
+            AccountNumber.ReadOnly = true;
+            AccountNumber.Width = 121;
             // 
             // Balance
             // 
@@ -148,6 +154,25 @@
             Balance.ReadOnly = true;
             Balance.Width = 73;
             // 
+            // AccType
+            // 
+            AccType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            AccType.DataPropertyName = "AccType";
+            AccType.HeaderText = "AccountType";
+            AccType.MinimumWidth = 6;
+            AccType.Name = "AccType";
+            AccType.ReadOnly = true;
+            AccType.Width = 101;
+            // 
+            // InterestRate
+            // 
+            InterestRate.DataPropertyName = "InterestRate";
+            InterestRate.HeaderText = "InterestRate";
+            InterestRate.MinimumWidth = 6;
+            InterestRate.Name = "InterestRate";
+            InterestRate.ReadOnly = true;
+            InterestRate.Width = 125;
+            // 
             // OpenAt
             // 
             OpenAt.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -157,26 +182,6 @@
             OpenAt.Name = "OpenAt";
             OpenAt.ReadOnly = true;
             OpenAt.Width = 73;
-            // 
-            // FirstName
-            // 
-            FirstName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            FirstName.DataPropertyName = "FirstName";
-            FirstName.HeaderText = "FirstName";
-            FirstName.MinimumWidth = 6;
-            FirstName.Name = "FirstName";
-            FirstName.ReadOnly = true;
-            FirstName.Width = 86;
-            // 
-            // LastName
-            // 
-            LastName.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            LastName.DataPropertyName = "LastName";
-            LastName.HeaderText = "LastName";
-            LastName.MinimumWidth = 6;
-            LastName.Name = "LastName";
-            LastName.ReadOnly = true;
-            LastName.Width = 85;
             // 
             // Edit
             // 
@@ -202,29 +207,31 @@
             Delete.ReadOnly = true;
             Delete.Width = 46;
             // 
-            // Notes
+            // CustomerID
             // 
-            Notes.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            Notes.DataPropertyName = "Notes";
-            Notes.HeaderText = "Notes";
-            Notes.MinimumWidth = 6;
-            Notes.Name = "Notes";
-            Notes.ReadOnly = true;
+            CustomerID.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            CustomerID.DataPropertyName = "CustomerID";
+            CustomerID.HeaderText = "CustomerID";
+            CustomerID.MinimumWidth = 6;
+            CustomerID.Name = "CustomerID";
+            CustomerID.ReadOnly = true;
             // 
             // FormMain
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1228, 679);
+            ClientSize = new Size(1004, 461);
             Controls.Add(tableLayoutPanel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(2);
             Name = "FormMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Data Browser";
+            WindowState = FormWindowState.Maximized;
             tableLayoutPanel1.ResumeLayout(false);
             panelSearch.ResumeLayout(false);
             panelSearch.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
@@ -233,18 +240,18 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private Panel panelSearch;
-        private Button btnAdd;
-        private TextBox txtSearch;
-        private Label lblSearch;
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn Number;
-        private DataGridViewTextBoxColumn AccType;
+        private DataGridViewTextBoxColumn AccountNumber;
         private DataGridViewTextBoxColumn Balance;
+        private DataGridViewTextBoxColumn AccType;
+        private DataGridViewTextBoxColumn InterestRate;
         private DataGridViewTextBoxColumn OpenAt;
-        private DataGridViewTextBoxColumn FirstName;
-        private DataGridViewTextBoxColumn LastName;
         private DataGridViewImageColumn Edit;
         private DataGridViewImageColumn Delete;
-        private DataGridViewTextBoxColumn Notes;
+        private DataGridViewTextBoxColumn CustomerID;
+        private Button btnSearch;
+        private TextBox txtSearch;
+        private PictureBox pictureBox1;
+        private Button btnAdd;
     }
 }

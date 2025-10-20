@@ -276,7 +276,6 @@
         private Label lblBalance;
         private Label lblPhone;
         private Label lblAddress;
-        private TextBox textBox1;
         private TextBox txtBalance;
         private TextBox txtPhone;
         private TextBox txtAddress;
