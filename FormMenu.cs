@@ -25,17 +25,19 @@ namespace BankManagement
         }
         private void ConfigureMenu()
         {
-            // Attach event handler for Main Form menu item
-            tsiMainForm.Click += (_, __) => OpenChild<FormMain>();
+            // Attach event handler for Main Form menu item, using lambda expression
+            tsmiMainForm.Click += (_, __) => OpenChild<FormMain>();
+            //tsmiAddForm.Click += (_, __) => OpenChild<FormAdd>();
+            //tsmiEditForm.Click += (_, __) => OpenChild<FormEdit>();
+            //tsmiCustomerForm.Click += (_, __) => OpenChild<FormCustomer>();
+            //tsmiTransactionForm.Click += (_, __) => OpenChild<FormTransaction>();
+            //tsmiTransactionBillForm.Click += (_, __) => OpenChild<FormTransactionBill>();
 
             // Attach event handlers for MDI layout menu items
-            tsiCascade.Click += (_, __) => LayoutMdi(MdiLayout.Cascade);
-            tsiTileHorizontal.Click += (_, __) => LayoutMdi(MdiLayout.TileHorizontal);
-            tsiTileVertical.Click += (_, __) => LayoutMdi(MdiLayout.TileVertical);
+            tsmiCascade.Click += (_, __) => LayoutMdi(MdiLayout.Cascade);
+            tsmiTileHorizontal.Click += (_, __) => LayoutMdi(MdiLayout.TileHorizontal);
+            tsmiTileVertical.Click += (_, __) => LayoutMdi(MdiLayout.TileVertical);
             //tsiArrange.Click += (_, __) => LayoutMdi(MdiLayout.ArrangeIcons);
-
-            // Attach event handler for Exit menu item
-            //miExit.Click += (_, __) => Close();
 
             // Set the MDI window list item for the Window menu
             //menuStrip1.MdiWindowListItem = windowMenu;
@@ -66,7 +68,7 @@ namespace BankManagement
             };
             form.WindowState = FormWindowState.Normal;
             form.FormClosed += (_, __) => tslblStatus.Text = "Ready";
-
+            // Change Status of the status label
             tslblStatus.Text = $"Opened {typeof(TForm).Name}";
             form.Show();
         }
@@ -78,10 +80,22 @@ namespace BankManagement
                 if (this.ActiveMdiChild.Icon != null)
                     this.Icon = this.ActiveMdiChild.Icon;
             }
-            else
+        }
+        // Handle Closing and Checks all remains Child Form 
+        private void FormMenu_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Đóng tất cả form con
+            foreach (var child in MdiChildren)
             {
-                // Có thể đặt lại icon mặc định nếu không có form con hoặc không maximize
-                // this.Icon = Properties.Resources.DefaultIcon; // Nếu có icon mặc định
+                if (!child.IsDisposed)
+                {
+                    child.Close(); // Will call FormClosing/Closed in Child form
+                    if (!child.IsDisposed) // If child form refuses to close (e.Cancel = true)
+                    {
+                        e.Cancel = true; // Cancel
+                        return;
+                    }
+                }
             }
         }
     }

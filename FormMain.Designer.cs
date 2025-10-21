@@ -38,7 +38,6 @@
             ClientSize = new Size(800, 450);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FormMain";
-            ShowIcon = false;
             Text = "Data Browser";
             ResumeLayout(false);
         }

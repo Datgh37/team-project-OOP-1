@@ -34,11 +34,16 @@
             tslblDateTime = new ToolStripStatusLabel();
             menuStrip1 = new MenuStrip();
             tsiForms = new ToolStripMenuItem();
-            tsiMainForm = new ToolStripMenuItem();
+            tsmiMainForm = new ToolStripMenuItem();
+            tsmiAddForm = new ToolStripMenuItem();
+            tsmiEditForm = new ToolStripMenuItem();
+            tsmiCustomerForm = new ToolStripMenuItem();
+            tsmiTransactionForm = new ToolStripMenuItem();
+            tsmiTransactionBillForm = new ToolStripMenuItem();
             tsiMenu = new ToolStripMenuItem();
-            tsiCascade = new ToolStripMenuItem();
-            tsiTileHorizontal = new ToolStripMenuItem();
-            tsiTileVertical = new ToolStripMenuItem();
+            tsmiCascade = new ToolStripMenuItem();
+            tsmiTileHorizontal = new ToolStripMenuItem();
+            tsmiTileVertical = new ToolStripMenuItem();
             toolStrip1 = new ToolStrip();
             contextMenuStrip1 = new ContextMenuStrip(components);
             toolStripSeparator1 = new ToolStripSeparator();
@@ -53,7 +58,6 @@
             statusStrip.Items.AddRange(new ToolStripItem[] { tslblStatus, tslblDateTime });
             statusStrip.Location = new Point(0, 539);
             statusStrip.Name = "statusStrip";
-            statusStrip.RightToLeft = RightToLeft.Yes;
             statusStrip.Size = new Size(1084, 27);
             statusStrip.TabIndex = 1;
             statusStrip.Text = "Status Bar";
@@ -82,41 +86,71 @@
             // 
             // tsiForms
             // 
-            tsiForms.DropDownItems.AddRange(new ToolStripItem[] { tsiMainForm });
+            tsiForms.DropDownItems.AddRange(new ToolStripItem[] { tsmiMainForm, tsmiAddForm, tsmiEditForm, tsmiCustomerForm, tsmiTransactionForm, tsmiTransactionBillForm });
             tsiForms.Name = "tsiForms";
             tsiForms.Size = new Size(68, 25);
             tsiForms.Text = "Forms";
             // 
-            // tsiMainForm
+            // tsmiMainForm
             // 
-            tsiMainForm.Name = "tsiMainForm";
-            tsiMainForm.Size = new Size(224, 26);
-            tsiMainForm.Text = "Main";
+            tsmiMainForm.Name = "tsmiMainForm";
+            tsmiMainForm.Size = new Size(173, 26);
+            tsmiMainForm.Text = "Main";
+            // 
+            // tsmiAddForm
+            // 
+            tsmiAddForm.Name = "tsmiAddForm";
+            tsmiAddForm.Size = new Size(173, 26);
+            tsmiAddForm.Text = "Add";
+            // 
+            // tsmiEditForm
+            // 
+            tsmiEditForm.Name = "tsmiEditForm";
+            tsmiEditForm.Size = new Size(173, 26);
+            tsmiEditForm.Text = "Edit";
+            // 
+            // tsmiCustomerForm
+            // 
+            tsmiCustomerForm.Name = "tsmiCustomerForm";
+            tsmiCustomerForm.Size = new Size(173, 26);
+            tsmiCustomerForm.Text = "Customer";
+            // 
+            // tsmiTransactionForm
+            // 
+            tsmiTransactionForm.Name = "tsmiTransactionForm";
+            tsmiTransactionForm.Size = new Size(173, 26);
+            tsmiTransactionForm.Text = "Transaction";
+            // 
+            // tsmiTransactionBillForm
+            // 
+            tsmiTransactionBillForm.Name = "tsmiTransactionBillForm";
+            tsmiTransactionBillForm.Size = new Size(173, 26);
+            tsmiTransactionBillForm.Text = "Bill";
             // 
             // tsiMenu
             // 
-            tsiMenu.DropDownItems.AddRange(new ToolStripItem[] { tsiCascade, tsiTileHorizontal, tsiTileVertical });
+            tsiMenu.DropDownItems.AddRange(new ToolStripItem[] { tsmiCascade, tsmiTileHorizontal, tsmiTileVertical });
             tsiMenu.Name = "tsiMenu";
             tsiMenu.Size = new Size(82, 25);
             tsiMenu.Text = "Window";
             // 
-            // tsiCascade
+            // tsmiCascade
             // 
-            tsiCascade.Name = "tsiCascade";
-            tsiCascade.Size = new Size(194, 26);
-            tsiCascade.Text = "Cascade";
+            tsmiCascade.Name = "tsmiCascade";
+            tsmiCascade.Size = new Size(194, 26);
+            tsmiCascade.Text = "Cascade";
             // 
-            // tsiTileHorizontal
+            // tsmiTileHorizontal
             // 
-            tsiTileHorizontal.Name = "tsiTileHorizontal";
-            tsiTileHorizontal.Size = new Size(194, 26);
-            tsiTileHorizontal.Text = "Tile Horizontal";
+            tsmiTileHorizontal.Name = "tsmiTileHorizontal";
+            tsmiTileHorizontal.Size = new Size(194, 26);
+            tsmiTileHorizontal.Text = "Tile Horizontal";
             // 
-            // tsiTileVertical
+            // tsmiTileVertical
             // 
-            tsiTileVertical.Name = "tsiTileVertical";
-            tsiTileVertical.Size = new Size(194, 26);
-            tsiTileVertical.Text = "Tile Vertical";
+            tsmiTileVertical.Name = "tsmiTileVertical";
+            tsmiTileVertical.Size = new Size(194, 26);
+            tsmiTileVertical.Text = "Tile Vertical";
             // 
             // toolStrip1
             // 
@@ -153,6 +187,7 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Menu";
             WindowState = FormWindowState.Maximized;
+            FormClosing += FormMenu_FormClosing;
             MdiChildActivate += FormMenu_MdiChildActivate;
             statusStrip.ResumeLayout(false);
             statusStrip.PerformLayout();
@@ -174,9 +209,14 @@
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem tsiForms;
         private ToolStripMenuItem tsiMenu;
-        private ToolStripMenuItem tsiCascade;
-        private ToolStripMenuItem tsiTileHorizontal;
-        private ToolStripMenuItem tsiTileVertical;
-        private ToolStripMenuItem tsiMainForm;
+        private ToolStripMenuItem tsmiCascade;
+        private ToolStripMenuItem tsmiTileHorizontal;
+        private ToolStripMenuItem tsmiTileVertical;
+        private ToolStripMenuItem tsmiMainForm;
+        private ToolStripMenuItem tsmiAddForm;
+        private ToolStripMenuItem tsmiEditForm;
+        private ToolStripMenuItem tsmiTransactionForm;
+        private ToolStripMenuItem tsmiTransactionBillForm;
+        private ToolStripMenuItem tsmiCustomerForm;
     }
 }
