@@ -33,7 +33,7 @@ namespace BankManagement.Utils
                 if (!reader.EndOfStream) reader.ReadLine(); // Skip Header line
                 while (!reader.EndOfStream)
                 {
-                    string line = reader.ReadLine();
+                    string? line = reader.ReadLine();
                     if (!string.IsNullOrWhiteSpace(line))
                     {
                         Customer cust = new Customer();

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
+using System.IO;
+
 namespace BankManagement.Utils
 {
     public static class myConvert
@@ -120,5 +122,67 @@ namespace BankManagement.Utils
             }
             return s.ToString();
         }
+        // 9 Save File to .csv format
+        public static void SaveCSV<T>(this List<T> data, string? path = null)
+        {
+            // Nếu không truyền path thì lưu vào folder Data
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+
+                string fileName = $"Export_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+                path = Path.Combine(folder, fileName);
+            }
+
+            string csv = data.ListToCSV();
+            File.WriteAllText(path, csv, Encoding.UTF8);
+        }
+        // 10 Load File from .csv
+        public static List<T> LoadCSV<T>(string path) where T : new()
+        {
+            var result = new List<T>();
+
+            if (!File.Exists(path))
+                throw new FileNotFoundException($"❌ File not found: {path}");
+
+            var lines = File.ReadAllLines(path, Encoding.UTF8);
+            if (lines.Length < 2)
+                return result; // No Data
+
+            // First line is header
+            var headers = lines[0].Split(',');
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                var values = lines[i].Split(',');
+                if (values.Length == 0 || string.IsNullOrWhiteSpace(values[0]))
+                    continue;
+
+                var obj = new T();
+                var props = typeof(T).GetProperties();
+
+                for (int j = 0; j < headers.Length && j < values.Length; j++)
+                {
+                    var prop = props.FirstOrDefault(p => p.Name == headers[j]);
+                    if (prop != null && prop.CanWrite)
+                    {
+                        try
+                        {
+                            object? convertedValue = Convert.ChangeType(values[j], prop.PropertyType);
+                            prop.SetValue(obj, convertedValue);
+                        }
+                        catch
+                        {
+                            // Skip
+                        }
+                    }
+                }
+                result.Add(obj);
+            }
+            return result;
+        }
+
     }
 }
