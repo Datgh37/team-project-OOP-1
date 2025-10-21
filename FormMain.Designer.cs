@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             tableLayoutPanel1 = new TableLayoutPanel();
             panelSearch = new Panel();
             pictureBox1 = new PictureBox();
@@ -38,12 +41,12 @@
             dataGridView1 = new DataGridView();
             AccountNumber = new DataGridViewTextBoxColumn();
             Balance = new DataGridViewTextBoxColumn();
-            AccType = new DataGridViewTextBoxColumn();
             InterestRate = new DataGridViewTextBoxColumn();
             OpenAt = new DataGridViewTextBoxColumn();
+            AccountType = new DataGridViewTextBoxColumn();
+            CustomerID = new DataGridViewTextBoxColumn();
             Edit = new DataGridViewImageColumn();
             Delete = new DataGridViewImageColumn();
-            CustomerID = new DataGridViewTextBoxColumn();
             tableLayoutPanel1.SuspendLayout();
             panelSearch.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -81,10 +84,10 @@
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(862, 24);
+            pictureBox1.Location = new Point(892, 37);
             pictureBox1.Margin = new Padding(3, 2, 3, 2);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(75, 48);
+            pictureBox1.Size = new Size(44, 35);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 3;
             pictureBox1.TabStop = false;
@@ -98,7 +101,6 @@
             btnSearch.TabIndex = 2;
             btnSearch.Text = "Search:";
             btnSearch.UseVisualStyleBackColor = true;
-            btnSearch.Click += btnAdd_Click;
             // 
             // btnAdd
             // 
@@ -124,12 +126,36 @@
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToOrderColumns = true;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 14F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { AccountNumber, Balance, AccType, InterestRate, OpenAt, Edit, Delete, CustomerID });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { AccountNumber, Balance, InterestRate, OpenAt, AccountType, CustomerID, Edit, Delete });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 14F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dataGridView1.DefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.Dock = DockStyle.Fill;
             dataGridView1.Location = new Point(3, 95);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = SystemColors.Control;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 14F);
+            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dataGridView1.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(998, 363);
             dataGridView1.TabIndex = 1;
@@ -142,7 +168,7 @@
             AccountNumber.MinimumWidth = 6;
             AccountNumber.Name = "AccountNumber";
             AccountNumber.ReadOnly = true;
-            AccountNumber.Width = 121;
+            AccountNumber.Width = 175;
             // 
             // Balance
             // 
@@ -152,17 +178,7 @@
             Balance.MinimumWidth = 6;
             Balance.Name = "Balance";
             Balance.ReadOnly = true;
-            Balance.Width = 73;
-            // 
-            // AccType
-            // 
-            AccType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            AccType.DataPropertyName = "AccType";
-            AccType.HeaderText = "AccountType";
-            AccType.MinimumWidth = 6;
-            AccType.Name = "AccType";
-            AccType.ReadOnly = true;
-            AccType.Width = 101;
+            Balance.Width = 103;
             // 
             // InterestRate
             // 
@@ -181,7 +197,26 @@
             OpenAt.MinimumWidth = 6;
             OpenAt.Name = "OpenAt";
             OpenAt.ReadOnly = true;
-            OpenAt.Width = 73;
+            OpenAt.Width = 101;
+            // 
+            // AccountType
+            // 
+            AccountType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            AccountType.DataPropertyName = "AccType";
+            AccountType.HeaderText = "AccountType";
+            AccountType.MinimumWidth = 6;
+            AccountType.Name = "AccountType";
+            AccountType.ReadOnly = true;
+            AccountType.Width = 145;
+            // 
+            // CustomerID
+            // 
+            CustomerID.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            CustomerID.DataPropertyName = "CustomerID";
+            CustomerID.HeaderText = "CustomerID";
+            CustomerID.MinimumWidth = 6;
+            CustomerID.Name = "CustomerID";
+            CustomerID.ReadOnly = true;
             // 
             // Edit
             // 
@@ -193,7 +228,7 @@
             Edit.MinimumWidth = 6;
             Edit.Name = "Edit";
             Edit.ReadOnly = true;
-            Edit.Width = 33;
+            Edit.Width = 50;
             // 
             // Delete
             // 
@@ -205,16 +240,7 @@
             Delete.MinimumWidth = 6;
             Delete.Name = "Delete";
             Delete.ReadOnly = true;
-            Delete.Width = 46;
-            // 
-            // CustomerID
-            // 
-            CustomerID.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            CustomerID.DataPropertyName = "CustomerID";
-            CustomerID.HeaderText = "CustomerID";
-            CustomerID.MinimumWidth = 6;
-            CustomerID.Name = "CustomerID";
-            CustomerID.ReadOnly = true;
+            Delete.Width = 72;
             // 
             // FormMain
             // 
@@ -241,17 +267,17 @@
         private TableLayoutPanel tableLayoutPanel1;
         private Panel panelSearch;
         private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn AccountNumber;
-        private DataGridViewTextBoxColumn Balance;
-        private DataGridViewTextBoxColumn AccType;
-        private DataGridViewTextBoxColumn InterestRate;
-        private DataGridViewTextBoxColumn OpenAt;
-        private DataGridViewImageColumn Edit;
-        private DataGridViewImageColumn Delete;
-        private DataGridViewTextBoxColumn CustomerID;
         private Button btnSearch;
         private TextBox txtSearch;
         private PictureBox pictureBox1;
         private Button btnAdd;
+        private DataGridViewTextBoxColumn AccountNumber;
+        private DataGridViewTextBoxColumn Balance;
+        private DataGridViewTextBoxColumn InterestRate;
+        private DataGridViewTextBoxColumn OpenAt;
+        private DataGridViewTextBoxColumn AccountType;
+        private DataGridViewTextBoxColumn CustomerID;
+        private DataGridViewImageColumn Edit;
+        private DataGridViewImageColumn Delete;
     }
 }
