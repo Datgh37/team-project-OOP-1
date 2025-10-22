@@ -33,12 +33,12 @@ namespace BankManagement.Models
         {
             string[] line = dataLine.Split(",");
             AccountNumber = line[0];
-            CustomerID = Guid.Parse(line[1]);
-            Balance = line[2].ToDouble();
-            InterestRate = line[3].ToDouble();
+            Balance = line[1].ToDouble();
+            InterestRate = line[2].ToDouble();
+            OpenAt = line[3].ToDateMonthYear();
             int typeID = line[4].ToInt();
             Type = new AccountType(typeID, InterestRate);
-            OpenAt = line[5].ToDateMonthYear();
+            CustomerID = Guid.Parse(line[5]);
         }
         public Account(Account acc) // Copy Constructor
         {
