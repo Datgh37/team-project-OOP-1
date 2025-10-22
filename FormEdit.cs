@@ -24,5 +24,10 @@ namespace BankManagement
             this.ActiveControl = txtFirstName;
             txtFirstName.Focus();
         }
+
+        private void FormEdit_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

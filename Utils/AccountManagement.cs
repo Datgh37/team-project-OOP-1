@@ -87,7 +87,7 @@ namespace BankManagement.Utils
         }
         // MISC
         // Get List from CSV File
-        public List<Account> GetAccountList(string fileName = "")
+        public List<Account> GetAccountList(string fileName = "Data/AccountInfo.csv")
         {
             fileName = (fileName == "") ? GlobalSettings.AccountInfoPath : fileName; // Get default path
             var accounts = new List<Account>();

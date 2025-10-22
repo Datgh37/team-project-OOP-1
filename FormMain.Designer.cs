@@ -34,7 +34,7 @@
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             tableLayoutPanel1 = new TableLayoutPanel();
             panelSearch = new Panel();
-            pictureBox1 = new PictureBox();
+            pictureBox_OpenTransfer = new PictureBox();
             btnSearch = new Button();
             btnAdd = new Button();
             txtSearch = new TextBox();
@@ -49,7 +49,7 @@
             Delete = new DataGridViewImageColumn();
             tableLayoutPanel1.SuspendLayout();
             panelSearch.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_OpenTransfer).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -71,7 +71,7 @@
             // 
             // panelSearch
             // 
-            panelSearch.Controls.Add(pictureBox1);
+            panelSearch.Controls.Add(pictureBox_OpenTransfer);
             panelSearch.Controls.Add(btnSearch);
             panelSearch.Controls.Add(btnAdd);
             panelSearch.Controls.Add(txtSearch);
@@ -81,16 +81,17 @@
             panelSearch.Size = new Size(998, 86);
             panelSearch.TabIndex = 0;
             // 
-            // pictureBox1
+            // pictureBox_OpenTransfer
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(892, 37);
-            pictureBox1.Margin = new Padding(3, 2, 3, 2);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(44, 35);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 3;
-            pictureBox1.TabStop = false;
+            pictureBox_OpenTransfer.Image = (Image)resources.GetObject("pictureBox_OpenTransfer.Image");
+            pictureBox_OpenTransfer.Location = new Point(892, 37);
+            pictureBox_OpenTransfer.Margin = new Padding(3, 2, 3, 2);
+            pictureBox_OpenTransfer.Name = "pictureBox_OpenTransfer";
+            pictureBox_OpenTransfer.Size = new Size(44, 35);
+            pictureBox_OpenTransfer.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox_OpenTransfer.TabIndex = 3;
+            pictureBox_OpenTransfer.TabStop = false;
+            pictureBox_OpenTransfer.Click += pictureBox_OpenTransfer_Click;
             // 
             // btnSearch
             // 
@@ -101,6 +102,7 @@
             btnSearch.TabIndex = 2;
             btnSearch.Text = "Search:";
             btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click;
             // 
             // btnAdd
             // 
@@ -202,7 +204,7 @@
             // AccountType
             // 
             AccountType.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
-            AccountType.DataPropertyName = "AccType";
+            AccountType.DataPropertyName = "Type";
             AccountType.HeaderText = "AccountType";
             AccountType.MinimumWidth = 6;
             AccountType.Name = "AccountType";
@@ -254,10 +256,11 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Data Browser";
             WindowState = FormWindowState.Maximized;
+            Load += FormMain_Load_1;
             tableLayoutPanel1.ResumeLayout(false);
             panelSearch.ResumeLayout(false);
             panelSearch.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox_OpenTransfer).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
@@ -269,7 +272,7 @@
         private DataGridView dataGridView1;
         private Button btnSearch;
         private TextBox txtSearch;
-        private PictureBox pictureBox1;
+        private PictureBox pictureBox_OpenTransfer;
         private Button btnAdd;
         private DataGridViewTextBoxColumn AccountNumber;
         private DataGridViewTextBoxColumn Balance;

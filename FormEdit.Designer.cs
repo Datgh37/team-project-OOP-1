@@ -262,6 +262,7 @@
             Name = "FormEdit";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FormEdit";
+            Load += FormEdit_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
