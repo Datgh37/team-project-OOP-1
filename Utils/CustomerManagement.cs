@@ -43,5 +43,24 @@ namespace BankManagement.Utils
             }
             return customers;
         }
+        public void ImportCustomerList(string fileName = "")
+        {
+            fileName = (fileName == "") ? GlobalSettings.CustomerInfoPath : fileName; // Get default path
+            _customers.Clear();
+            // Stream Reader, read file content
+            using (StreamReader reader = new StreamReader(fileName))
+            {
+                if (!reader.EndOfStream) reader.ReadLine(); // Skip Header line
+                while (!reader.EndOfStream)
+                {
+                    string? line = reader.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        Customer cust = new Customer();
+                        _customers.Add(cust);
+                    }
+                }
+            }
+        }
     }
 }

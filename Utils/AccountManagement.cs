@@ -87,6 +87,25 @@ namespace BankManagement.Utils
         }
         // MISC
         // Get List from CSV File
+        public void ImportAccountList(string fileName = "")
+        {
+            fileName = (fileName == "") ? GlobalSettings.AccountInfoPath : fileName; // Get default path
+            _accounts.Clear(); // Clear all old data to import new form File
+            // Stream Reader, read file content
+            using (StreamReader reader = new StreamReader(fileName))
+            {
+                if (!reader.EndOfStream) reader.ReadLine(); // Skip Header line
+                while (!reader.EndOfStream)
+                {
+                    string? line = reader.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        Account acc = new Account(line);
+                        _accounts.Add(acc);
+                    } 
+                }
+            }
+        }
         public List<Account> GetAccountList(string fileName = "")
         {
             fileName = (fileName == "") ? GlobalSettings.AccountInfoPath : fileName; // Get default path
@@ -102,12 +121,11 @@ namespace BankManagement.Utils
                     {
                         Account acc = new Account(line);
                         accounts.Add(acc);
-                    } 
+                    }
                 }
             }
             return accounts;
         }
-
         // Transaction methods
         public void Deposit(string accNumber, double amount) 
         {
