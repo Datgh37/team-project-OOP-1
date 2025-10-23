@@ -89,11 +89,17 @@ namespace BankManagement.Utils
         public static string ListToCSV<T>(this List<T> data)
         {
             var s = new StringBuilder();
-            // Add Header Row if data is not empty
+            // Add Header Row if data is not empty, get primitives only
             if (data.Count > 0)
             {
-                var properties = typeof(T).GetProperties(); // Get properties of template T
-                for(int i = 0; i < properties.Length; ++i)
+                var properties = typeof(T).GetProperties()
+                    .Where(p =>
+                        p.PropertyType.IsPrimitive ||
+                        p.PropertyType == typeof(string) ||
+                        p.PropertyType == typeof(Guid) ||
+                        p.PropertyType == typeof(DateTime))
+                    .ToArray();
+                for (int i = 0; i < properties.Length; ++i)
                 {
                     s.Append(properties[i].Name);
                     if (i < properties.Length - 1)
@@ -101,24 +107,30 @@ namespace BankManagement.Utils
                 }
                 s.AppendLine(); // End of header row
             }
-            // Add Data Rows
-            foreach(var item in data)
+            foreach (var item in data)
             {
-                var properties = typeof(T).GetProperties();
-                for(int i = 0; i < properties.Length; i++)
+                // Get properties value of template T, only get primitives props (exclude objects prop)
+                var properties = typeof(T).GetProperties()
+                    .Where(p =>
+                        p.PropertyType.IsPrimitive ||
+                        p.PropertyType == typeof(string) ||
+                        p.PropertyType == typeof(Guid) ||
+                        p.PropertyType == typeof(DateTime))
+                    .ToArray();
+                for (int i = 0; i < properties.Length; i++)
                 {
-                    var value = properties[i].GetValue(item)?.ToString() ?? ""; // Get string value if the property value is not null, return empty string if null
+                    var value = properties[i].GetValue(item)?.ToString() ?? "";
                     // Handle Comma (,) or Quotation marks (") in property data
-                    if(value.Contains(',') || value.Contains('"'))
+                    if (value.Contains(',') || value.Contains('"'))
                     {
                         value = value.Replace("\"", "\"\""); // Escape quotation marks by doubling them
                         value = $"\"{value}\""; // Enclose the entire field in quotation marks
                     }
                     s.Append(value); // Append the value in to the current CSV line
                     if (i < properties.Length - 1)
-                        value += ","; // Add comma except last column
+                        s.Append(','); // Add comma except last column
                 }
-                s.AppendLine(); // End of a data row
+                s.AppendLine(); // End of data row
             }
             return s.ToString();
         }
@@ -158,7 +170,7 @@ namespace BankManagement.Utils
             {
                 var values = lines[i].Split(',');
                 if (values.Length == 0 || string.IsNullOrWhiteSpace(values[0]))
-                    continue;
+                    continue; // Skip empty line
 
                 var obj = new T();
                 var props = typeof(T).GetProperties();
@@ -170,7 +182,23 @@ namespace BankManagement.Utils
                     {
                         try
                         {
-                            object? convertedValue = Convert.ChangeType(values[j], prop.PropertyType);
+                            object? convertedValue;
+                            if (prop.PropertyType.IsEnum) // Convert Enum, allow both numbers and enum
+                            {
+                                convertedValue = Enum.Parse(prop.PropertyType, values[j]);
+                            }
+                            else if (prop.PropertyType == typeof(Guid))
+                            {
+                                convertedValue = Guid.Parse(values[j]);
+                            }
+                            else if (prop.PropertyType == typeof(DateTime))
+                            {
+                                convertedValue = values[j].ToDateMonthYear();
+                            }
+                            else
+                            {
+                                convertedValue = Convert.ChangeType(values[j], prop.PropertyType);
+                            }
                             prop.SetValue(obj, convertedValue);
                         }
                         catch

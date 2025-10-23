@@ -11,7 +11,8 @@ namespace BankManagement.Utils
     {
         private readonly List<Account> _accounts = new(); // Bank Accounts
         private readonly List<Transaction> _transactions = new(); // Transactions
-
+        public List<Account> GetAccounts { get => _accounts; } // Public List to access
+        public List<Transaction> GetTransactions { get => _transactions; }
         // CRUD: Create, Read, Update, Delete
         public void AddAccount(Account account)
         {
@@ -87,7 +88,7 @@ namespace BankManagement.Utils
         }
         // MISC
         // Get List from CSV File
-        public void ImportAccountList(string fileName = "")
+        public void ImportAccountListFromCSV(string fileName = "")
         {
             fileName = (fileName == "") ? GlobalSettings.AccountInfoPath : fileName; // Get default path
             _accounts.Clear(); // Clear all old data to import new form File
@@ -105,8 +106,9 @@ namespace BankManagement.Utils
                     } 
                 }
             }
+            Account.UpdateAccountNumberSeed(_accounts);
         }
-        public List<Account> GetAccountList(string fileName = "")
+        public List<Account> GetAccountListFromCSV(string fileName = "")
         {
             fileName = (fileName == "") ? GlobalSettings.AccountInfoPath : fileName; // Get default path
             var accounts = new List<Account>();
@@ -124,6 +126,7 @@ namespace BankManagement.Utils
                     }
                 }
             }
+            Account.UpdateAccountNumberSeed(accounts);
             return accounts;
         }
         // Transaction methods
