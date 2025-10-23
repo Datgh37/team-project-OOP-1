@@ -10,7 +10,7 @@ namespace BankManagement.Utils
     internal class CustomerManagement
     {
         private readonly List<Customer> _customers = new();
-        public List<Customer> GetCustomers { get => _customers; }
+        public List<Customer> Customers { get => _customers; }
         public void AddCustomer(Customer customer)
         {
             if (_customers.Any(c => c.UID == customer.UID || c.CID == customer.CID))

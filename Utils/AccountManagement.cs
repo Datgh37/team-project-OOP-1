@@ -11,8 +11,8 @@ namespace BankManagement.Utils
     {
         private readonly List<Account> _accounts = new(); // Bank Accounts
         private readonly List<Transaction> _transactions = new(); // Transactions
-        public List<Account> GetAccounts { get => _accounts; } // Public List to access
-        public List<Transaction> GetTransactions { get => _transactions; }
+        public List<Account> Accounts { get => _accounts; } // Public List to access
+        public List<Transaction> Transactions { get => _transactions; }
         // CRUD: Create, Read, Update, Delete
         public void AddAccount(Account account)
         {
