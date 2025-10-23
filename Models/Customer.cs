@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BankManagement.Models
 {
-    internal class Customer
+    public class Customer
     {
         private string _phone = ""; // Backing field for Phone property
         private string _email = ""; // Backing field for Email property

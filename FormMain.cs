@@ -10,72 +10,118 @@ namespace BankManagement
 {
     public partial class FormMain : Form
     {
-        private AccountManagement AccList = new AccountManagement();
+        private AccountManagement AccountList = new AccountManagement(); // danh sách thao tác 
         private CustomerManagement CustomerList = new CustomerManagement();
-        private List<Account> currentAccounts = new();  // danh sách đang hiển thị (tham chiếu tới objects)
-        private List<string> originalSerialized = new(); // bản gốc serialized để so sánh chính xác ký tự
+        private List<Account> initAccountList = new();  // danh sách khi khởi tạo form (để đối chiếu thay đổi và save file)
         private bool isChanged = false;
-        private readonly string csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "AccountInfo.csv");// path lưu file (giữ cùng chỗ AccountManagement đọc)
-        private DataTable dt = new DataTable();
+        // Dùng cho chức năng sort
+        private enum SortState { None, Asc, Desc };
+        private SortState accountNumberSort = SortState.None;
+        private SortState balanceSort = SortState.None;
+        private bool accountTypeSorted = false;
+        private bool isNormalState = true;
+        // CUSTOM METHODS
+        private bool IsAccountListChanged()
+        {
+            if (initAccountList.Count != AccountList.Accounts.Count)
+                return true;
+            for (int i = 0; i < initAccountList.Count; i++)
+            {
+                var a = initAccountList[i];
+                var b = AccountList.Accounts[i];
+                if (a.AccountNumber != b.AccountNumber ||
+                    a.Balance != b.Balance ||
+                    a.InterestRate != b.InterestRate ||
+                    a.Type.Type != b.Type.Type ||
+                    a.CustomerID != b.CustomerID)
+                    return true;
+            }
+            return false;
+        }
+        private void ReloadAccountGrid(List<Account> list)
+        {
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = list;
+            isNormalState = ReferenceEquals(list, AccountList.Accounts);
+        }
+        // FORM, EVENTS
         public FormMain()
         {
             InitializeComponent();
-            Load += FormMain_Load;
-            FormClosing += FormMain_FormClosing;
         }
 
         private void FormMain_Load(object? sender, EventArgs e)
         {
-            // Load danh sách từ AccountManagement (không sửa AccountManagement)
-            var accountList = AccList.GetAccountList() ?? new List<Account>();
-            currentAccounts = accountList;
+            AccountList.ImportAccountListFromCSV();
+            // Tạo bản sao độc lập để so sánh về sau
+            initAccountList = AccountList.Accounts.Select(a => new Account(a)).ToList();
 
-            // Tạo bản serialized ban đầu (dùng để so sánh chính xác từng ký tự/dấu phẩy)
-            originalSerialized = currentAccounts.Select(a => SerializeAccount(a)).ToList();
-
-            // Gán DataGridView
             dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.DataSource = currentAccounts;
-
-            // Sự kiện
-
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.DataSource = AccountList.Accounts; // <-- dùng AccountList.Accounts
         }
-        private string SerializeAccount(Account a)
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            string typeValue = a.Type.ToString() switch
+            if (IsAccountListChanged() || isChanged)
             {
-                "Debit" => "0",
-                "Credit" => "1",
-                "Savings" => "2",
-                _ => "0"
-            };
+                var result = MessageBox.Show(
+                    "Dữ liệu đã thay đổi. Bạn có muốn lưu lại không?",
+                    "Xác nhận lưu",
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question
+                );
 
-            return string.Join(",",
-                a.AccountNumber,
-                a.Balance.ToString(CultureInfo.InvariantCulture),
-                a.InterestRate.ToString(CultureInfo.InvariantCulture),
-                a.OpenAt.ToString("dd-MM-yyyy"),
-                typeValue,
-                a.CustomerID.ToString()
-            );
+                if (result == DialogResult.Yes)
+                {
+                    //SaveAccountsToCsv(initAccountList, csvPath);
+                    isChanged = false;
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    e.Cancel = true; // Ở lại form
+                }
+                // Nếu No -> thoát mà không lưu
+            }
         }
-
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
             //mở form Add
             using var fadd = new FormAdd();
             fadd.ShowDialog();
         }
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string keyword = txtSearch.Text.Trim().ToLower();
 
-
-        ///////////////////////////////////////////////////////////
-        private void FormMain_Load_1(object sender, EventArgs e)///
-        {                                                       ///
-                                                                ///
-        }                                                       ///
-        ///////////////////////////////////////////////////////////
+            if (string.IsNullOrEmpty(keyword))
+            {
+                // Nếu đã ở trạng thái bình thường thì không reload nữa
+                if (!isNormalState)
+                    ReloadAccountGrid(AccountList.Accounts);
+                return;
+            }
+            // Lọc list theo AccountNumber hoặc Type hoặc CustomerID
+            var filtered = AccountList.Accounts.Where(a =>
+                a.AccountNumber.ToLower().Contains(keyword) ||
+                a.AccountTypeName.ToLower().Contains(keyword) ||
+                a.CustomerID.ToString().ToLower().Contains(keyword)
+            ).ToList();
+            // Bind lại DataGridView
+            ReloadAccountGrid(filtered);
+            isNormalState = false;
+        }
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                ReloadAccountGrid(AccountList.Accounts);
+            }
+        }
+        private void ptb_OpenTransfer_Click(object sender, EventArgs e)
+        {
+            using var ftransfer = new FormTransfer();
+            ftransfer.ShowDialog();
+        }
+        // Xử lý Edit, Delete
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
@@ -98,93 +144,82 @@ namespace BankManagement
 
                 if (confirm == DialogResult.Yes)
                 {
-                    if (e.RowIndex >= 0 && e.RowIndex < currentAccounts.Count)
+                    // Lấy object Account đang hiển thị trên dòng được chọn
+                    var acc = dataGridView1.Rows[e.RowIndex].DataBoundItem as Account; // DataBoundItem trỏ đến danh sách gốc (chưa lọc)
+                    if (acc != null)
                     {
-                        currentAccounts.RemoveAt(e.RowIndex); // xóa object khỏi list hiện tại
-                        // rebind để cập nhật DataGridView
-                        dataGridView1.DataSource = null;
-                        dataGridView1.DataSource = currentAccounts;
+                        AccountList.RemoveAccount(acc);
                         isChanged = true;
+                        // Sau khi xóa, nếu đang tìm kiếm thì lọc lại, nếu không thì hiển thị toàn bộ
+                        ReloadAccountGrid(AccountList.Accounts);
                     }
                 }
             }
         }
-
-        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        // Xử lý Sort = Column Header
+        private void dataGridView1_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            // Tạo serialized hiện tại
-            var currentSerialized = currentAccounts.Select(a => SerializeAccount(a)).ToList();
+            string colName = dataGridView1.Columns[e.ColumnIndex].Name;
+            List<Account>? sorted = null;
 
-            // So sánh chuỗi (SequenceEqual đảm bảo thứ tự và nội dung chính xác, khác dù 1 ký tự)
-            bool hasChanged = !originalSerialized.SequenceEqual(currentSerialized);
-
-            if (hasChanged || isChanged)
+            if (colName == "AccountNumber")
             {
-                var result = MessageBox.Show(
-                    "Dữ liệu đã thay đổi. Bạn có muốn lưu lại không?",
-                    "Xác nhận lưu",
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question
-                );
-
-                if (result == DialogResult.Yes)
-                {
-                    SaveAccountsToCsv(currentAccounts, csvPath);
-                    isChanged = false;
-                }
-                else if (result == DialogResult.Cancel)
-                {
-                    e.Cancel = true; // Ở lại form
-                }
-                // Nếu No -> thoát mà không lưu
+                // Xoay vòng sort None->Asc->Desc->None
+                accountNumberSort = accountNumberSort == SortState.None ? SortState.Asc :
+                                    accountNumberSort == SortState.Asc ? SortState.Desc : SortState.None;
+                balanceSort = SortState.None; accountTypeSorted = false;
+                if (accountNumberSort == SortState.Asc)
+                    sorted = [.. AccountList.Accounts.OrderBy(a => a.AccountNumber.ToInt())];
+                else if (accountNumberSort == SortState.Desc)
+                    sorted = [.. AccountList.Accounts.OrderByDescending(a => a.AccountNumber.ToInt())];
             }
-        }
-
-        // 🔹 Hàm này tự xử lý ghi file CSV (không đụng đến AccountManagement)
-        private void SaveAccountsToCsv(List<Account> accounts, string path)
-        {
-            var dir = Path.GetDirectoryName(path);
-            if (!string.IsNullOrWhiteSpace(dir))
-                Directory.CreateDirectory(dir);
-
-            using (var writer = new StreamWriter(path, false, System.Text.Encoding.UTF8))
+            else if (colName == "Balance")
             {
-                writer.WriteLine("AccountNumber,Balance,InterestRate,OpenAt,Type,CustomerID");
-                foreach (var a in accounts)
-                {
-                    writer.WriteLine(SerializeAccount(a));
-                }
+                balanceSort = balanceSort == SortState.None ? SortState.Asc :
+                              balanceSort == SortState.Asc ? SortState.Desc : SortState.None;
+                accountNumberSort = SortState.None; accountTypeSorted = false;
+                if (balanceSort == SortState.Asc)
+                    sorted = [.. AccountList.Accounts.OrderBy(a => a.Balance)];
+                else if (balanceSort == SortState.Desc)
+                    sorted = [.. AccountList.Accounts.OrderByDescending(a => a.Balance)];
             }
-        }
-
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            string keyword = txtSearch.Text.Trim().ToLower();
-
-            if (string.IsNullOrEmpty(keyword))
+            else if (colName == "AccountType")
             {
-                // Nếu textbox trống → hiện tất cả
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = currentAccounts;
-                return;
+                accountTypeSorted = !accountTypeSorted;
+                accountNumberSort = SortState.None; balanceSort = SortState.None;
+                if (accountTypeSorted)
+                    sorted = [.. AccountList.Accounts.OrderBy(a => (int)a.Type.Type)]; // Debit=0, Credit=1, Savings=2
             }
 
-            // Lọc list theo AccountNumber hoặc Type hoặc CustomerID
-            var filtered = currentAccounts.Where(a =>
-                a.AccountNumber.ToLower().Contains(keyword) ||
-                a.Type.ToString().ToLower().Contains(keyword) ||
-                a.CustomerID.ToString().ToLower().Contains(keyword)
-            ).ToList();
-
-            // Bind lại DataGridView
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = filtered;
+            if (sorted != null)
+                ReloadAccountGrid(sorted);
+            else
+            {
+                if (!isNormalState)
+                {
+                    ReloadAccountGrid(AccountList.Accounts); // Hủy sort
+                    isNormalState = true; // Trả về trạng thái bình thường để tránh reload liên tục
+                }
+            }   
         }
-
-        private void pictureBox_OpenTransfer_Click(object sender, EventArgs e)
+        // Xử lý Liên kết Form Customer
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            using var ftransfer = new FormTransfer();
-            ftransfer.ShowDialog();
+            if (e.RowIndex < 0) return;
+            string colName = dataGridView1.Columns[e.ColumnIndex].Name;
+            if (colName == "Edit" || colName == "Delete") return;
+
+            var acc = dataGridView1.Rows[e.RowIndex].DataBoundItem as Account;
+            if (acc != null)
+            {
+                var customer = CustomerList.Customers.FirstOrDefault(c => c.UID == acc.CustomerID);
+                if (customer != null)
+                {
+                    using var fCustomer = new FormCustomer();
+                    fCustomer.ShowDialog();
+                }
+            }
         }
+        
     }
 }
