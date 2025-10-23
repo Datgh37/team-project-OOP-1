@@ -12,7 +12,7 @@ namespace BankManagement.Models
         Withdraw,
         Transfer
     }
-    internal class Transaction
+    public class Transaction
     {
         public string TransactionID { get; } = Guid.NewGuid().ToString();
         public string? FromAccountNumber { get; } 

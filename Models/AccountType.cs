@@ -13,7 +13,7 @@ namespace BankManagement.Models
         Credit = 1,
         Savings = 2
     }
-    internal class AccountType
+    public class AccountType
     {
         public AccountTypeEnum Type { get; }
         public string AccType { get => Type.ToString();} 

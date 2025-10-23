@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace BankManagement.Models
 {
-    internal class Account
+    public class Account
     {
         private static int _number = 10000; // Initial Bank Number
         //public string BankName { get; set; }

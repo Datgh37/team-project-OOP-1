@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BankManagement.Utils
 {
-    internal class CustomerManagement
+    public class CustomerManagement
     {
         private readonly List<Customer> _customers = new();
         public List<Customer> Customers { get => _customers; }

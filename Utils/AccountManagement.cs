@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BankManagement.Utils
 {
-    internal class AccountManagement
+    public class AccountManagement
     {
         private readonly List<Account> _accounts = new(); // Bank Accounts
         private readonly List<Transaction> _transactions = new(); // Transactions
