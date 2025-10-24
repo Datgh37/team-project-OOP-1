@@ -52,7 +52,7 @@ namespace BankManagement.Utils
                     string? line = reader.ReadLine();
                     if (!string.IsNullOrWhiteSpace(line))
                     {
-                        Customer cust = new Customer();
+                        Customer cust = new Customer(line);
                         customers.Add(cust);
                     }
                 }
@@ -72,7 +72,7 @@ namespace BankManagement.Utils
                     string? line = reader.ReadLine();
                     if (!string.IsNullOrWhiteSpace(line))
                     {
-                        Customer cust = new Customer();
+                        Customer cust = new Customer(line);
                         _customers.Add(cust);
                     }
                 }

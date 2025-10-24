@@ -4,6 +4,7 @@ using System;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows.Forms;
 namespace BankManagement
@@ -53,11 +54,13 @@ namespace BankManagement
         private void FormMain_Load(object? sender, EventArgs e)
         {
             AccountList.ImportAccountListFromCSV();
+            CustomerList.ImportCustomerListFromCSV();
             // Tạo bản sao độc lập để so sánh về sau
             initAccountList = AccountList.Accounts.Select(a => new Account(a)).ToList();
 
             dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.DataSource = AccountList.Accounts; // <-- dùng AccountList.Accounts
+            dataGridView1.DataSource = AccountList.Accounts; // dùng AccountList.Accounts
+            dataGridView1.Columns["Balance"].DefaultCellStyle.Format = "N2"; // Format lại cột Balance cho giống dạng tiền tệ hơn
         }
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -129,9 +132,34 @@ namespace BankManagement
 
             if (colName == "Edit")
             {
-                using var fedit = new FormEdit();
-                fedit.ShowDialog();
-                // Nếu FormEdit thay đổi object hiện tại, bạn nên đặt isChanged = true ở đó hoặc sau khi form đóng kiểm tra thay đổi
+                // Lấy object Account từ DataBoundItem
+                if (dataGridView1.Rows[e.RowIndex].DataBoundItem is Account acc)
+                {
+                    // Lấy Customer liên kết với Account
+                    var customer = CustomerList[acc.CustomerID];
+                    if (customer != null)
+                    {
+                        using var fedit = new FormEdit(acc, customer);
+                        if (fedit.ShowDialog() == DialogResult.OK)
+                        {
+                            // Cập nhật lại dữ liệu gốc từ form edit
+                            acc.SetBalance(fedit.SelectedAccount.Balance);
+                            acc.ChangeInterestRate(fedit.SelectedAccount.InterestRate); // Nếu cho phép thay đổi lãi suất
+                            customer.UpdateInfo(
+                                fedit.SelectedCustomer.LastName,
+                                fedit.SelectedCustomer.FirstName,
+                                fedit.SelectedCustomer.CID,
+                                fedit.SelectedCustomer.Address,
+                                fedit.SelectedCustomer.Email,
+                                fedit.SelectedCustomer.Phone,
+                                fedit.SelectedCustomer.BirthDate.ToString("dd/MM/yyyy"),
+                                fedit.SelectedCustomer.Gender
+                            );
+                            ReloadAccountGrid(AccountList.Accounts);
+                            isChanged = true;
+                        }
+                    }
+                }
             }
             else if (colName == "Delete")
             {
@@ -212,11 +240,27 @@ namespace BankManagement
             var acc = dataGridView1.Rows[e.RowIndex].DataBoundItem as Account;
             if (acc != null)
             {
-                var customer = CustomerList.Customers.FirstOrDefault(c => c.UID == acc.CustomerID);
+                var customer = CustomerList[acc.CustomerID];
                 if (customer != null)
                 {
-                    using var fCustomer = new FormCustomer();
-                    fCustomer.ShowDialog();
+                    using var fCustomer = new FormCustomer(acc, customer);
+                    if (fCustomer.ShowDialog() == DialogResult.OK)
+                    {
+                        // Cập nhật lại danh sách gốc nếu có thay đổi
+                        acc.SetBalance(fCustomer.SelectedAccount.Balance);
+                        customer.UpdateInfo(
+                            fCustomer.SelectedCustomer.LastName,
+                            fCustomer.SelectedCustomer.FirstName,
+                            fCustomer.SelectedCustomer.CID,
+                            fCustomer.SelectedCustomer.Address,
+                            fCustomer.SelectedCustomer.Email,
+                            fCustomer.SelectedCustomer.Phone,
+                            fCustomer.SelectedCustomer.BirthDate.ToString("dd/MM/yyyy"),
+                            fCustomer.SelectedCustomer.Gender
+                        );
+                        ReloadAccountGrid(AccountList.Accounts);
+                        isChanged = true;
+                    }
                 }
             }
         }
