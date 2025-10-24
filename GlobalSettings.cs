@@ -11,7 +11,7 @@ namespace BankManagement
         // Use AppDomain.CurrentDomain.BaseDirectory to get the executable directory
         private static readonly string DataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
 
-        public static readonly string AccountInfoPath = Path.Combine(DataPath, "AccountInfoPath.csv");
+        public static readonly string AccountInfoPath = Path.Combine(DataPath, "AccountInfo.csv");
         public static readonly string CustomerInfoPath = Path.Combine(DataPath, "CustomerInfo.csv");
         public static readonly string TransactionInfoPath = Path.Combine(DataPath, "TransactionInfo.csv");
 

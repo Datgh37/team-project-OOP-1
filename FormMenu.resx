@@ -117,51 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        AAABAAEAGBgAAAEAIACICQAAFgAAACgAAAAYAAAAMAAAAAEAIAAAAAAAAAkAAAAAAAAAAAAAAAAAAAAA
-        AADs7Oz/8fHx///////5+fn/6urq//b29v//////9PT0/+vr6//7+/v//////+/v7//t7e3///////39
-        /f/r6+v/8vLy///////4+Pj/6urq//f39///////8vLy/+vr6//09PT/9fX1//n5+f/39/f/9PT0//b2
-        9v/5+fn/9vb2//T09P/39/f/+fn5//X19f/09PT/+Pj4//j4+P/09PT/9fX1//n5+f/39/f/9PT0//b2
-        9v/5+fn/9fX1//T09P///////Pz8/+np6f/z8/P///////X19f/o6On/+fn5///////x8fH/6urq////
-        ////////7Ozs/+7u7v//////+/v7/+np6f/09PT///////X19f/p6en/+/v7///////29vb/9vb2//f3
-        9//29vb///////7+/f/4+Pf/9fb3//T19v/39/f/9/f3//b29v/29vb/9/f3//f39//29vb/9vb2//f3
-        9//39/f/9vb2//b29v/39/f/9vb2//b29v/r6+v/8PDw///////9/f3/l5eV/8vN0v//////+vbz//Pt
-        6v/6+/z//////+7u7v/s7Oz///////7+/v/q6ur/8vLy///////4+Pj/6enp//j4+P//////8vLy/+rq
-        6v/6+vr/+Pj4//Hx8f////3/ipCa/5Su2//G2f//o834/7zh9P//+vX/8PHz//n5+f/5+fn/8/Pz//T0
-        9P/6+vr/+Pj4//Pz8//29vb/+vr6//b29v/z8/P/9/f3//r6+v///////Pz8/+rq6//49vP/7/r//7zS
-        //+axPr/PKb3/zat+/+43PH/+vHs//v9/v//////7e3t/+/v7///////+/v7/+rq6v/09PT///////X1
-        9f/q6ur/+vr6///////x8fH/8/Pz//z8/f/6+fj/6Orw/5fF+f9Cpvb/OKH4/zml+P83rPn/vOP3///4
-        8//u8PL/+/v8//r6+v/x8fH/9PT0//39/f/39/f/8PDw//f39//9/f3/9PT0//Hx8f/t7e3/8fHx////
-        ///4+Pn/8e/t/27C9v8ppPr/PqT3/zuj9/83pPj/N676/7Xb8f/+8+///P7///z8/P/s7Oz/8vLy////
-        ///4+Pj/6+vr//f39///////8/Pz/+zs7P//////+vr6/+7u7v/z9PT//////+309v9gvPb/L6X6/z2k
-        9/87o/j/N6T4/zis+f+84vf///Xw/+7w8f//////+fn5/+3t7f/19fX///////X19f/t7e3/+fn5////
-        ////////+vr6/+7u7v/09PT//v////z49v/o7u//Yr74/y+l+v87pPf/O6P3/zmk+f84rfn/tdvw///2
-        8f/7/f//+vr6/+7u7v/19fX///////X19f/u7u7/+fn5///////t7e3/8fHx///////5+fn/7Ozr//T1
-        9v//////7vP0/1679v8upfr/PKT3/zuj+P83pfj/Nq35/73i9//88u3/7/Hz///////4+Pj/6+vr//f3
-        9///////8/Pz/+3t7f/x8fH/8/Pz//39/f/4+Pj/8PDw//b29v/6/P3/+vf1/+vw8f9ivvn/L6X6/z2k
-        9/86o/f/N6T4/zis+f+23PH///nz//n7/f/39/f/8PDw//f39//9/f3/9PT0//Hx8f///////Pz8/+rq
-        6v/z8/P///////b29v/q6ur/9vj5///////q8fH/Xrv2/zCl+v87pPf/OqP4/zek+P85rfr/u+H2//nw
-        6//x8/T///////X19f/q6ur/+vr6///////6+vr/+Pj4//Pz8//29vb/+vr6//b29v/z8/P/+Pf3//j5
-        +v/69vX/7fLz/2G++P8upfr/O6T3/zuj9/84pPj/N6z5/7nd8f//+/b/9/j6//b29v/z8/P/+Pj4//r6
-        +v/r6+v/8PDw///////6+vr/6enp//b29v//////9PT0/+rq6f/5+/z//////+nv8P9eu/b/L6X6/z2k
-        9/87o/j/OqX4/zKs+/+/4PT/9/Ps//T19///////8vLy/+rq6v/29vb/9vb2//f39//29vb/9vb2//b2
-        9v/39/f/9vb2//b29v/39/f/9fb3//v39v/v9fX/Yb74/zCl+v8/pff/L5/5/1Wv8v/S3uT/29no//3/
-        +P/39/f/9vb2//b29v///////Pz8/+np6f/z8/P///////f39//p6en/+fn5///////x8fH/6+vq//z+
-        ////////6O3u/2G89v8movv/WK7w/+br5P+gmtr/Ly/Q/7Gx4//w8Ov/+fn6///////19fX/9fX1//n5
-        +f/39/f/9PT0//b29v/5+fn/9vb2//T09P/39/f/+Pn5//b19f/y9PX//vr3/+v09/99w/H/2+bj/6Od
-        2/8oKdL/ISHT/0RD0v/08/b/9/f2//T09P/r6+v/8PDw///////6+vr/6enp//b29v//////9PT0/+rq
-        6v/8/Pz//////+7u7v/t7e3///////38/f//+ez/q6rc/x4h0P8pKdT/ODnQ/9PU7///////8fHy/+vr
-        6//7+/v/+fn5//Hx8f/19fX//Pz8//b29v/x8fH/9/f3//v7+//09PT/8vLy//n5+f/6+vr/8vLy//Hy
-        8//8/fz/5+f0/1VU1f80NdH/2dnx////+f/v7/H/+Pj4//v7+////////Pz8/+vr6//z8/P///////f3
-        9//q6ur/+fn5///////x8fH/7Ozs//7+/v//////7e3t//Dw8P/////////8/93e6f/W2O3///////Ly
-        9f/r6+v/+vr6///////w8PD/8/Pz//7+/v/4+Pj/7+/v//b29v/+/v7/9fX1/+/v7//6+vr//f39//Ly
-        8v/x8fH//Pz8//v7+//w8PD/8vLz/////v/9/vn/7e3v//f39//+/v7/9PT0//Dw8P/s7Oz/8fHx////
-        ///5+fn/6+vr//b29v//////9PT0/+vr6//7+/v//////+/v7//u7u7///////39/f/s7Oz/8vLy////
-        ///29vj/6+vr//f39///////8/Pz/+zs7P8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAA=
-</value>
-  </data>
+  <metadata name="statusStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>151, 17</value>
+  </metadata>
+  <metadata name="toolStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>293, 17</value>
+  </metadata>
+  <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>422, 17</value>
+  </metadata>
 </root>

@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace BankManagement.Utils
 {
-    internal class AccountManagement
+    public class AccountManagement
     {
         private readonly List<Account> _accounts = new(); // Bank Accounts
         private readonly List<Transaction> _transactions = new(); // Transactions
-
+        public List<Account> Accounts { get => _accounts; } // Public List to access
+        public List<Transaction> Transactions { get => _transactions; }
         // CRUD: Create, Read, Update, Delete
         public void AddAccount(Account account)
         {
@@ -87,7 +88,27 @@ namespace BankManagement.Utils
         }
         // MISC
         // Get List from CSV File
-        public List<Account> GetAccountList(string fileName = "")
+        public void ImportAccountListFromCSV(string fileName = "")
+        {
+            fileName = (fileName == "") ? GlobalSettings.AccountInfoPath : fileName; // Get default path
+            _accounts.Clear(); // Clear all old data to import new form File
+            // Stream Reader, read file content
+            using (StreamReader reader = new StreamReader(fileName))
+            {
+                if (!reader.EndOfStream) reader.ReadLine(); // Skip Header line
+                while (!reader.EndOfStream)
+                {
+                    string? line = reader.ReadLine();
+                    if (!string.IsNullOrWhiteSpace(line))
+                    {
+                        Account acc = new Account(line);
+                        _accounts.Add(acc);
+                    } 
+                }
+            }
+            Account.UpdateAccountNumberSeed(_accounts);
+        }
+        public List<Account> GetAccountListFromCSV(string fileName = "")
         {
             fileName = (fileName == "") ? GlobalSettings.AccountInfoPath : fileName; // Get default path
             var accounts = new List<Account>();
@@ -97,17 +118,17 @@ namespace BankManagement.Utils
                 if (!reader.EndOfStream) reader.ReadLine(); // Skip Header line
                 while (!reader.EndOfStream)
                 {
-                    string line = reader.ReadLine();
+                    string? line = reader.ReadLine();
                     if (!string.IsNullOrWhiteSpace(line))
                     {
                         Account acc = new Account(line);
                         accounts.Add(acc);
-                    } 
+                    }
                 }
             }
+            Account.UpdateAccountNumberSeed(accounts);
             return accounts;
         }
-
         // Transaction methods
         public void Deposit(string accNumber, double amount) 
         {

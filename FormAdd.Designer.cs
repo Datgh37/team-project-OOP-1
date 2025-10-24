@@ -28,9 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormAdd));
             panel1 = new Panel();
             pnlAdd = new Panel();
             btnAdd = new Button();
+            cboType = new ComboBox();
             cboGender = new ComboBox();
             dateTimePicker1 = new DateTimePicker();
             txtBalance = new TextBox();
@@ -39,10 +41,9 @@
             lblBalance = new Label();
             lblLastName = new Label();
             lblGender = new Label();
+            lblType = new Label();
             lblDoB = new Label();
             lblFirstName = new Label();
-            cboType = new ComboBox();
-            lblType = new Label();
             panel1.SuspendLayout();
             pnlAdd.SuspendLayout();
             SuspendLayout();
@@ -54,7 +55,7 @@
             panel1.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1417, 773);
+            panel1.Size = new Size(1594, 812);
             panel1.TabIndex = 0;
             // 
             // pnlAdd
@@ -76,72 +77,83 @@
             pnlAdd.Location = new Point(0, 0);
             pnlAdd.Margin = new Padding(3, 4, 3, 4);
             pnlAdd.Name = "pnlAdd";
-            pnlAdd.Size = new Size(1417, 773);
+            pnlAdd.Size = new Size(1594, 812);
             pnlAdd.TabIndex = 1;
             // 
             // btnAdd
             // 
             btnAdd.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAdd.Location = new Point(737, 577);
+            btnAdd.Location = new Point(829, 606);
             btnAdd.Margin = new Padding(3, 4, 3, 4);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(110, 47);
+            btnAdd.Size = new Size(124, 49);
             btnAdd.TabIndex = 4;
             btnAdd.Text = "ADD";
             btnAdd.UseVisualStyleBackColor = true;
+            // 
+            // cboType
+            // 
+            cboType.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cboType.FormattingEnabled = true;
+            cboType.Items.AddRange(new object[] { "Debit", "Credit", "Savings" });
+            cboType.Location = new Point(1180, 422);
+            cboType.Margin = new Padding(3, 4, 3, 4);
+            cboType.Name = "cboType";
+            cboType.Size = new Size(280, 40);
+            cboType.TabIndex = 3;
             // 
             // cboGender
             // 
             cboGender.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             cboGender.FormattingEnabled = true;
             cboGender.Items.AddRange(new object[] { "Male", "Female", "Others" });
-            cboGender.Location = new Point(1108, 293);
+            cboGender.Location = new Point(1246, 308);
             cboGender.Margin = new Padding(3, 4, 3, 4);
             cboGender.Name = "cboGender";
-            cboGender.Size = new Size(138, 40);
+            cboGender.Size = new Size(155, 40);
             cboGender.TabIndex = 3;
             // 
             // dateTimePicker1
             // 
             dateTimePicker1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dateTimePicker1.Location = new Point(1049, 204);
+            dateTimePicker1.Location = new Point(1180, 214);
             dateTimePicker1.Margin = new Padding(3, 4, 3, 4);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(249, 39);
+            dateTimePicker1.Size = new Size(280, 39);
             dateTimePicker1.TabIndex = 2;
             // 
             // txtBalance
             // 
             txtBalance.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtBalance.Location = new Point(214, 403);
+            txtBalance.Location = new Point(241, 423);
             txtBalance.Margin = new Padding(3, 4, 3, 4);
             txtBalance.Name = "txtBalance";
-            txtBalance.Size = new Size(633, 39);
+            txtBalance.Size = new Size(712, 39);
             txtBalance.TabIndex = 1;
             // 
             // txtLastName
             // 
             txtLastName.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtLastName.Location = new Point(214, 297);
+            txtLastName.Location = new Point(241, 312);
             txtLastName.Margin = new Padding(3, 4, 3, 4);
             txtLastName.Name = "txtLastName";
-            txtLastName.Size = new Size(633, 39);
+            txtLastName.Size = new Size(712, 39);
             txtLastName.TabIndex = 1;
             // 
             // txtFirstName
             // 
             txtFirstName.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtFirstName.Location = new Point(214, 204);
+            txtFirstName.Location = new Point(241, 214);
             txtFirstName.Margin = new Padding(3, 4, 3, 4);
             txtFirstName.Name = "txtFirstName";
-            txtFirstName.Size = new Size(633, 39);
+            txtFirstName.Size = new Size(712, 39);
             txtFirstName.TabIndex = 1;
             // 
             // lblBalance
             // 
             lblBalance.AutoSize = true;
             lblBalance.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblBalance.Location = new Point(85, 407);
+            lblBalance.Location = new Point(96, 427);
             lblBalance.Name = "lblBalance";
             lblBalance.Size = new Size(109, 32);
             lblBalance.TabIndex = 0;
@@ -151,7 +163,7 @@
             // 
             lblLastName.AutoSize = true;
             lblLastName.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblLastName.Location = new Point(85, 301);
+            lblLastName.Location = new Point(96, 316);
             lblLastName.Name = "lblLastName";
             lblLastName.Size = new Size(133, 32);
             lblLastName.TabIndex = 0;
@@ -161,17 +173,27 @@
             // 
             lblGender.AutoSize = true;
             lblGender.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblGender.Location = new Point(1128, 262);
+            lblGender.Location = new Point(1269, 275);
             lblGender.Name = "lblGender";
             lblGender.Size = new Size(105, 32);
             lblGender.TabIndex = 0;
             lblGender.Text = "Gender:";
             // 
+            // lblType
+            // 
+            lblType.AutoSize = true;
+            lblType.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblType.Location = new Point(1232, 384);
+            lblType.Name = "lblType";
+            lblType.Size = new Size(177, 32);
+            lblType.TabIndex = 0;
+            lblType.Text = "Account Type:";
+            // 
             // lblDoB
             // 
             lblDoB.AutoSize = true;
             lblDoB.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDoB.Location = new Point(1095, 167);
+            lblDoB.Location = new Point(1232, 175);
             lblDoB.Name = "lblDoB";
             lblDoB.Size = new Size(162, 32);
             lblDoB.TabIndex = 0;
@@ -181,44 +203,24 @@
             // 
             lblFirstName.AutoSize = true;
             lblFirstName.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblFirstName.Location = new Point(85, 208);
+            lblFirstName.Location = new Point(96, 218);
             lblFirstName.Name = "lblFirstName";
             lblFirstName.Size = new Size(137, 32);
             lblFirstName.TabIndex = 0;
             lblFirstName.Text = "FirstName:";
             // 
-            // cboType
-            // 
-            cboType.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            cboType.FormattingEnabled = true;
-            cboType.Items.AddRange(new object[] { "Debit", "Credit", "Savings" });
-            cboType.Location = new Point(1049, 402);
-            cboType.Margin = new Padding(3, 4, 3, 4);
-            cboType.Name = "cboType";
-            cboType.Size = new Size(249, 40);
-            cboType.TabIndex = 3;
-            // 
-            // lblType
-            // 
-            lblType.AutoSize = true;
-            lblType.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblType.Location = new Point(1095, 366);
-            lblType.Name = "lblType";
-            lblType.Size = new Size(177, 32);
-            lblType.TabIndex = 0;
-            lblType.Text = "Account Type:";
-            // 
             // FormAdd
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1417, 773);
+            ClientSize = new Size(1594, 812);
             Controls.Add(panel1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             Name = "FormAdd";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FormAdd";
+            Text = "Add Information";
             panel1.ResumeLayout(false);
             pnlAdd.ResumeLayout(false);
             pnlAdd.PerformLayout();

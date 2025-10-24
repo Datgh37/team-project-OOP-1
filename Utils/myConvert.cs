@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
+using System.IO;
+
 namespace BankManagement.Utils
 {
     public static class myConvert
@@ -87,11 +89,17 @@ namespace BankManagement.Utils
         public static string ListToCSV<T>(this List<T> data)
         {
             var s = new StringBuilder();
-            // Add Header Row if data is not empty
+            // Add Header Row if data is not empty, get primitives only
             if (data.Count > 0)
             {
-                var properties = typeof(T).GetProperties(); // Get properties of template T
-                for(int i = 0; i < properties.Length; ++i)
+                var properties = typeof(T).GetProperties()
+                    .Where(p =>
+                        p.PropertyType.IsPrimitive ||
+                        p.PropertyType == typeof(string) ||
+                        p.PropertyType == typeof(Guid) ||
+                        p.PropertyType == typeof(DateTime))
+                    .ToArray();
+                for (int i = 0; i < properties.Length; ++i)
                 {
                     s.Append(properties[i].Name);
                     if (i < properties.Length - 1)
@@ -99,26 +107,110 @@ namespace BankManagement.Utils
                 }
                 s.AppendLine(); // End of header row
             }
-            // Add Data Rows
-            foreach(var item in data)
+            foreach (var item in data)
             {
-                var properties = typeof(T).GetProperties();
-                for(int i = 0; i < properties.Length; i++)
+                // Get properties value of template T, only get primitives props (exclude objects prop)
+                var properties = typeof(T).GetProperties()
+                    .Where(p =>
+                        p.PropertyType.IsPrimitive ||
+                        p.PropertyType == typeof(string) ||
+                        p.PropertyType == typeof(Guid) ||
+                        p.PropertyType == typeof(DateTime))
+                    .ToArray();
+                for (int i = 0; i < properties.Length; i++)
                 {
-                    var value = properties[i].GetValue(item)?.ToString() ?? ""; // Get string value if the property value is not null, return empty string if null
+                    var value = properties[i].GetValue(item)?.ToString() ?? "";
                     // Handle Comma (,) or Quotation marks (") in property data
-                    if(value.Contains(',') || value.Contains('"'))
+                    if (value.Contains(',') || value.Contains('"'))
                     {
                         value = value.Replace("\"", "\"\""); // Escape quotation marks by doubling them
                         value = $"\"{value}\""; // Enclose the entire field in quotation marks
                     }
                     s.Append(value); // Append the value in to the current CSV line
                     if (i < properties.Length - 1)
-                        value += ","; // Add comma except last column
+                        s.Append(','); // Add comma except last column
                 }
-                s.AppendLine(); // End of a data row
+                s.AppendLine(); // End of data row
             }
             return s.ToString();
         }
+        // 9 Save File to .csv format
+        public static void SaveCSV<T>(this List<T> data, string? path = null)
+        {
+            // Nếu không truyền path thì lưu vào folder Data
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data");
+                if (!Directory.Exists(folder))
+                    Directory.CreateDirectory(folder);
+
+                string fileName = $"Export_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+                path = Path.Combine(folder, fileName);
+            }
+
+            string csv = data.ListToCSV();
+            File.WriteAllText(path, csv, Encoding.UTF8);
+        }
+        // 10 Load File from .csv
+        public static List<T> LoadCSV<T>(string path) where T : new()
+        {
+            var result = new List<T>();
+
+            if (!File.Exists(path))
+                throw new FileNotFoundException($"❌ File not found: {path}");
+
+            var lines = File.ReadAllLines(path, Encoding.UTF8);
+            if (lines.Length < 2)
+                return result; // No Data
+
+            // First line is header
+            var headers = lines[0].Split(',');
+
+            for (int i = 1; i < lines.Length; i++)
+            {
+                var values = lines[i].Split(',');
+                if (values.Length == 0 || string.IsNullOrWhiteSpace(values[0]))
+                    continue; // Skip empty line
+
+                var obj = new T();
+                var props = typeof(T).GetProperties();
+
+                for (int j = 0; j < headers.Length && j < values.Length; j++)
+                {
+                    var prop = props.FirstOrDefault(p => p.Name == headers[j]);
+                    if (prop != null && prop.CanWrite)
+                    {
+                        try
+                        {
+                            object? convertedValue;
+                            if (prop.PropertyType.IsEnum) // Convert Enum, allow both numbers and enum
+                            {
+                                convertedValue = Enum.Parse(prop.PropertyType, values[j]);
+                            }
+                            else if (prop.PropertyType == typeof(Guid))
+                            {
+                                convertedValue = Guid.Parse(values[j]);
+                            }
+                            else if (prop.PropertyType == typeof(DateTime))
+                            {
+                                convertedValue = values[j].ToDateMonthYear();
+                            }
+                            else
+                            {
+                                convertedValue = Convert.ChangeType(values[j], prop.PropertyType);
+                            }
+                            prop.SetValue(obj, convertedValue);
+                        }
+                        catch
+                        {
+                            // Skip
+                        }
+                    }
+                }
+                result.Add(obj);
+            }
+            return result;
+        }
+
     }
 }

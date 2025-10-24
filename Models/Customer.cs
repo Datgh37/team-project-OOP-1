@@ -7,7 +7,14 @@ using System.Threading.Tasks;
 
 namespace BankManagement.Models
 {
-    internal class Customer
+    public enum Gender
+    {
+        None = 0,
+        Male = 1,
+        Female = 2, 
+        Other = 3
+    }
+    public class Customer
     {
         private string _phone = ""; // Backing field for Phone property
         private string _email = ""; // Backing field for Email property
@@ -61,20 +68,24 @@ namespace BankManagement.Models
             }
         } 
         public DateTime BirthDate { get; set; }
+        public Gender Gender { get; set; }
         public Customer()
         {
             UID = Guid.NewGuid();
             CID = LastName = FirstName = Address = Email = Phone = string.Empty;
+            Gender = Gender.None;
         }
-        public Customer(string lastName, string firstName)
+        public Customer(string lastName, string firstName, Gender gender = Gender.None)
         {
             UID = Guid.NewGuid();
             CID = string.Empty;
             LastName = lastName;
             FirstName = firstName;
             Address = Email = Phone = string.Empty;
+            Gender = gender;
         }
-        public Customer(string lastName, string firstName, string cid, string address, string email, string phone, DateTime birthDate) : this(lastName, firstName)
+        public Customer(string lastName, string firstName, string cid, string address, string email, string phone, DateTime birthDate, Gender gender = Gender.None)
+            : this(lastName, firstName, gender)
         {
             CID = cid;
             Address = address;
@@ -82,7 +93,8 @@ namespace BankManagement.Models
             Phone = phone;
             BirthDate = birthDate;
         }
-        public Customer(Customer c) : this(c.LastName, c.FirstName, c.CID, c.Address, c.Email, c.Phone, c.BirthDate)
+        public Customer(Customer c)
+            : this(c.LastName, c.FirstName, c.CID, c.Address, c.Email, c.Phone, c.BirthDate, c.Gender)
         {
             this.UID = c.UID;
         }
@@ -97,6 +109,8 @@ namespace BankManagement.Models
             Email = line[5];
             Phone = line[6];
             BirthDate = line[7].ToDateMonthYear();
+            // This line is not required, may have or not, if not have Gender.None is default
+            Gender = line.Length > 8 ? Enum.TryParse(line[8], out Gender g) ? g : Gender.None : Gender.None;
         }
         public void UpdateInfo(string lastName, string firstName)
         {
@@ -128,11 +142,16 @@ namespace BankManagement.Models
             UpdateInfo(lastName, firstName, cid, address, email, phone);
             BirthDate = birthDate.ToDateMonthYear(); // Will throw exception if invalid
         }
+        public void UpdateInfo(string lastName, string firstName, string cid, string address, string email, string phone, string birthDate, Gender gender)
+        {
+            UpdateInfo(lastName, firstName, cid, address, email, phone, birthDate);
+            Gender = gender;
+        }
         public List<string> GetInfo(bool fullInfo = true)
         {
             if(fullInfo)
                 return new List<string> 
-                { UID.ToString(), CID, LastName, FirstName, Address, Email, Phone, BirthDate.ToString("dd/MM/yyyy") };
+                { UID.ToString(), CID, LastName, FirstName, Address, Email, Phone, BirthDate.ToString("dd/MM/yyyy"), Gender.ToString() };
             else 
                 return new List<string> 
                 { LastName, FirstName };
