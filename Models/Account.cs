@@ -57,6 +57,16 @@ namespace BankManagement.Models
         {
             return Type.AccType;
         }
+        public void SetBalance(double newBalance)
+        {
+            if (double.IsNaN(newBalance) || double.IsInfinity(newBalance))
+                throw new ArgumentException("Balance must be a valid number!");
+            if (newBalance < 0 && !Type.AllowOverdraft)
+                throw new InvalidOperationException("Balance cannot be negative unless overdraft is allowed!");
+            if (Type.AllowOverdraft && newBalance < -Type.CreditLimit)
+                throw new InvalidOperationException($"Balance cannot be less than credit limit: -{Type.CreditLimit}!");
+            Balance = newBalance;
+        }
         public void ChangeInterestRate(double rate)
         {
             switch (Type.AccType)
