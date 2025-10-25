@@ -69,6 +69,7 @@ namespace BankManagement.Models
         }
         public void ChangeInterestRate(double rate)
         {
+            if (rate == InterestRate) return;
             switch (Type.AccType)
             {
                 case "Debit":
