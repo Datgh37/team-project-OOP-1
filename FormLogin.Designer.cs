@@ -147,6 +147,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(754, 361);
             Controls.Add(pnlLogin);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "FormLogin";
             StartPosition = FormStartPosition.CenterScreen;

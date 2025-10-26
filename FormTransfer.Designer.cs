@@ -208,6 +208,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(780, 524);
             Controls.Add(panelTransfer);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             Name = "FormTransfer";

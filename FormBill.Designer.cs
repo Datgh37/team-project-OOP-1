@@ -453,6 +453,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(801, 503);
             Controls.Add(flowLayoutPanel1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "FormBill";
             StartPosition = FormStartPosition.CenterScreen;

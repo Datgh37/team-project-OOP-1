@@ -15,11 +15,6 @@ namespace BankManagement
         public FormAdd()
         {
             InitializeComponent();
-            // Ẩn nút phóng to
-            this.MaximizeBox = false;
-
-            // (tuỳ chọn) không cho resize
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
             
             this.ActiveControl = txtFirstName;
             txtFirstName.Focus();

@@ -15,12 +15,7 @@ namespace BankManagement
         public FormTransfer()
         {
             InitializeComponent();
-            // Ẩn nút phóng to
-            this.MaximizeBox = false;
-
-            // (tuỳ chọn) không cho resize
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
-
+            // đặt con trỏ vào txtFromAcc khi form được load
             this.ActiveControl = txtFromAcc;
             txtFromAcc.Focus();
         }

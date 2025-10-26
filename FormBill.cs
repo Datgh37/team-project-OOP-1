@@ -15,11 +15,7 @@ namespace BankManagement
         public FormBill()
         {
             InitializeComponent();
-            // Ẩn nút phóng to
-            this.MaximizeBox = false;
-
-            // (tuỳ chọn) không cho resize
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            
         }
 
         private void btnFinish_Click(object sender, EventArgs e)
