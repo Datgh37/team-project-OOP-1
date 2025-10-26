@@ -30,9 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEdit));
             panel1 = new Panel();
+            btnCancel = new Button();
             btnEdit = new Button();
             cboGender = new ComboBox();
             dtpDoB = new DateTimePicker();
+            txtInterestRate = new TextBox();
             txtBalance = new TextBox();
             txtEmail = new TextBox();
             txtPhone = new TextBox();
@@ -44,6 +46,10 @@
             lblGender = new Label();
             lblDoB = new Label();
             lblCID = new Label();
+            lblInterestRate = new Label();
+            lblAccTypeInfo = new Label();
+            label1 = new Label();
+            lblAccType = new Label();
             lblBalance = new Label();
             lblUID = new Label();
             lblEmail = new Label();
@@ -56,9 +62,11 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnCancel);
             panel1.Controls.Add(btnEdit);
             panel1.Controls.Add(cboGender);
             panel1.Controls.Add(dtpDoB);
+            panel1.Controls.Add(txtInterestRate);
             panel1.Controls.Add(txtBalance);
             panel1.Controls.Add(txtEmail);
             panel1.Controls.Add(txtPhone);
@@ -70,6 +78,10 @@
             panel1.Controls.Add(lblGender);
             panel1.Controls.Add(lblDoB);
             panel1.Controls.Add(lblCID);
+            panel1.Controls.Add(lblInterestRate);
+            panel1.Controls.Add(lblAccTypeInfo);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(lblAccType);
             panel1.Controls.Add(lblBalance);
             panel1.Controls.Add(lblUID);
             panel1.Controls.Add(lblEmail);
@@ -84,10 +96,22 @@
             panel1.Size = new Size(1350, 650);
             panel1.TabIndex = 0;
             // 
+            // btnCancel
+            // 
+            btnCancel.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCancel.Location = new Point(977, 473);
+            btnCancel.Margin = new Padding(4);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(150, 46);
+            btnCancel.TabIndex = 4;
+            btnCancel.Text = "CANCEL";
+            btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
+            // 
             // btnEdit
             // 
             btnEdit.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnEdit.Location = new Point(566, 501);
+            btnEdit.Location = new Point(767, 473);
             btnEdit.Margin = new Padding(4);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(150, 46);
@@ -101,7 +125,7 @@
             cboGender.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cboGender.FormattingEnabled = true;
             cboGender.Items.AddRange(new object[] { "Male", "Female", "Others" });
-            cboGender.Location = new Point(777, 331);
+            cboGender.Location = new Point(777, 261);
             cboGender.Margin = new Padding(4);
             cboGender.Name = "cboGender";
             cboGender.Size = new Size(217, 40);
@@ -110,19 +134,29 @@
             // dtpDoB
             // 
             dtpDoB.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dtpDoB.Location = new Point(734, 263);
+            dtpDoB.Location = new Point(228, 472);
             dtpDoB.Margin = new Padding(4);
             dtpDoB.Name = "dtpDoB";
-            dtpDoB.Size = new Size(490, 39);
+            dtpDoB.Size = new Size(398, 39);
             dtpDoB.TabIndex = 2;
+            // 
+            // txtInterestRate
+            // 
+            txtInterestRate.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtInterestRate.Location = new Point(822, 397);
+            txtInterestRate.Margin = new Padding(4);
+            txtInterestRate.Name = "txtInterestRate";
+            txtInterestRate.RightToLeft = RightToLeft.Yes;
+            txtInterestRate.Size = new Size(139, 39);
+            txtInterestRate.TabIndex = 1;
             // 
             // txtBalance
             // 
             txtBalance.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtBalance.Location = new Point(781, 400);
+            txtBalance.Location = new Point(777, 329);
             txtBalance.Margin = new Padding(4);
             txtBalance.Name = "txtBalance";
-            txtBalance.Size = new Size(213, 39);
+            txtBalance.Size = new Size(217, 39);
             txtBalance.TabIndex = 1;
             // 
             // txtEmail
@@ -194,7 +228,7 @@
             // 
             lblGender.AutoSize = true;
             lblGender.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblGender.Location = new Point(654, 333);
+            lblGender.Location = new Point(654, 263);
             lblGender.Margin = new Padding(4, 0, 4, 0);
             lblGender.Name = "lblGender";
             lblGender.Size = new Size(105, 32);
@@ -205,7 +239,7 @@
             // 
             lblDoB.AutoSize = true;
             lblDoB.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblDoB.Location = new Point(654, 264);
+            lblDoB.Location = new Point(142, 473);
             lblDoB.Margin = new Padding(4, 0, 4, 0);
             lblDoB.Name = "lblDoB";
             lblDoB.Size = new Size(77, 32);
@@ -223,11 +257,55 @@
             lblCID.TabIndex = 0;
             lblCID.Text = "CID:";
             // 
+            // lblInterestRate
+            // 
+            lblInterestRate.AutoSize = true;
+            lblInterestRate.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblInterestRate.Location = new Point(654, 400);
+            lblInterestRate.Margin = new Padding(4, 0, 4, 0);
+            lblInterestRate.Name = "lblInterestRate";
+            lblInterestRate.Size = new Size(167, 32);
+            lblInterestRate.TabIndex = 0;
+            lblInterestRate.Text = "Interest Rate:";
+            // 
+            // lblAccTypeInfo
+            // 
+            lblAccTypeInfo.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAccTypeInfo.Location = new Point(1040, 350);
+            lblAccTypeInfo.Margin = new Padding(4, 0, 4, 0);
+            lblAccTypeInfo.Name = "lblAccTypeInfo";
+            lblAccTypeInfo.Size = new Size(184, 32);
+            lblAccTypeInfo.TabIndex = 0;
+            lblAccTypeInfo.Text = "/";
+            lblAccTypeInfo.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(964, 400);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(34, 32);
+            label1.TabIndex = 0;
+            label1.Text = "%";
+            // 
+            // lblAccType
+            // 
+            lblAccType.AutoSize = true;
+            lblAccType.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAccType.Location = new Point(1040, 310);
+            lblAccType.Margin = new Padding(4, 0, 4, 0);
+            lblAccType.Name = "lblAccType";
+            lblAccType.Size = new Size(184, 32);
+            lblAccType.TabIndex = 0;
+            lblAccType.Text = "Account Type: ";
+            // 
             // lblBalance
             // 
             lblBalance.AutoSize = true;
             lblBalance.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblBalance.Location = new Point(654, 402);
+            lblBalance.Location = new Point(654, 332);
             lblBalance.Margin = new Padding(4, 0, 4, 0);
             lblBalance.Name = "lblBalance";
             lblBalance.Size = new Size(109, 32);
@@ -249,7 +327,7 @@
             // 
             lblEmail.AutoSize = true;
             lblEmail.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblEmail.Location = new Point(82, 402);
+            lblEmail.Location = new Point(136, 402);
             lblEmail.Margin = new Padding(4, 0, 4, 0);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(83, 32);
@@ -260,7 +338,7 @@
             // 
             lblPhone.AutoSize = true;
             lblPhone.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblPhone.Location = new Point(82, 333);
+            lblPhone.Location = new Point(126, 333);
             lblPhone.Margin = new Padding(4, 0, 4, 0);
             lblPhone.Name = "lblPhone";
             lblPhone.Size = new Size(93, 32);
@@ -271,7 +349,7 @@
             // 
             lblAddress.AutoSize = true;
             lblAddress.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblAddress.Location = new Point(82, 264);
+            lblAddress.Location = new Point(106, 264);
             lblAddress.Margin = new Padding(4, 0, 4, 0);
             lblAddress.Name = "lblAddress";
             lblAddress.Size = new Size(113, 32);
@@ -282,7 +360,7 @@
             // 
             lblLastName.AutoSize = true;
             lblLastName.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblLastName.Location = new Point(82, 195);
+            lblLastName.Location = new Point(86, 195);
             lblLastName.Margin = new Padding(4, 0, 4, 0);
             lblLastName.Name = "lblLastName";
             lblLastName.Size = new Size(133, 32);
@@ -342,5 +420,11 @@
         private Button btnEdit;
         private TextBox txtBalance;
         private Label lblBalance;
+        private TextBox txtInterestRate;
+        private Label lblInterestRate;
+        private Label lblAccType;
+        private Label lblAccTypeInfo;
+        private Label label1;
+        private Button btnCancel;
     }
 }

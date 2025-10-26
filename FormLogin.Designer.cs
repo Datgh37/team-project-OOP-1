@@ -36,6 +36,7 @@
             chkShow = new CheckBox();
             txtPassword = new TextBox();
             txtUsername = new TextBox();
+            lblShutDownMessage = new Label();
             lblPassword = new Label();
             lblUsername = new Label();
             errorProvider1 = new ErrorProvider(components);
@@ -51,20 +52,23 @@
             pnlLogin.Controls.Add(chkShow);
             pnlLogin.Controls.Add(txtPassword);
             pnlLogin.Controls.Add(txtUsername);
+            pnlLogin.Controls.Add(lblShutDownMessage);
             pnlLogin.Controls.Add(lblPassword);
             pnlLogin.Controls.Add(lblUsername);
             pnlLogin.Dock = DockStyle.Fill;
             pnlLogin.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             pnlLogin.Location = new Point(0, 0);
+            pnlLogin.Margin = new Padding(4);
             pnlLogin.Name = "pnlLogin";
-            pnlLogin.Size = new Size(754, 361);
+            pnlLogin.Size = new Size(969, 505);
             pnlLogin.TabIndex = 0;
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(482, 224);
+            btnCancel.Location = new Point(620, 324);
+            btnCancel.Margin = new Padding(4);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(95, 36);
+            btnCancel.Size = new Size(122, 50);
             btnCancel.TabIndex = 4;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
@@ -72,9 +76,10 @@
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(229, 224);
+            btnLogin.Location = new Point(294, 324);
+            btnLogin.Margin = new Padding(4);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(95, 36);
+            btnLogin.Size = new Size(122, 50);
             btnLogin.TabIndex = 4;
             btnLogin.Text = "Login";
             btnLogin.UseVisualStyleBackColor = true;
@@ -84,56 +89,75 @@
             // 
             lnlForgot.AutoSize = true;
             lnlForgot.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lnlForgot.Location = new Point(229, 169);
+            lnlForgot.Location = new Point(294, 239);
+            lnlForgot.Margin = new Padding(4, 0, 4, 0);
             lnlForgot.Name = "lnlForgot";
-            lnlForgot.Size = new Size(111, 17);
+            lnlForgot.Size = new Size(141, 23);
             lnlForgot.TabIndex = 3;
             lnlForgot.TabStop = true;
             lnlForgot.Text = "Forgot Pasword ?";
+            lnlForgot.LinkClicked += lnlForgot_LinkClicked;
             // 
             // chkShow
             // 
             chkShow.AutoSize = true;
             chkShow.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            chkShow.Location = new Point(487, 169);
+            chkShow.Location = new Point(667, 237);
+            chkShow.Margin = new Padding(4);
             chkShow.Name = "chkShow";
-            chkShow.Size = new Size(90, 21);
+            chkShow.Size = new Size(73, 27);
             chkShow.TabIndex = 2;
-            chkShow.Text = "Show/Hide";
+            chkShow.Text = "Show";
             chkShow.UseVisualStyleBackColor = true;
             chkShow.CheckedChanged += chkShow_CheckedChanged;
             // 
             // txtPassword
             // 
             txtPassword.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtPassword.Location = new Point(229, 133);
+            txtPassword.Location = new Point(294, 186);
+            txtPassword.Margin = new Padding(4);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(348, 33);
+            txtPassword.Size = new Size(446, 39);
             txtPassword.TabIndex = 1;
+            txtPassword.UseSystemPasswordChar = true;
             // 
             // txtUsername
             // 
             txtUsername.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtUsername.Location = new Point(229, 87);
+            txtUsername.Location = new Point(294, 122);
+            txtUsername.Margin = new Padding(4);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(348, 33);
+            txtUsername.Size = new Size(446, 39);
             txtUsername.TabIndex = 1;
+            // 
+            // lblShutDownMessage
+            // 
+            lblShutDownMessage.AutoSize = true;
+            lblShutDownMessage.Font = new Font("Segoe UI", 10F);
+            lblShutDownMessage.Location = new Point(294, 278);
+            lblShutDownMessage.Margin = new Padding(4, 0, 4, 0);
+            lblShutDownMessage.Name = "lblShutDownMessage";
+            lblShutDownMessage.Size = new Size(0, 23);
+            lblShutDownMessage.TabIndex = 0;
+            lblShutDownMessage.Visible = false;
             // 
             // lblPassword
             // 
             lblPassword.AutoSize = true;
-            lblPassword.Location = new Point(121, 136);
+            lblPassword.Location = new Point(156, 190);
+            lblPassword.Margin = new Padding(4, 0, 4, 0);
             lblPassword.Name = "lblPassword";
-            lblPassword.Size = new Size(102, 25);
+            lblPassword.Size = new Size(129, 32);
             lblPassword.TabIndex = 0;
             lblPassword.Text = "Password:";
             // 
             // lblUsername
             // 
             lblUsername.AutoSize = true;
-            lblUsername.Location = new Point(117, 90);
+            lblUsername.Location = new Point(150, 126);
+            lblUsername.Margin = new Padding(4, 0, 4, 0);
             lblUsername.Name = "lblUsername";
-            lblUsername.Size = new Size(106, 25);
+            lblUsername.Size = new Size(135, 32);
             lblUsername.TabIndex = 0;
             lblUsername.Text = "Username:";
             // 
@@ -143,10 +167,12 @@
             // 
             // FormLogin
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(754, 361);
+            ClientSize = new Size(969, 505);
             Controls.Add(pnlLogin);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(4);
             MaximizeBox = false;
             Name = "FormLogin";
             StartPosition = FormStartPosition.CenterScreen;
@@ -165,10 +191,11 @@
         private Label lblPassword;
         private TextBox txtPassword;
         private TextBox txtUsername;
-        private LinkLabel lnlForgot;
         private CheckBox chkShow;
         private Button btnCancel;
         private Button btnLogin;
         private ErrorProvider errorProvider1;
+        private Label lblShutDownMessage;
+        private LinkLabel lnlForgot;
     }
 }

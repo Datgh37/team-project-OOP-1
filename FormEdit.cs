@@ -38,6 +38,8 @@ namespace BankManagement
             dtpDoB.Text = SelectedCustomer.BirthDate.ToString();
             cboGender.Text = SelectedCustomer.Gender.ToString();
             txtBalance.Text = SelectedAccount.Balance.ToString("N2");
+            txtInterestRate.Text = SelectedAccount.InterestRate.ToString();
+            lblAccTypeInfo.Text = SelectedAccount.GetAccountType();
         }
         private void btnEdit_Click(object sender, EventArgs e)
         {
@@ -53,6 +55,7 @@ namespace BankManagement
                     return;
                 }
                 // Cập nhật lại thông tin từ control vào object
+                // Update Customer
                 SelectedCustomer.UpdateInfo(
                     txtLastName.Text,
                     txtFirstName.Text,
@@ -63,22 +66,32 @@ namespace BankManagement
                     dtpDoB.Value.ToString("dd/MM/yyyy"),
                     Enum.TryParse(cboGender.Text, out Gender g) ? g : Gender.None
                 );
-                if (double.TryParse(txtBalance.Text, out double balance))
-                    SelectedAccount.SetBalance(balance);
-                else
+                // Update Account
+                if (!double.TryParse(txtBalance.Text, out double balance))
                 {
                     MessageBox.Show("Số dư không hợp lệ!", "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                if (!double.TryParse(txtInterestRate.Text, out double rate))
+                {
+                    MessageBox.Show("Mức lãi không hợp lệ!, Kiểm tra input", "Lỗi nhập liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                SelectedAccount.SetBalance(balance);
+                SelectedAccount.ChangeInterestRate(rate);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
             }
-            
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
