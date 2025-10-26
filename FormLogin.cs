@@ -33,8 +33,6 @@ namespace BankManagement
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
-            // Ẩn ký tự mật khẩu
-            txtPassword.UseSystemPasswordChar = true;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -44,29 +42,20 @@ namespace BankManagement
             bool usernameError = false;
             bool passwordError = false;
 
-            // kiểm tra Username
+            // Kiểm tra Username / Password có rỗng hay không
             if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
                 errorProvider1.SetError(txtUsername, "Vui lòng nhập tên đăng nhập");
                 isValid = false;
                 usernameError = true;
             }
-
-            // kiểm tra Password
             if (string.IsNullOrWhiteSpace(txtPassword.Text))
             {
                 errorProvider1.SetError(txtPassword, "Vui lòng nhập mật khẩu");
                 isValid = false;
                 passwordError = true;
             }
-
-            // Nếu đã hết số lần thử, bấm login là sập chương trình ngay
-            if (remainingAttempts <= 0)
-            {
-                Application.Exit();
-                return;
-            }
-
+            // Đối chiếu dữ liệu tài khoản
             if (isValid)
             {
                 string username = txtUsername.Text.Trim();
@@ -110,6 +99,26 @@ namespace BankManagement
                         {
                             MessageBox.Show($"Sai thông tin đăng nhập.\nBạn còn {remainingAttempts} lần thử.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
+                        else // Hết số lần thử là hiện thông báo, đóng thông báo sau 1s tự đóng ct
+                        {
+                            var dialog = MessageBox.Show($"Sai thông tin đăng nhập.\n" +
+                                $"Bạn đã hết lần thử.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            if (dialog == DialogResult.OK)
+                            {
+                                btnLogin.Enabled = false;
+                                lblShutDownMessage.Text = "Used All Attempt, Exiting...";
+                                lblShutDownMessage.Visible = true;
+                                var shutdownTimer = new System.Windows.Forms.Timer();
+                                shutdownTimer.Interval = 1000; // 1 seconds
+                                shutdownTimer.Tick += (s, args) =>
+                                {
+                                    shutdownTimer.Stop();
+                                    Application.Exit();
+                                };
+                                shutdownTimer.Start();
+                                return;
+                            }
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -136,12 +145,18 @@ namespace BankManagement
         private void chkShow_CheckedChanged(object sender, EventArgs e)
         {
             // Khi checkbox được chọn, hiển thị mật khẩu
+            chkShow.Text = chkShow.Checked == true ? "Hide" : "Show";
             txtPassword.UseSystemPasswordChar = !chkShow.Checked;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void lnlForgot_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            MessageBox.Show("Hãy liên hệ admin để đổi mật khẩu", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
