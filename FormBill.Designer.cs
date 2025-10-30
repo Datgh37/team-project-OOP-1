@@ -306,7 +306,7 @@
             // 
             // btnFinish
             // 
-            btnFinish.Location = new Point(349, 305);
+            btnFinish.Location = new Point(345, 338);
             btnFinish.Name = "btnFinish";
             btnFinish.Size = new Size(103, 33);
             btnFinish.TabIndex = 1;
@@ -318,134 +318,155 @@
             // 
             lblSta.AutoSize = true;
             lblSta.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblSta.Location = new Point(434, 253);
+            lblSta.Location = new Point(290, 264);
             lblSta.Name = "lblSta";
+            lblSta.RightToLeft = RightToLeft.No;
             lblSta.Size = new Size(66, 25);
             lblSta.TabIndex = 0;
             lblSta.Text = "Status:";
+            lblSta.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblStatus
             // 
             lblStatus.AutoSize = true;
-            lblStatus.Location = new Point(294, 253);
+            lblStatus.Location = new Point(212, 264);
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(72, 25);
             lblStatus.TabIndex = 0;
             lblStatus.Text = "Status:";
+            lblStatus.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblDescription
             // 
             lblDescription.AutoSize = true;
             lblDescription.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblDescription.Location = new Point(434, 214);
+            lblDescription.Location = new Point(279, 222);
             lblDescription.Name = "lblDescription";
+            lblDescription.RightToLeft = RightToLeft.No;
             lblDescription.Size = new Size(57, 25);
             lblDescription.TabIndex = 0;
             lblDescription.Text = "Note:";
+            lblDescription.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblNotes
             // 
             lblNotes.AutoSize = true;
-            lblNotes.Location = new Point(305, 214);
+            lblNotes.Location = new Point(212, 222);
             lblNotes.Name = "lblNotes";
             lblNotes.Size = new Size(61, 25);
             lblNotes.TabIndex = 0;
             lblNotes.Text = "Note:";
+            lblNotes.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblID
             // 
             lblID.AutoSize = true;
             lblID.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblID.Location = new Point(434, 174);
+            lblID.Location = new Point(300, 9);
             lblID.Name = "lblID";
+            lblID.RightToLeft = RightToLeft.No;
             lblID.Size = new Size(135, 25);
             lblID.TabIndex = 0;
             lblID.Text = "Transaction ID:";
+            lblID.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblTid
             // 
             lblTid.AutoSize = true;
-            lblTid.Location = new Point(221, 171);
+            lblTid.Location = new Point(149, 9);
             lblTid.Name = "lblTid";
             lblTid.Size = new Size(145, 25);
             lblTid.TabIndex = 0;
             lblTid.Text = "Transaction ID:";
+            lblTid.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblTime
             // 
             lblTime.AutoSize = true;
             lblTime.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTime.Location = new Point(434, 132);
+            lblTime.Location = new Point(382, 179);
             lblTime.Name = "lblTime";
+            lblTime.RightToLeft = RightToLeft.No;
             lblTime.Size = new Size(154, 25);
             lblTime.TabIndex = 0;
             lblTime.Text = "Transaction time:";
+            lblTime.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblTtime
             // 
             lblTtime.AutoSize = true;
-            lblTtime.Location = new Point(202, 129);
+            lblTtime.Location = new Point(212, 179);
             lblTtime.Name = "lblTtime";
             lblTtime.Size = new Size(164, 25);
             lblTtime.TabIndex = 0;
             lblTtime.Text = "Transaction time:";
+            lblTtime.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblMoney
             // 
             lblMoney.AutoSize = true;
             lblMoney.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblMoney.Location = new Point(434, 86);
+            lblMoney.Location = new Point(308, 136);
             lblMoney.Name = "lblMoney";
+            lblMoney.RightToLeft = RightToLeft.No;
             lblMoney.Size = new Size(83, 25);
             lblMoney.TabIndex = 0;
             lblMoney.Text = "Amount:";
+            lblMoney.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblAmount
             // 
             lblAmount.AutoSize = true;
-            lblAmount.Location = new Point(276, 86);
+            lblAmount.Location = new Point(212, 136);
             lblAmount.Name = "lblAmount";
             lblAmount.Size = new Size(90, 25);
             lblAmount.TabIndex = 0;
             lblAmount.Text = "Amount:";
+            lblAmount.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblTo
             // 
             lblTo.AutoSize = true;
             lblTo.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTo.Location = new Point(434, 48);
+            lblTo.Location = new Point(335, 98);
             lblTo.Name = "lblTo";
+            lblTo.RightToLeft = RightToLeft.No;
             lblTo.Size = new Size(109, 25);
             lblTo.TabIndex = 0;
             lblTo.Text = "To Account:";
+            lblTo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblToAcc
             // 
             lblToAcc.AutoSize = true;
-            lblToAcc.Location = new Point(249, 48);
+            lblToAcc.Location = new Point(212, 98);
             lblToAcc.Name = "lblToAcc";
             lblToAcc.Size = new Size(117, 25);
             lblToAcc.TabIndex = 0;
             lblToAcc.Text = "To Account:";
+            lblToAcc.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblFrom
             // 
             lblFrom.AutoSize = true;
             lblFrom.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblFrom.Location = new Point(434, 9);
+            lblFrom.Location = new Point(361, 59);
             lblFrom.Name = "lblFrom";
+            lblFrom.RightToLeft = RightToLeft.No;
             lblFrom.Size = new Size(133, 25);
             lblFrom.TabIndex = 0;
             lblFrom.Text = "From Account:";
+            lblFrom.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblFromAcc
             // 
             lblFromAcc.AutoSize = true;
-            lblFromAcc.Location = new Point(223, 9);
+            lblFromAcc.Location = new Point(212, 59);
             lblFromAcc.Name = "lblFromAcc";
             lblFromAcc.Size = new Size(143, 25);
             lblFromAcc.TabIndex = 0;
             lblFromAcc.Text = "From Account:";
+            lblFromAcc.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // FormBill
             // 
@@ -457,6 +478,7 @@
             Name = "FormBill";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FormBill";
+            Load += FormBill_Load;
             flowLayoutPanel1.ResumeLayout(false);
             pnlTittle.ResumeLayout(false);
             pnlTittle.PerformLayout();

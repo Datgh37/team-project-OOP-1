@@ -62,6 +62,7 @@ namespace BankManagement
             dataGridView1.DataSource = AccountList.Accounts; // dùng AccountList.Accounts
             dataGridView1.Columns["Balance"].DefaultCellStyle.Format = "N2"; // Format lại cột Balance cho giống dạng tiền tệ hơn
         }
+
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (IsAccountListChanged() || isChanged)

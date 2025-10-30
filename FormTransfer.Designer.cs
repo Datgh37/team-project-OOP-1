@@ -73,12 +73,13 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(612, 433);
+            btnCancel.Location = new Point(391, 433);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(128, 36);
             btnCancel.TabIndex = 2;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
+            btnCancel.Click += btnCancel_Click;
             // 
             // btnConfirm
             // 
@@ -88,6 +89,7 @@
             btnConfirm.TabIndex = 2;
             btnConfirm.Text = "Confirm";
             btnConfirm.UseVisualStyleBackColor = true;
+            btnConfirm.Click += btnConfirm_Click;
             // 
             // txtFromAcc
             // 
@@ -96,6 +98,8 @@
             txtFromAcc.Name = "txtFromAcc";
             txtFromAcc.Size = new Size(517, 33);
             txtFromAcc.TabIndex = 1;
+            txtFromAcc.TextChanged += txtFromAcc_TextChanged;
+            txtFromAcc.Leave += txtFromAcc_TextChanged;
             // 
             // txtAmount
             // 
@@ -213,6 +217,7 @@
             Name = "FormTransfer";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "FormTransfer";
+            Load += FormTransfer_Load;
             panelTransfer.ResumeLayout(false);
             panelTransfer.PerformLayout();
             ResumeLayout(false);
