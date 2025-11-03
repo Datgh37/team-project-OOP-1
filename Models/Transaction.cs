@@ -15,12 +15,14 @@ namespace BankManagement.Models
     public class Transaction
     {
         public string TransactionID { get; } = Guid.NewGuid().ToString();
-        public string? FromAccountNumber { get; } 
+        public string? FromAccountNumber { get; }
+        public string? Sender { get; }
         public string? ToAccountNumber { get; }
+        public string? Receiver { get; }
         public double Amount { get; }
         public TransactionType Type { get; }
         public DateTime TransactionTime { get; }
-        public Transaction(string? fromAccNum, string? toAccNum, double amount, TransactionType type)
+        public Transaction(string? fromAccNum, string? toAccNum, string? sender, string? receiver, double amount, TransactionType type)
         {
             if (amount <= 0) throw new ArgumentException("Amount must be > 0");
             if (type == TransactionType.Transfer) // For Transfer transaction
@@ -35,6 +37,8 @@ namespace BankManagement.Models
 
             FromAccountNumber = fromAccNum;
             ToAccountNumber = toAccNum;
+            Sender = sender;
+            Receiver = receiver;
             Amount = amount;
             Type = type;
             TransactionTime = DateTime.Now;

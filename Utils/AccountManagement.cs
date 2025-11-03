@@ -10,9 +10,7 @@ namespace BankManagement.Utils
     public class AccountManagement
     {
         private readonly List<Account> _accounts = new(); // Bank Accounts
-        private readonly List<Transaction> _transactions = new(); // Transactions
         public List<Account> Accounts { get => _accounts; } // Public List to access
-        public List<Transaction> Transactions { get => _transactions; }
         // CRUD: Create, Read, Update, Delete
         public void AddAccount(Account account)
         {
@@ -128,56 +126,7 @@ namespace BankManagement.Utils
             }
             Account.UpdateAccountNumberSeed(accounts);
             return accounts;
-        }
-        // Transaction methods
-        public void Deposit(string accNumber, double amount) 
-        {
-            try
-            {
-                GetOrThrow(accNumber).Deposit(amount);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Deposit failed for Account[{accNumber}]\nError:", ex);
-            }
-        }
-        public void Withdraw(string accNumber, double amount)
-        {
-            try
-            {                
-                GetOrThrow(accNumber).Withdraw(amount);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Withdraw failed for Account[{accNumber}]\nError:", ex);
-            }
-        }
-        // Note: May be will develop to transfer to different Banks later
-        public void Transfer(string fromNumber, string toNumber, double amount)
-        {
-            var from = GetOrThrow(fromNumber); // Get From Account
-            var to = GetOrThrow(toNumber); // Get To Account
-
-            ValidateTransfer(from, to, amount);
-            from.Withdraw(amount);
-            to.Deposit(amount);
-
-            Transaction trans = new Transaction(fromNumber, toNumber, amount, TransactionType.Transfer);
-            _transactions.Add(trans);
-        }
-        private void ValidateTransfer(Account fromAcc, Account toAcc, double amount) 
-        {
-            if (fromAcc == toAcc)
-                throw new Exception("Cannot transfer to the same account!");
-            if (fromAcc.Type.CanTransfer == false)
-                throw new Exception("This account cannot be used to transfer money!");
-            if (amount <= 0)
-                throw new ArgumentException("Transfer amount must be a positive value (amount > 0)!");
-            if (!fromAcc.Type.AllowOverdraft && fromAcc.Balance < amount)
-                throw new InvalidOperationException("Insufficient Balance!");
-            if (fromAcc.Type.AllowOverdraft && (fromAcc.Balance - amount) < -fromAcc.Type.CreditLimit)
-                    throw new InvalidOperationException("Exceeds Credit Limit!");
-        }
+        }  
         private Account GetOrThrow(string accNumber) =>
             this[accNumber] ?? throw new Exception("Account Not Exist!");
     }
