@@ -9,7 +9,7 @@ Provides classes and utilities to manage customers, accounts, transactions, and 
 
 ### 🏗️ Architecture
 - **Models**: Core business entities (Account, Customer, Transaction, AccountType)
-- **Utils**: Management classes and helper utilities
+- **Utils**: Management classes, helper utilities, and extension methods
 - **Forms**: Windows Forms UI for user interaction
 - **Data**: CSV-based persistent storage
 
@@ -95,15 +95,16 @@ None = 0, Male = 1, Female = 2, Other = 3
 - `FirstName` *(string)*: Customer's first name
 - `LastName` *(string)*: Customer's last name
 - `Address` *(string)*: Residential address
-- `Email` *(string, validated)*: Email with format validation
+- `Email` *(string, validated)*: Email with format validation using MailAddress
 - `Phone` *(string, validated)*: 10-digit phone number (optional)
-- `BirthDate` *(DateTime)*: Date of birth
+- `BirthDate` *(DateTime, validated)*: Date of birth (minimum age: 15 years)
 - `Gender` *(Gender enum)*: Gender identification
 
 #### **Validation Rules**
 - **CID**: Must be exactly 9 digits (if provided)
-- **Email**: Must match pattern `[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}`
+- **Email**: Validated using System.Net.Mail.MailAddress
 - **Phone**: Must be exactly 10 digits (if provided)
+- **BirthDate**: Must be at least 15 years old, cannot be in future, maximum 150 years old
 
 #### **Key Features**
 - ✅ Automatic UID generation
@@ -135,12 +136,13 @@ Transfer = 2   // Money transfer between accounts
 - `Amount` *(double)*: Transaction amount (must be > 0)
 - `Type` *(TransactionType)*: Transaction type enum
 - `TransactionTime` *(DateTime, auto)*: Transaction timestamp
+- `GetTransType` *(string, computed)*: Type as string
 
 #### **Key Features**
 - ✅ Automatic ID and timestamp generation
 - ✅ Type-specific validation (e.g., Transfer requires both accounts)
 - ✅ Immutable after creation (audit integrity)
-- ✅ CSV serialization/deserialization
+- ✅ CSV serialization/deserialization with dual format support (enum name/value)
 - ✅ Support for all three transaction types
 
 ---
@@ -156,6 +158,7 @@ Central hub for all account operations and business logic.
 **CRUD Operations:**
 - `AddAccount(Account)` - Add new account with duplicate/type checks
 - `RemoveAccount(Account/string)` - Remove by reference or account number
+- `ClearList()` - Clear all accounts from list
 - `FindByCustomerID(Guid)` - Get all accounts for a customer
 - `FindByBalance(double/min,max)` - Search by exact or range
 - `this[string]` - Indexer for quick account lookup
@@ -169,6 +172,7 @@ Central hub for all account operations and business logic.
 **Data Operations:**
 - `ImportAccountListFromCSV(string?)` - Load from CSV with validation
 - `SaveAccountsToCSV(string?)` - Export to CSV
+- `GetAccountListFromCSV(string?)` - Get list without loading
 - `GetTotalItemsInList()` - Count total accounts
 - `GetTotalItemsEachAccountType()` - Get (debit, credit, savings) counts
 
@@ -177,6 +181,7 @@ Central hub for all account operations and business logic.
 - ✅ Automatic account number seed management
 - ✅ Transaction-safe operations
 - ✅ CSV integration with error handling
+- ✅ Line-by-line error tracking during import
 
 ---
 
@@ -189,6 +194,7 @@ Manages customer records and relationships.
 **CRUD Operations:**
 - `AddCustomer(Customer)` - Add with UID/CID duplicate check
 - `RemoveCustomer(Customer/Guid)` - Remove by reference or UID
+- `ClearList()` - Clear all customers from list
 - `FindById(Guid)` / `FindByCID(string)` - Search methods
 - `this[Guid]` / `this[string]` - Indexers for lookup
 
@@ -206,7 +212,7 @@ Manages customer records and relationships.
 
 ### 7️⃣ TransactionManagement
 
-Maintains transaction history and analytics.
+Maintains transaction history and analytics with filtering capabilities.
 
 #### **Key Methods**
 
@@ -215,29 +221,65 @@ Maintains transaction history and analytics.
 - `ClearHistory()` - Clear all transaction history
 
 **Query Methods:**
+- `UpdateFilteredTransaction(string)` - Filter transactions by account number
+- `ResetFilter()` - Show all transactions
 - `FindByAccount(string)` - Get all transactions for an account
 - `FindByCustomer(string)` - Get all transactions for a customer name
 - `FindByType(TransactionType)` - Filter by transaction type
 - `FindByDateRange(DateTime, DateTime)` - Date range queries
 
 **Analytics:**
-- `GetStatistics(TransactionType)` - Returns (count, totalAmount) for type
+- `GetTotalItemsInList(bool all)` - Count filtered or all transactions
+- `GetTotalItemsEachTransactionType(bool all)` - Returns (deposit, withdraw, transfer) counts
 
 **Data Operations:**
-- `ImportTransactionListFromCSV(string?)` - Load transaction history
+- `ImportTransactionListFromCSV(string?)` - Load transaction history with line tracking
 - `SaveTransactionListToCSV(string?)` - Export transaction history
 
 #### **Key Features**
+- ✅ Dual-list system (filtered + all transactions)
+- ✅ Dynamic filtering for account-specific history
 - ✅ Complete transaction audit trail
 - ✅ Flexible querying and filtering
 - ✅ Statistical analysis support
 - ✅ CSV persistence
+- ✅ Error tracking during import
 
 ---
 
-## 🧰 Utility Classes
+### 8️⃣ AccountExtensions
 
-### 8️⃣ myConvert
+Extension methods for Account transactions with automatic Transaction creation.
+
+#### **Extension Methods**
+- `Deposit(this Account, Customer, double)` - Deposit with Transaction record
+- `Withdraw(this Account, Customer, double)` - Withdraw with Transaction record
+- `Transfer(this Account, Account, Customer, Customer, double)` - Transfer with validation
+
+#### **Key Features**
+- ✅ Automatic Transaction object creation
+- ✅ Comprehensive validation logic
+- ✅ Same-account transfer prevention
+- ✅ Transfer permission checks (Savings blocked)
+- ✅ Credit limit validation
+- ✅ Balance sufficiency checks
+- ✅ Returns Transaction object for recording
+
+**Example Usage:**
+```
+// Deposit
+Transaction depositTrans = account.Deposit(customer, 1000000);
+
+// Withdraw
+Transaction withdrawTrans = account.Withdraw(customer, 500000);
+
+// Transfer
+Transaction transferTrans = fromAccount.Transfer(toAccount, sender, receiver, 250000);
+```
+
+---
+
+### 9️⃣ myConvert
 
 Comprehensive type conversion and CSV handling utilities.
 
@@ -246,7 +288,7 @@ Comprehensive type conversion and CSV handling utilities.
 - `ToDouble(this string)` - String to double
 - `ToFloat(this string)` - String to float
 - `ToDecimal(this string)` - String to decimal
-- `ToDateMonthYear(this string)` - Parse dd/MM/yyyy or dd-MM-yyyy
+- `ToDateMonthYear(this string)` - Parse dd/MM/yyyy or dd-MM-yyyy (with time support)
 - `ToMonthDateYear(this string)` - Parse MM/dd/yyyy or MM-dd-yyyy
 - `ToYearMonthDate(this string)` - Parse yyyy-MM-dd or yyyy/MM/dd
 
@@ -260,7 +302,7 @@ Comprehensive type conversion and CSV handling utilities.
 - ✅ Multiple date format support with time components
 - ✅ Automatic CSV header generation from properties
 - ✅ Smart property filtering (primitives, string, Guid, DateTime only)
-- ✅ DateTime formatting to "dd-MM-yyyy" on export
+- ✅ DateTime formatting to "dd-MM-yyyy HH:mm:ss" on export
 - ✅ Guid formatting without hyphens
 - ✅ CSV escape handling for commas and quotes
 - ✅ Generic type support with reflection
@@ -268,7 +310,7 @@ Comprehensive type conversion and CSV handling utilities.
 
 ---
 
-### 9️⃣ myString
+### 🔟 myString
 
 String manipulation and formatting utilities for Vietnamese names.
 
@@ -289,7 +331,7 @@ String manipulation and formatting utilities for Vietnamese names.
 
 ---
 
-### 🔟 MoneyFmt (Internal Static Class)
+### 1️⃣1️⃣ MoneyFmt (Internal Static Class)
 
 Simple money formatting utility.
 
@@ -302,44 +344,73 @@ Simple money formatting utility.
 
 ### 📋 FormMain
 
-Primary data management interface with DataGridView.
+Primary data management interface with dual DataGridView (accounts + transaction history).
 
 #### **Key Features**
+
+**Main Grid (dgvMain):**
 - ✅ Display all accounts in sortable grid
-- ✅ Add/Edit/Delete operations via buttons/context menu
+- ✅ Add/Edit/Delete operations via buttons
 - ✅ Search/filter by account number, type, or customer ID
 - ✅ Multi-column sorting (Account #, Balance, Interest Rate, Open Date, Type)
-- ✅ Double-click to view full customer details
+- ✅ Double-click to view full customer details (FormCustomer)
 - ✅ Automatic refresh after data changes
 - ✅ Statistics display (Total, Debit, Credit, Savings counts)
 - ✅ Auto-save prompt on closing with unsaved changes
 - ✅ Date formatting (dd/MM/yyyy) for OpenAt column
 
-#### **Data Tracking**
-- Maintains `initAccountList` snapshot for change detection
-- `isChanged` flag for unsaved modifications
-- `IsAccountListChanged()` method for deep comparison
+**Transaction History Grid (dgvSub):**
+- ✅ Dynamic transaction history loading by account
+- ✅ Click any account row to load its transactions
+- ✅ Double-click transaction to view receipt (FormBill)
+- ✅ Real-time statistics (Total, Deposit, Withdraw, Transfer counts)
+- ✅ Account number display above grid
+- ✅ Automatic clearing when account deleted
+
+**Data Management:**
+- ✅ Maintains `initAccountList` snapshot for change detection
+- ✅ `isChanged` flag for unsaved modifications
+- ✅ `IsAccountListChanged()` method for deep comparison
+- ✅ Reload mechanism after FormTransaction closes
+
+#### **Transaction Button:**
+- Opens `FormTransaction` for creating deposits/withdrawals/transfers
+- Automatically reloads all data after transaction completes
+- Clears transaction history view after reload
 
 ---
 
 ### ➕ FormAdd
 
-Form for creating new accounts and customers.
+Form for creating new accounts and customers with intelligent CID lookup.
 
 #### **Key Features**
-- ✅ Dual mode: Standalone + Called from FormMain
-- ✅ Auto-fill customer info when CID is entered (9 digits)
-  - Green background: Customer found (fields locked)
-  - Yellow background: New customer (fields unlocked)
+
+**Dual Mode Operation:**
+- ✅ Standalone mode: Direct CSV save after creation
+- ✅ Called from FormMain: Pass-through mode (no auto-save)
+
+**CID Auto-Fill System:**
+- ✅ Automatically queries when 9 digits entered
+- ✅ **Green background**: Customer found (fields locked)
+- ✅ **Yellow background**: New customer (fields unlocked)
+- ✅ Auto-populate name, DoB, gender from existing customer
+- ✅ Lock/unlock fields based on customer existence
+
+**Validation & Business Rules:**
 - ✅ One account per type per customer validation
 - ✅ Name verification against existing customer data
+- ✅ Duplicate account type detection with detailed error message
 - ✅ Gender dropdown (None, Male, Female, Other)
 - ✅ Account type selection (Debit, Credit, Savings)
 - ✅ Credit account: Balance locked at 0
 - ✅ Initial balance validation (non-negative)
 - ✅ CID validation (9 digits, optional)
-- ✅ Immediate CSV save in standalone mode
-- ✅ Pass-through mode when called from FormMain (no save)
+
+**Smart Reference Management:**
+- ✅ Uses shared reference when called from FormMain (no copy)
+- ✅ Creates new instances in standalone mode
+- ✅ Exposes `NewAccount` and `NewCustomer` properties
 
 #### **Properties**
 - `NewAccount` - Created account (for caller access)
@@ -377,12 +448,16 @@ Form for editing existing account and customer information.
 Read-only customer detail viewer with edit capability.
 
 #### **Key Features**
-- ✅ Display full customer information
+- ✅ Display full customer information (UID, CID, Name, Address, Email, Phone, DoB, Gender)
 - ✅ Display linked account details
 - ✅ "Edit" button opens FormEdit
 - ✅ Automatic UI refresh after editing
 - ✅ Change detection on form closing
 - ✅ Returns DialogResult.OK if data modified
+
+#### **Change Detection:**
+- Compares original vs current state for Account and Customer
+- Detects changes to balance, interest rate, or any customer field
 
 #### **Properties**
 - `SelectedAccount` - Displayed/edited account
@@ -390,73 +465,59 @@ Read-only customer detail viewer with edit capability.
 
 ---
 
-### 💸 FormTransfer
+### 💸 FormTransaction
 
-Multi-mode transaction form (Transfer/Deposit/Withdraw).
+Multi-mode transaction form (Transfer/Deposit/Withdraw) - **Referenced in FormMain**.
 
-#### **Key Features**
+> **Note:** The actual `FormTransaction` class was not found in the provided files, but it is referenced in `FormMain` and `FormMenu`. Based on context, it should provide:
 
-**Three Transaction Modes:**
-1. **Transfer** - Money transfer between accounts
-2. **Deposit** - Add money to an account
-3. **Withdraw** - Remove money from an account
-
-**Smart Account Lookup:**
-- ✅ Auto-lookup when 5+ digits entered
-- ✅ Display customer name, account type, balance (if applicable)
-- ✅ Real-time validation on field leave
-
-**Comprehensive Validation:**
-- ✅ Account existence checks
-- ✅ Balance sufficiency checks
-- ✅ Credit limit validation (with detailed breakdown)
-- ✅ Transfer permission checks (Savings accounts blocked)
-- ✅ Same-account transfer prevention
-- ✅ Amount validation (must be > 0)
-
-**Transaction Flow:**
-1. User fills in account numbers and amount
-2. System validates all constraints
-3. Confirmation dialog with transaction summary
-4. Execute transaction (with rollback on error)
-5. Save to CSV (accounts + transaction history)
-6. Display FormBill receipt
-7. Close form
-
-**Error Handling:**
-- ✅ Rollback to original balance on failure
-- ✅ Detailed error messages with suggestions
-- ✅ No partial transactions (atomic operations)
-
-**Constructor Overloads:**
-- `FormTransfer()` - Empty form
-- `FormTransfer(Account)` - Pre-fill "From Account"
+#### **Expected Features**
+- ✅ Three transaction modes (Transfer, Deposit, Withdraw)
+- ✅ Smart account lookup (5+ digits)
+- ✅ Comprehensive validation (balance, limits, permissions)
+- ✅ Transaction confirmation dialog
+- ✅ Atomic operations with rollback on failure
+- ✅ Automatic CSV save (accounts + transactions)
+- ✅ Opens FormBill for receipt display
+- ✅ Uses `AccountExtensions` methods for transaction logic
 
 ---
 
 ### 🧾 FormBill
 
-Transaction receipt/invoice viewer.
+Transaction receipt/invoice viewer with dynamic layout.
 
 #### **Key Features**
-- ✅ Dynamic layout based on transaction type:
-  - **Deposit**: Show only receiver info
-  - **Withdraw**: Show only sender info
-  - **Transfer**: Show both sender and receiver
-- ✅ Display transaction ID, timestamp, amount, status
+
+**Dynamic Layout System:**
+- ✅ **Deposit**: Show only receiver info (hides sender row)
+- ✅ **Withdraw**: Show only sender info (hides receiver row)
+- ✅ **Transfer**: Show both sender and receiver
+- ✅ Automatic row hiding with `HideRow()` / `ShowRow()`
+- ✅ TableLayoutPanel dynamic height adjustment
+
+**Display Information:**
+- ✅ Transaction ID and timestamp
+- ✅ Sender/Receiver names and account numbers
+- ✅ Amount with VND formatting
+- ✅ Transaction type and status
 - ✅ Optional notes/description display
-- ✅ Professional receipt format
-- ✅ Print-ready layout
 
 **Constructor Overloads:**
 - `FormBill(Transaction)` - Basic receipt
-- `FormBill(Transaction, string note)` - With custom note
+- `FormBill(Transaction, string? note)` - With custom note
 
 **Layout Methods:**
 - `ApplyModeLayout()` - Adjust UI for transaction type
-- `HideRow(Panel)` / `ShowRow(Panel)` - Dynamic row visibility
+- `HideRow(Panel)` - Completely hide panel and collapse row height
+- `ShowRow(Panel)` - Restore panel visibility and auto-size row
 - `PopulateTransaction()` - Fill in transaction details
 - `HideNotes()` - Clear note section
+
+#### **Technical Implementation:**
+- Sets panel `Visible` property
+- Manipulates TableLayoutPanel row styles (Absolute 0 vs AutoSize)
+- Uses `SuspendLayout()` / `ResumeLayout()` for smooth rendering
 
 ---
 
@@ -465,23 +526,39 @@ Transaction receipt/invoice viewer.
 Splash screen displayed on application startup.
 
 #### **Key Features**
-- ✅ Auto-close after timer interval
+- ✅ Auto-close after timer interval (timer1_Tick)
 - ✅ Returns DialogResult.OK when timer expires
 - ✅ Displays branding/logo
+- ✅ Sets ActiveControl to null on load (prevents focus issues)
 
 ---
 
-### 🔲 FormMenu (MDI Container) - Optional
+### 🔲 FormMenu (MDI Container)
 
-Main application window (if using MDI architecture).
+Main application window using MDI architecture.
 
 #### **Key Features**
+
+**MDI Management:**
 - ✅ MDI Parent for child forms
-- ✅ Menu bar with form shortcuts
+- ✅ Menu bar with form shortcuts (tsmiMainForm, tsmiAddForm, tsmiTransactionForm)
 - ✅ Window layout options (Cascade, Tile Horizontal/Vertical)
-- ✅ Status bar with clock and status messages
 - ✅ Single instance enforcement per form type
 - ✅ Coordinated form closing with unsaved data checks
+
+**Status Bar:**
+- ✅ Real-time clock display (updates every second)
+- ✅ Status messages (shows which form is opened)
+- ✅ Date/time format: "yyyy-MM-dd HH:mm:ss"
+
+**Smart Form Opening:**
+- ✅ `OpenChild<TForm>()` generic method
+- ✅ Activates existing form if already open
+- ✅ Opens new form if not exists
+- ✅ Automatically opens FormMain on startup
+
+**Icon Handling:**
+- ✅ Updates menu icon when child form is maximized
 
 ---
 
@@ -511,18 +588,25 @@ public static class GlobalSettings
 AccountNumber,Balance,InterestRate,OpenAt,AccountTypeName,CustomerID
 10001,1500000,0.15,25-12-2024,0,9cca2eb56f7644e1b0925ed0b70d30af
 ```
+- AccountTypeName stored as integer (0=Debit, 1=Credit, 2=Savings)
+- DateTime stored as "dd-MM-yyyy"
+- CustomerID stored without hyphens
 
 **CustomerInfo.csv:**
 ```
 UID,CID,LastName,FirstName,Address,Email,Phone,BirthDate,Gender
 9cca2eb56f7644e1b0925ed0b70d30af,123456789,Nguyen,Van A,Ha Noi,test@email.com,0912345678,01-01-1990,Male
 ```
+- Gender stored as enum name (Male, Female, Other, None)
 
 **TransactionInfo.csv:**
 ```
 TransactionID,FromAccountNumber,Sender,ToAccountNumber,Receiver,Amount,Type,TransactionTime
 abc123-def456,10001,Nguyen Van A,10002,Tran Thi B,500000,Transfer,25-12-2024 14:30:00
 ```
+- Type stored as integer (0=Deposit, 1=Withdraw, 2=Transfer)
+- Supports both enum name and value during parsing
+- DateTime with time component support
 
 ---
 
@@ -544,20 +628,21 @@ BankManagement/
 │
 ├── 📂 Utils/                         # Business logic & utilities
 │   ├── AccountManagement.cs         # Account CRUD & operations
+│   ├── AccountExtensions.cs         # Extension methods for transactions
 │   ├── CustomerManagement.cs        # Customer CRUD & operations
 │   ├── TransactionManagement.cs     # Transaction history & analytics
 │   ├── myConvert.cs                 # Type conversion & CSV handling
 │   └── myString.cs                  # String manipulation utilities
 │
 ├── 📂 Forms/                         # Windows Forms UI
-│   ├── FormMain.cs                  # Main data grid interface
-│   ├── FormAdd.cs                   # Add account/customer
+│   ├── FormMain.cs                  # Main data grid interface (dual grid)
+│   ├── FormAdd.cs                   # Add account/customer (CID auto-fill)
 │   ├── FormEdit.cs                  # Edit account/customer
 │   ├── FormCustomer.cs              # Customer detail viewer
-│   ├── FormTransfer.cs              # Transaction form (3 modes)
-│   ├── FormBill.cs                  # Transaction receipt
+│   ├── FormTransaction.cs           # Transaction form (3 modes)
+│   ├── FormBill.cs                  # Transaction receipt (dynamic layout)
 │   ├── FormFlash.cs                 # Splash screen
-│   └── FormMenu.cs                  # MDI container (optional)
+│   └── FormMenu.cs                  # MDI container
 │
 ├── GlobalSettings.cs                 # Configuration & constants
 ├── Program.cs                        # Application entry point
@@ -574,12 +659,15 @@ BankManagement/
 - ✅ Overdraft support for Credit accounts (20M VND limit)
 - ✅ One account per type per customer enforcement
 - ✅ Automatic account number generation
+- ✅ Extension methods for clean transaction code
 
 ### 👥 **Customer Management**
 - ✅ Complete personal information with validation
 - ✅ CID (9 digits), Email, Phone validation
+- ✅ Age validation (minimum 15 years, maximum 150 years)
 - ✅ Link multiple accounts to one customer
 - ✅ Safe updates (name changes affect all accounts)
+- ✅ Smart CID lookup with auto-fill
 
 ### 💰 **Transaction System**
 - ✅ Three transaction types: Deposit, Withdraw, Transfer
@@ -587,13 +675,17 @@ BankManagement/
 - ✅ Atomic operations with rollback on failure
 - ✅ Complete audit trail in CSV
 - ✅ Transaction receipts with dynamic layout
+- ✅ Real-time transaction history per account
+- ✅ Dual-list filtering system
 
 ### 🖥️ **User Interface**
-- ✅ Professional WinForms interface
+- ✅ Professional WinForms interface with MDI
 - ✅ Real-time data validation and feedback
 - ✅ Sortable/filterable data grid
-- ✅ Auto-fill for efficiency (CID lookup)
+- ✅ CID auto-fill with color coding (green/yellow)
+- ✅ Transaction history viewer in FormMain
 - ✅ Unsaved changes detection and prompts
+- ✅ Dynamic form layout based on context
 - ✅ Context-sensitive help messages
 
 ### 💾 **Data Management**
@@ -601,6 +693,9 @@ BankManagement/
 - ✅ Automatic import/export with error handling
 - ✅ Change tracking and auto-save prompts
 - ✅ Data integrity validation on load
+- ✅ Line-by-line error tracking during import
+- ✅ Dual-format support (enum names and values)
+- ✅ List clearing for safe reloads
 
 ### 🔒 **Validation & Safety**
 - ✅ Input validation at every layer
@@ -608,6 +703,7 @@ BankManagement/
 - ✅ Transaction rollback on failure
 - ✅ Duplicate prevention (accounts, customers)
 - ✅ Type-safe operations throughout
+- ✅ Extension method validation
 
 ---
 
@@ -620,20 +716,34 @@ BankManagement/
 ### Running the Application
 
 1. **Clone/Download** the repository
+```
+   git clone https://github.com/Datgh37/team-project-OOP-1
+   cd BankManagement
+```
+
 2. **Open** `BankManagement.sln` in Visual Studio
+
 3. **Build** the solution (Ctrl+Shift+B)
-4. **Run** (F5) - FormFlash will show, then FormMain
+
+4. **Run** (F5) - Application flow:
+- FormFlash (splash screen) appears
+- After timer expires, FormMenu opens
+- FormMain automatically opens as MDI child
 
 ### First Time Setup
 - CSV files will be created automatically in `bin/Debug/net8.0/Data/`
-- Initial sample data can be loaded via FormAdd
+- Initial sample data can be added via FormAdd
+- Data persists across application restarts
 
 ---
 
 ## 🔧 Configuration
 
 ### Changing Data File Paths
-Edit `GlobalSettings.cs` to customize CSV file locations.
+Edit `GlobalSettings.cs` to customize CSV file locations:
+```
+public static readonly string AccountInfoPath = Path.Combine("Data", "AccountInfo.csv");
+```
 
 ### Date Format Settings
 Three formats available in `GlobalSettings`:
@@ -659,25 +769,30 @@ Three formats available in `GlobalSettings`:
 - ✅ One customer can have **up to 3 accounts** (one of each type)
 - ✅ Cannot create duplicate account type for same customer
 - ✅ Changing customer name affects **all linked accounts**
-- ✅ Deleting customer requires no linked accounts (implement if needed)
+- ✅ Minimum age: **15 years**
+- ✅ Maximum age: **150 years**
+- ✅ CID is optional but must be 9 digits if provided
 
 ---
 
 ## 🐛 Error Handling
 
 ### Common Error Scenarios
-1. **Duplicate Account** - "Customer already has a [Type] account!"
+1. **Duplicate Account** - "Customer already has a [Type] account! Each customer can only have one account of each type."
 2. **Insufficient Balance** - Detailed breakdown of shortfall
 3. **Credit Limit Exceeded** - Shows current debt and available credit
-4. **Invalid Format** - CID, Email, Phone validation errors
+4. **Invalid Format** - CID, Email, Phone validation errors with specific messages
 5. **CSV File Locked** - "Cannot write file" with suggested actions
 6. **Interest Rate Out of Range** - Type-specific limit violation
+7. **Name Mismatch** - Shows existing vs entered name when CID lookup fails
+8. **CSV Parsing Error** - Line number tracking for debugging
 
 ### Error Recovery
 - ✅ Transaction rollback on failure (atomic operations)
 - ✅ Original balance restoration on error
 - ✅ User-friendly error messages with suggestions
 - ✅ Validation before saving (prevent invalid state)
+- ✅ Detailed error context in exception messages
 
 ---
 
@@ -686,23 +801,34 @@ Three formats available in `GlobalSettings`:
 This project demonstrates:
 - ✅ **OOP Principles**: Encapsulation, Inheritance, Polymorphism, Abstraction
 - ✅ **SOLID Principles**: Single Responsibility, Open/Closed, Dependency Inversion
-- ✅ **Design Patterns**: Factory (AccountType), Repository (Management classes)
-- ✅ **WinForms UI**: MDI, DataGridView, Custom Controls, Event Handling
+- ✅ **Design Patterns**: Extension Methods, Repository Pattern, MDI Pattern
+- ✅ **WinForms UI**: MDI, DataGridView, Dynamic Layout, Event Handling
 - ✅ **Data Validation**: Input sanitization, Business rule enforcement
 - ✅ **Error Handling**: Try-catch, Exception types, Rollback mechanisms
 - ✅ **File I/O**: CSV parsing, Encoding, Reflection-based serialization
-- ✅ **C# Features**: Extension methods, Enums, Properties, Indexers, Tuples
+- ✅ **C# Features**: Extension methods, Enums, Properties, Indexers, Tuples, Nullable types
+- ✅ **State Management**: Change tracking, Dual-list patterns, Reference vs Copy
 
 ---
 
 ## 📝 Version History
 
-### v2.0 (Current)
+### v2.1 (Current - November 2024)
+- ✅ Added AccountExtensions with transaction methods
+- ✅ Implemented transaction history viewer in FormMain
+- ✅ Dynamic FormBill layout based on transaction type
+- ✅ CID auto-fill with color coding in FormAdd
+- ✅ Dual-list filtering in TransactionManagement
+- ✅ Enhanced error tracking with line numbers
+- ✅ Age validation for customers (15-150 years)
+- ✅ ClearList methods for safe data reloading
+- ✅ Improved reference management in FormAdd
+- ✅ Enhanced CSV parsing with dual-format enum support
+
+### v2.0
 - ✅ Complete refactor with .NET 8
 - ✅ Enhanced validation system
 - ✅ Three-mode transaction form
-- ✅ Auto-fill CID lookup
-- ✅ Dynamic transaction receipt
 - ✅ Improved error messages
 
 ### v1.0 (Initial)
@@ -716,9 +842,9 @@ This project demonstrates:
 
 **Team Project - OOP Course**
 - Repository: https://github.com/Datgh37/team-project-OOP-1
-- Branch: BaoBeo
-- Branch: Datgh37
-- Branch: Raumania
+- **Branch: BaoBeo** - Main development
+- **Branch: Datgh37** - Core features
+- **Branch: Raumania** - UI enhancements
 
 ---
 
@@ -737,9 +863,10 @@ For questions, issues, or suggestions:
 
 ---
 
-**Last Updated**: January 2025  
+**Last Updated**: November 2024  
 **Built with**: C# 12.0, .NET 8, Windows Forms  
-**Data Storage**: CSV files (UTF-8)
+**Data Storage**: CSV files (UTF-8)  
+**Target Framework**: .NET 8.0
 
 ---
 
