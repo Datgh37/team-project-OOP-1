@@ -33,7 +33,8 @@ namespace BankManagement.Utils
         }
         // 5 String to DateTime (DD/MM/YYYY or DD-MM-YYYY)
         /// <summary>
-        /// Chuyển chuỗi định dạng "dd/MM/yyyy" hoặc "dd-MM-yyyy thành DateTime với định dạng chung là "dd/MM/yyyy"
+        /// Chuyển chuỗi định dạng "dd/MM/yyyy" hoặc "dd-MM-yyyy" thành DateTime với định dạng chung là "dd/MM/yyyy"
+        /// Hỗ trợ cả định dạng có thời gian (với hoặc không có AM/PM)
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -41,8 +42,16 @@ namespace BankManagement.Utils
         {
             try
             {
-                string[] format = { "dd-MM-yyyy", "dd/MM/yyyy" };
-                return DateTime.ParseExact(s, format, CultureInfo.InvariantCulture, DateTimeStyles.None);
+                s = s.Trim();
+                string[] formats = { 
+                    "dd-MM-yyyy", 
+                    "dd/MM/yyyy",
+                    "dd-MM-yyyy HH:mm:ss",
+                    "dd/MM/yyyy HH:mm:ss",
+                    "dd-MM-yyyy hh:mm:ss tt",
+                    "dd/MM/yyyy hh:mm:ss tt"
+                };
+                return DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None);
             }
             catch (Exception ex)
             {
@@ -52,6 +61,7 @@ namespace BankManagement.Utils
         // 6 String to DateTime (MM/DD/YYYY or MM-DD-YYYY)
         /// <summary>
         /// Chuyển chuỗi định dạng "MM/dd/yyyy" hoặc "MM-dd-yyyy" thành DateTime với định dạng chung là "MM/dd/yyyy"
+        /// Hỗ trợ cả định dạng có thời gian (với hoặc không có AM/PM)
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -59,8 +69,16 @@ namespace BankManagement.Utils
         {
             try
             {
-                string[] format = { "MM-dd-yyyy", "MM/dd/yyyy" };
-                return DateTime.ParseExact(s, format, CultureInfo.InvariantCulture, DateTimeStyles.None);
+                s = s.Trim();
+                string[] formats = { 
+                    "MM-dd-yyyy", 
+                    "MM/dd/yyyy",
+                    "MM-dd-yyyy HH:mm:ss",
+                    "MM/dd/yyyy HH:mm:ss",
+                    "MM-dd-yyyy hh:mm:ss tt",
+                    "MM/dd/yyyy hh:mm:ss tt"
+                };
+                return DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None);
             }
             catch (Exception ex)
             {
@@ -70,6 +88,7 @@ namespace BankManagement.Utils
         // 7 String to DateTime (YYYY/MM/DD or YYYY-MM-DD)
         /// <summary>
         /// Chuyển chuỗi định dạng "yyyy/MM/dd" hoặc "yyyy-MM-dd" thành DateTime với định dạng chung là "yyyy/MM/dd"
+        /// Hỗ trợ cả định dạng có thời gian (với hoặc không có AM/PM)
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -77,8 +96,16 @@ namespace BankManagement.Utils
         {
             try
             {
-                string[] format = { "yyyy-MM-dd", "yyyy/MM/dd" };
-                return DateTime.ParseExact(s, format, CultureInfo.InvariantCulture, DateTimeStyles.None);
+                s = s.Trim();
+                string[] formats = { 
+                    "yyyy-MM-dd", 
+                    "yyyy/MM/dd",
+                    "yyyy-MM-dd HH:mm:ss",
+                    "yyyy/MM/dd HH:mm:ss",
+                    "yyyy-MM-dd hh:mm:ss tt",
+                    "yyyy/MM/dd hh:mm:ss tt"
+                };
+                return DateTime.ParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None);
             }
             catch (Exception ex)
             {
@@ -119,7 +146,24 @@ namespace BankManagement.Utils
                     .ToArray();
                 for (int i = 0; i < properties.Length; i++)
                 {
-                    var value = properties[i].GetValue(item)?.ToString() ?? "";
+                    var rawValue = properties[i].GetValue(item);
+                    string value = "";
+                    
+                    // Format DateTime explicitly to date-only format
+                    if (rawValue is DateTime dateTime)
+                    {
+                        value = dateTime.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture);
+                    }
+                    // Format Guid without hyphens if needed
+                    else if (rawValue is Guid guid)
+                    {
+                        value = guid.ToString("N"); // Format without hyphens
+                    }
+                    else
+                    {
+                        value = rawValue?.ToString() ?? "";
+                    }
+                    
                     // Handle Comma (,) or Quotation marks (") in property data
                     if (value.Contains(',') || value.Contains('"'))
                     {
@@ -163,14 +207,14 @@ namespace BankManagement.Utils
             if (lines.Length < 2)
                 return result; // No Data
 
-            // First line is header
-            var headers = lines[0].Split(',');
+            var headers = ParseCSVLine(lines[0]); // Use proper CSV parser
 
             for (int i = 1; i < lines.Length; i++)
             {
-                var values = lines[i].Split(',');
+                var values = ParseCSVLine(lines[i]); // Use proper CSV parser
+                
                 if (values.Length == 0 || string.IsNullOrWhiteSpace(values[0]))
-                    continue; // Skip empty line
+                    continue;
 
                 var obj = new T();
                 var props = typeof(T).GetProperties();
@@ -183,7 +227,7 @@ namespace BankManagement.Utils
                         try
                         {
                             object? convertedValue;
-                            if (prop.PropertyType.IsEnum) // Convert Enum, allow both numbers and enum
+                            if (prop.PropertyType.IsEnum)
                             {
                                 convertedValue = Enum.Parse(prop.PropertyType, values[j]);
                             }
@@ -203,7 +247,7 @@ namespace BankManagement.Utils
                         }
                         catch
                         {
-                            // Skip
+                            // Skip invalid values
                         }
                     }
                 }
@@ -212,5 +256,47 @@ namespace BankManagement.Utils
             return result;
         }
 
+        // Proper CSV line parser
+        private static string[] ParseCSVLine(string line)
+        {
+            var result = new List<string>();
+            var currentField = new StringBuilder();
+            bool inQuotes = false;
+            
+            for (int i = 0; i < line.Length; i++)
+            {
+                char c = line[i];
+                
+                if (c == '"')
+                {
+                    if (inQuotes && i + 1 < line.Length && line[i + 1] == '"')
+                    {
+                        // Escaped quote ("")
+                        currentField.Append('"');
+                        i++; // Skip next quote
+                    }
+                    else
+                    {
+                        // Toggle quote mode
+                        inQuotes = !inQuotes;
+                    }
+                }
+                else if (c == ',' && !inQuotes)
+                {
+                    // End of field
+                    result.Add(currentField.ToString());
+                    currentField.Clear();
+                }
+                else
+                {
+                    currentField.Append(c);
+                }
+            }
+            
+            // Add last field
+            result.Add(currentField.ToString());
+            
+            return result.ToArray();
+        }
     }
 }
