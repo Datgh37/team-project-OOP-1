@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormEdit));
-            panel1 = new Panel();
+            panelBase = new Panel();
             btnCancel = new Button();
             btnEdit = new Button();
             cboGender = new ComboBox();
@@ -57,44 +57,44 @@
             lblAddress = new Label();
             lblLastName = new Label();
             lblFirstName = new Label();
-            panel1.SuspendLayout();
+            panelBase.SuspendLayout();
             SuspendLayout();
             // 
-            // panel1
+            // panelBase
             // 
-            panel1.Controls.Add(btnCancel);
-            panel1.Controls.Add(btnEdit);
-            panel1.Controls.Add(cboGender);
-            panel1.Controls.Add(dtpDoB);
-            panel1.Controls.Add(txtInterestRate);
-            panel1.Controls.Add(txtBalance);
-            panel1.Controls.Add(txtEmail);
-            panel1.Controls.Add(txtPhone);
-            panel1.Controls.Add(txtAddress);
-            panel1.Controls.Add(txtLastName);
-            panel1.Controls.Add(txtCID);
-            panel1.Controls.Add(txtUID);
-            panel1.Controls.Add(txtFirstName);
-            panel1.Controls.Add(lblGender);
-            panel1.Controls.Add(lblDoB);
-            panel1.Controls.Add(lblCID);
-            panel1.Controls.Add(lblInterestRate);
-            panel1.Controls.Add(lblAccTypeInfo);
-            panel1.Controls.Add(label1);
-            panel1.Controls.Add(lblAccType);
-            panel1.Controls.Add(lblBalance);
-            panel1.Controls.Add(lblUID);
-            panel1.Controls.Add(lblEmail);
-            panel1.Controls.Add(lblPhone);
-            panel1.Controls.Add(lblAddress);
-            panel1.Controls.Add(lblLastName);
-            panel1.Controls.Add(lblFirstName);
-            panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(4);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(1350, 650);
-            panel1.TabIndex = 0;
+            panelBase.Controls.Add(btnCancel);
+            panelBase.Controls.Add(btnEdit);
+            panelBase.Controls.Add(cboGender);
+            panelBase.Controls.Add(dtpDoB);
+            panelBase.Controls.Add(txtInterestRate);
+            panelBase.Controls.Add(txtBalance);
+            panelBase.Controls.Add(txtEmail);
+            panelBase.Controls.Add(txtPhone);
+            panelBase.Controls.Add(txtAddress);
+            panelBase.Controls.Add(txtLastName);
+            panelBase.Controls.Add(txtCID);
+            panelBase.Controls.Add(txtUID);
+            panelBase.Controls.Add(txtFirstName);
+            panelBase.Controls.Add(lblGender);
+            panelBase.Controls.Add(lblDoB);
+            panelBase.Controls.Add(lblCID);
+            panelBase.Controls.Add(lblInterestRate);
+            panelBase.Controls.Add(lblAccTypeInfo);
+            panelBase.Controls.Add(label1);
+            panelBase.Controls.Add(lblAccType);
+            panelBase.Controls.Add(lblBalance);
+            panelBase.Controls.Add(lblUID);
+            panelBase.Controls.Add(lblEmail);
+            panelBase.Controls.Add(lblPhone);
+            panelBase.Controls.Add(lblAddress);
+            panelBase.Controls.Add(lblLastName);
+            panelBase.Controls.Add(lblFirstName);
+            panelBase.Dock = DockStyle.Fill;
+            panelBase.Location = new Point(0, 0);
+            panelBase.Margin = new Padding(4);
+            panelBase.Name = "panelBase";
+            panelBase.Size = new Size(1350, 650);
+            panelBase.TabIndex = 0;
             // 
             // btnCancel
             // 
@@ -122,6 +122,7 @@
             // 
             // cboGender
             // 
+            cboGender.DropDownStyle = ComboBoxStyle.DropDownList;
             cboGender.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cboGender.FormattingEnabled = true;
             cboGender.Items.AddRange(new object[] { "Male", "Female", "Others" });
@@ -133,12 +134,17 @@
             // 
             // dtpDoB
             // 
+            dtpDoB.CustomFormat = "dd/MM/yyyy";
             dtpDoB.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtpDoB.Format = DateTimePickerFormat.Custom;
             dtpDoB.Location = new Point(228, 472);
             dtpDoB.Margin = new Padding(4);
+            dtpDoB.MaxDate = new DateTime(2025, 11, 5, 0, 0, 0, 0);
+            dtpDoB.MinDate = new DateTime(1900, 1, 1, 0, 0, 0, 0);
             dtpDoB.Name = "dtpDoB";
-            dtpDoB.Size = new Size(398, 39);
+            dtpDoB.Size = new Size(182, 39);
             dtpDoB.TabIndex = 2;
+            dtpDoB.Value = new DateTime(2025, 11, 5, 0, 0, 0, 0);
             // 
             // txtInterestRate
             // 
@@ -146,9 +152,9 @@
             txtInterestRate.Location = new Point(822, 397);
             txtInterestRate.Margin = new Padding(4);
             txtInterestRate.Name = "txtInterestRate";
-            txtInterestRate.RightToLeft = RightToLeft.Yes;
             txtInterestRate.Size = new Size(139, 39);
             txtInterestRate.TabIndex = 1;
+            txtInterestRate.TextAlign = HorizontalAlignment.Right;
             // 
             // txtBalance
             // 
@@ -189,7 +195,7 @@
             // txtLastName
             // 
             txtLastName.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtLastName.Location = new Point(228, 189);
+            txtLastName.Location = new Point(228, 192);
             txtLastName.Margin = new Padding(4);
             txtLastName.Name = "txtLastName";
             txtLastName.Size = new Size(339, 39);
@@ -380,10 +386,11 @@
             // 
             // FormEdit
             // 
+            AcceptButton = btnEdit;
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1350, 650);
-            Controls.Add(panel1);
+            Controls.Add(panelBase);
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4);
             MaximizeBox = false;
@@ -391,14 +398,14 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Editor";
             Load += FormEdit_Load;
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
+            panelBase.ResumeLayout(false);
+            panelBase.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private Panel panel1;
+        private Panel panelBase;
         private Label lblUID;
         private Label lblLastName;
         private Label lblFirstName;

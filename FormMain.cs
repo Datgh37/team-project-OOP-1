@@ -13,12 +13,15 @@ namespace BankManagement
     {
         private AccountManagement AccountList = new AccountManagement(); // danh sách thao tác 
         private CustomerManagement CustomerList = new CustomerManagement();
-        private List<Account> initAccountList = new();  // danh sách khi khởi tạo form (để đối chiếu thay đổi và save file)
+        private TransactionManagement TransactionList = new TransactionManagement(); // Lịch sử giao dịch
+        private List<Account> initAccountList = new();  // danh sách khi khởi tạo form hoặc tạo giao dịch (để đối chiếu thay đổi và save file)
         private bool isChanged = false;
         // Dùng cho chức năng sort
         private enum SortState { None, Asc, Desc };
         private SortState accountNumberSort = SortState.None;
         private SortState balanceSort = SortState.None;
+        private SortState interestRateSort = SortState.None;
+        private SortState openAtSort = SortState.None;
         private bool accountTypeSorted = false;
         private bool isNormalState = true;
         // CUSTOM METHODS
@@ -41,10 +44,70 @@ namespace BankManagement
         }
         private void ReloadAccountGrid(List<Account> list)
         {
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = list;
+            dgvMain.DataSource = null;
+            dgvMain.DataSource = list;
             isNormalState = ReferenceEquals(list, AccountList.Accounts);
+
+            (int dc, int cc, int sc) = AccountList.GetTotalItemsEachAccountType();
+            tslblDataRowCount.Text = "Total Items: " + AccountList.GetTotalItemsInList().ToString();
+            tslblDebitCount.Text = "Debit: " + dc;
+            tslblCreditCount.Text = "Credit: " + cc;
+            tslblSavingsCount.Text = "Savings: " + sc;
         }
+
+        // Load Transaction History cho Account được chọn
+        private void LoadTransactionHistory(string accountNumber)
+        {
+            if (string.IsNullOrEmpty(accountNumber))
+            {
+                dgvSub.DataSource = null;
+                lblAccountNumberDisplay.Text = "Account: N/A";
+                tslblSubDataRowCount.Text = "Total: 0";
+                tslblDeposit.Text = "Deposit: 0";
+                tslblWithdraw.Text = "Withdraw: 0";
+                tslblTransfer.Text = "Transfer: 0";
+                return;
+            }
+
+            // DEBUG: In ra RAW data của transactions
+            System.Diagnostics.Debug.WriteLine("\n=== RAW Transaction Data ===");
+            foreach (var trans in TransactionList.Transactions)
+            {
+                System.Diagnostics.Debug.WriteLine($"TransactionID: {trans.TransactionID}");
+                System.Diagnostics.Debug.WriteLine($"  FromAccountNumber: '{trans.FromAccountNumber}' (Length: {trans.FromAccountNumber?.Length ?? 0})");
+                System.Diagnostics.Debug.WriteLine($"  ToAccountNumber: '{trans.ToAccountNumber}' (Length: {trans.ToAccountNumber?.Length ?? 0})");
+                System.Diagnostics.Debug.WriteLine($"  Amount: {trans.Amount}");
+                System.Diagnostics.Debug.WriteLine($"  Sender: '{trans.Sender}'");
+                System.Diagnostics.Debug.WriteLine($"  Receiver: '{trans.Receiver}'");
+                System.Diagnostics.Debug.WriteLine($"  Type: {trans.Type}");
+                System.Diagnostics.Debug.WriteLine($"  Type: {trans.TransactionTime}");
+                System.Diagnostics.Debug.WriteLine("");
+            }
+            //System.Diagnostics.Debug.WriteLine("=============================\n");
+
+            // Lọc transactions theo account number
+            TransactionList.UpdateFilteredTransaction(accountNumber);
+
+            // Bind vào dgvSub
+            dgvSub.DataSource = null;
+            dgvSub.DataSource = TransactionList.Transactions;
+            dgvSub.Refresh();
+
+            // Cập nhật label hiển thị account number
+            lblAccountNumberDisplay.Text = $"Account: {accountNumber}";
+
+            // Format lại columns
+            if (dgvSub.Columns["Amount"] != null)
+                dgvSub.Columns["Amount"].DefaultCellStyle.Format = "N0";
+
+            // Cập nhật statistics
+            (int depositCount, int withdrawCount, int transferCount) = TransactionList.GetTotalItemsEachTransactionType();
+            tslblSubDataRowCount.Text = $"Total: {TransactionList.GetTotalItemsInList()}";
+            tslblDeposit.Text = $"Deposit: {depositCount}";
+            tslblWithdraw.Text = $"Withdraw: {withdrawCount}";
+            tslblTransfer.Text = $"Transfer: {transferCount}";
+        }
+
         // FORM, EVENTS
         public FormMain()
         {
@@ -55,12 +118,34 @@ namespace BankManagement
         {
             AccountList.ImportAccountListFromCSV();
             CustomerList.ImportCustomerListFromCSV();
+            TransactionList.ImportTransactionListFromCSV();
+
             // Tạo bản sao độc lập để so sánh về sau
             initAccountList = AccountList.Accounts.Select(a => new Account(a)).ToList();
+            dgvMain.RowsDefaultCellStyle.BackColor = Color.White;
+            dgvMain.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
+            dgvMain.AutoGenerateColumns = false;
+            dgvMain.DataSource = AccountList.Accounts;
+            dgvMain.Columns["Balance"].DefaultCellStyle.Format = "N0";
+            dgvMain.Columns["OpenAt"].DefaultCellStyle.Format = "dd/MM/yyyy";
 
-            dataGridView1.AutoGenerateColumns = false;
-            dataGridView1.DataSource = AccountList.Accounts; // dùng AccountList.Accounts
-            dataGridView1.Columns["Balance"].DefaultCellStyle.Format = "N2"; // Format lại cột Balance cho giống dạng tiền tệ hơn
+            dgvSub.AutoGenerateColumns = false;
+            dgvSub.RowsDefaultCellStyle.BackColor = Color.White;
+            dgvSub.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
+            LoadTransactionHistory(""); // Clear dgvSub khi khởi động
+
+            // In một vài thông số
+            (int dc, int cc, int sc) = AccountList.GetTotalItemsEachAccountType();
+            tslblDataRowCount.Text = "Total Items: " + AccountList.GetTotalItemsInList().ToString();
+            tslblDebitCount.Text = "Debit: " + dc;
+            tslblCreditCount.Text = "Credit: " + cc;
+            tslblSavingsCount.Text = "Savings: " + sc;
+
+            // Initialize sub status bar
+            tslblSubDataRowCount.Text = "Total: 0";
+            tslblDeposit.Text = "Deposit: 0";
+            tslblWithdraw.Text = "Withdraw: 0";
+            tslblTransfer.Text = "Transfer: 0";
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -76,8 +161,33 @@ namespace BankManagement
 
                 if (result == DialogResult.Yes)
                 {
-                    //SaveAccountsToCsv(initAccountList, csvPath);
-                    isChanged = false;
+                    try
+                    {
+                        // Lưu Account List vào CSV
+                        AccountList.SaveAccountsToCSV();
+
+                        // Lưu Customer List vào CSV (nếu có thay đổi)
+                        CustomerList.SaveCustomersToCSV();
+
+                        MessageBox.Show(
+                            "Lưu dữ liệu thành công!",
+                            "Thông báo",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+
+                        isChanged = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(
+                            $"Lỗi khi lưu dữ liệu:\n{ex.Message}",
+                            "Lỗi",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                        e.Cancel = true; // Không đóng form nếu lưu thất bại
+                    }
                 }
                 else if (result == DialogResult.Cancel)
                 {
@@ -86,12 +196,35 @@ namespace BankManagement
                 // Nếu No -> thoát mà không lưu
             }
         }
+        // Xử lý Add
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            //mở form Add
-            using var fadd = new FormAdd();
-            fadd.ShowDialog();
+            try
+            {
+                using var formAdd = new FormAdd(AccountList, CustomerList);
+                if (formAdd.ShowDialog() == DialogResult.OK)
+                {
+                    // Data đã được add vào list trong FormAdd
+                    ReloadAccountGrid(AccountList.Accounts);
+
+                    isChanged = true;
+
+                    MessageBox.Show(
+                        $"Đã thêm tài khoản: {formAdd.NewAccount?.AccountNumber}\n" +
+                        $"Khách hàng: {formAdd.NewCustomer?.LastName} {formAdd.NewCustomer?.FirstName}",
+                        "Thành công",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi phát sinh: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
         }
+        // Xử lý Search
         private void btnSearch_Click(object sender, EventArgs e)
         {
             string keyword = txtSearch.Text.Trim().ToLower();
@@ -113,6 +246,7 @@ namespace BankManagement
             ReloadAccountGrid(filtered);
             isNormalState = false;
         }
+        // Xử lý phụ cho Search, reload table
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtSearch.Text))
@@ -120,27 +254,73 @@ namespace BankManagement
                 ReloadAccountGrid(AccountList.Accounts);
             }
         }
-        private void ptb_OpenTransfer_Click(object sender, EventArgs e)
+        // Xử lý chức năng mở form tạo giao dịch
+        private void btnOpenTransfer_Click(object sender, EventArgs e)
         {
-            using var ftransfer = new FormTransfer();
+            using FormTransaction ftransfer = new FormTransaction();
             ftransfer.ShowDialog();
+
+            try
+            {
+                // FIX: Tạo instance mới để tránh conflict
+                var tempAccountMgr = new AccountManagement();
+                var tempCustomerMgr = new CustomerManagement();
+
+                tempAccountMgr.ImportAccountListFromCSV();
+                tempCustomerMgr.ImportCustomerListFromCSV();
+
+                // Clear và copy lại data
+                AccountList.ClearList();
+                foreach (Account acc in tempAccountMgr.Accounts)
+                {
+                    AccountList.AddAccount(acc);
+                }
+
+                CustomerList.ClearList();
+                foreach (Customer cust in tempCustomerMgr.Customers)
+                {
+                    CustomerList.AddCustomer(cust);
+                }
+
+                // Reload transaction list
+                TransactionList.ImportTransactionListFromCSV();
+
+                // Reset init list
+                initAccountList = AccountList.Accounts.Select(a => new Account(a)).ToList();
+                isChanged = false;
+
+                // Refresh DataGridView
+                ReloadAccountGrid(AccountList.Accounts);
+
+                // Clear dgvSub khi reload
+                LoadTransactionHistory("");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Lỗi khi tải lại dữ liệu sau giao dịch:\n{ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
         // Xử lý Edit, Delete
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvMain_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            string colName = dataGridView1.Columns[e.ColumnIndex].Name;
+            string colName = dgvMain.Columns[e.ColumnIndex].Name;
 
             if (colName == "Edit")
             {
                 // Lấy object Account từ DataBoundItem
-                if (dataGridView1.Rows[e.RowIndex].DataBoundItem is Account acc)
+                if (dgvMain.Rows[e.RowIndex].DataBoundItem is Account acc)
                 {
                     // Lấy Customer liên kết với Account
-                    var customer = CustomerList[acc.CustomerID];
+                    Customer? customer = CustomerList[acc.CustomerID];
                     if (customer != null)
                     {
-                        using var fedit = new FormEdit(acc, customer);
+                        using FormEdit fedit = new FormEdit(acc, customer);
                         if (fedit.ShowDialog() == DialogResult.OK)
                         {
                             // Cập nhật lại dữ liệu gốc từ form edit
@@ -174,29 +354,52 @@ namespace BankManagement
                 if (confirm == DialogResult.Yes)
                 {
                     // Lấy object Account đang hiển thị trên dòng được chọn
-                    var acc = dataGridView1.Rows[e.RowIndex].DataBoundItem as Account; // DataBoundItem trỏ đến danh sách gốc (chưa lọc)
+                    Account? acc = dgvMain.Rows[e.RowIndex].DataBoundItem as Account; // DataBoundItem trỏ đến danh sách gốc (chưa lọc)
                     if (acc != null)
                     {
                         AccountList.RemoveAccount(acc);
                         isChanged = true;
                         // Sau khi xóa, nếu đang tìm kiếm thì lọc lại, nếu không thì hiển thị toàn bộ
                         ReloadAccountGrid(AccountList.Accounts);
+
+                        // Clear dgvSub khi xóa account
+                        LoadTransactionHistory("");
                     }
                 }
             }
         }
-        // Xử lý Sort = Column Header
-        private void dataGridView1_ColumnHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        // Xử lý query lịch sử cho TẤT CẢ các cell
+        private void dgvMain_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            string colName = dataGridView1.Columns[e.ColumnIndex].Name;
-            List<Account>? sorted = null;
+            if (e.RowIndex < 0) return;
+            string colName = dgvMain.Columns[e.ColumnIndex].Name;
+            // Lấy Account từ row được chọn
+            if ( colName != "Edit" && colName != "Delete")
+            {
+                Account? acc = dgvMain.Rows[e.RowIndex].DataBoundItem as Account;
+                if (acc != null)
+                {
+                    LoadTransactionHistory(acc.AccountNumber);
+                }
+            }
+        }
 
+        // Xử lý Sort = Column Header
+        private void dgvMain_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string colName = dgvMain.Columns[e.ColumnIndex].Name;
+            List<Account>? sorted = null;
+            // Xoay vòng sort None->Asc->Desc->None
             if (colName == "AccountNumber")
             {
-                // Xoay vòng sort None->Asc->Desc->None
                 accountNumberSort = accountNumberSort == SortState.None ? SortState.Asc :
                                     accountNumberSort == SortState.Asc ? SortState.Desc : SortState.None;
-                balanceSort = SortState.None; accountTypeSorted = false;
+                // Reset các sort khác
+                balanceSort = SortState.None;
+                interestRateSort = SortState.None;
+                openAtSort = SortState.None;
+                accountTypeSorted = false;
+
                 if (accountNumberSort == SortState.Asc)
                     sorted = [.. AccountList.Accounts.OrderBy(a => a.AccountNumber.ToInt())];
                 else if (accountNumberSort == SortState.Desc)
@@ -206,16 +409,56 @@ namespace BankManagement
             {
                 balanceSort = balanceSort == SortState.None ? SortState.Asc :
                               balanceSort == SortState.Asc ? SortState.Desc : SortState.None;
-                accountNumberSort = SortState.None; accountTypeSorted = false;
+                // Reset các sort khác
+                accountNumberSort = SortState.None;
+                interestRateSort = SortState.None;
+                openAtSort = SortState.None;
+                accountTypeSorted = false;
+
                 if (balanceSort == SortState.Asc)
                     sorted = [.. AccountList.Accounts.OrderBy(a => a.Balance)];
                 else if (balanceSort == SortState.Desc)
                     sorted = [.. AccountList.Accounts.OrderByDescending(a => a.Balance)];
             }
-            else if (colName == "AccountType")
+            else if (colName == "InterestRate")
+            {
+                interestRateSort = interestRateSort == SortState.None ? SortState.Asc :
+                                   interestRateSort == SortState.Asc ? SortState.Desc : SortState.None;
+                // Reset các sort khác
+                accountNumberSort = SortState.None;
+                balanceSort = SortState.None;
+                openAtSort = SortState.None;
+                accountTypeSorted = false;
+
+                if (interestRateSort == SortState.Asc)
+                    sorted = [.. AccountList.Accounts.OrderBy(a => a.InterestRate)];
+                else if (interestRateSort == SortState.Desc)
+                    sorted = [.. AccountList.Accounts.OrderByDescending(a => a.InterestRate)];
+            }
+            else if (colName == "OpenAt")
+            {
+                openAtSort = openAtSort == SortState.None ? SortState.Asc :
+                             openAtSort == SortState.Asc ? SortState.Desc : SortState.None;
+                // Reset các sort khác
+                accountNumberSort = SortState.None;
+                balanceSort = SortState.None;
+                interestRateSort = SortState.None;
+                accountTypeSorted = false;
+
+                if (openAtSort == SortState.Asc)
+                    sorted = [.. AccountList.Accounts.OrderBy(a => a.OpenAt)];
+                else if (openAtSort == SortState.Desc)
+                    sorted = [.. AccountList.Accounts.OrderByDescending(a => a.OpenAt)];
+            }
+            else if (colName == "AccountType" || colName == "AccountTypeName")
             {
                 accountTypeSorted = !accountTypeSorted;
-                accountNumberSort = SortState.None; balanceSort = SortState.None;
+                // Reset các sort khác
+                accountNumberSort = SortState.None;
+                balanceSort = SortState.None;
+                interestRateSort = SortState.None;
+                openAtSort = SortState.None;
+
                 if (accountTypeSorted)
                     sorted = [.. AccountList.Accounts.OrderBy(a => (int)a.Type.Type)]; // Debit=0, Credit=1, Savings=2
             }
@@ -229,42 +472,81 @@ namespace BankManagement
                     ReloadAccountGrid(AccountList.Accounts); // Hủy sort
                     isNormalState = true; // Trả về trạng thái bình thường để tránh reload liên tục
                 }
-            }   
+            }
         }
         // Xử lý Liên kết Form Customer
-        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvMain_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
-            string colName = dataGridView1.Columns[e.ColumnIndex].Name;
+            string colName = dgvMain.Columns[e.ColumnIndex].Name;
             if (colName == "Edit" || colName == "Delete") return;
 
-            var acc = dataGridView1.Rows[e.RowIndex].DataBoundItem as Account;
+            Account? acc = dgvMain.Rows[e.RowIndex].DataBoundItem as Account;
             if (acc != null)
             {
-                var customer = CustomerList[acc.CustomerID];
+                Customer? customer = CustomerList[acc.CustomerID];
                 if (customer != null)
                 {
-                    using var fCustomer = new FormCustomer(acc, customer);
+                    using FormCustomer fCustomer = new FormCustomer(acc, customer);
                     if (fCustomer.ShowDialog() == DialogResult.OK)
                     {
-                        // Cập nhật lại danh sách gốc nếu có thay đổi
-                        acc.SetBalance(fCustomer.SelectedAccount.Balance);
-                        customer.UpdateInfo(
-                            fCustomer.SelectedCustomer.LastName,
-                            fCustomer.SelectedCustomer.FirstName,
-                            fCustomer.SelectedCustomer.CID,
-                            fCustomer.SelectedCustomer.Address,
-                            fCustomer.SelectedCustomer.Email,
-                            fCustomer.SelectedCustomer.Phone,
-                            fCustomer.SelectedCustomer.BirthDate.ToString("dd/MM/yyyy"),
-                            fCustomer.SelectedCustomer.Gender
-                        );
-                        ReloadAccountGrid(AccountList.Accounts);
-                        isChanged = true;
+                        // Tìm lại object GỐC trong list để đảm bảo cập nhật đúng
+                        Account? originalAccount = AccountList[acc.AccountNumber];
+                        Customer? originalCustomer = CustomerList[acc.CustomerID];
+
+                        if (originalAccount != null && originalCustomer != null)
+                        {
+                            // Cập nhật Account gốc
+                            originalAccount.SetBalance(fCustomer.SelectedAccount.Balance);
+                            originalAccount.ChangeInterestRate(fCustomer.SelectedAccount.InterestRate);
+
+                            // Cập nhật Customer gốc
+                            originalCustomer.UpdateInfo(
+                                fCustomer.SelectedCustomer.LastName,
+                                fCustomer.SelectedCustomer.FirstName,
+                                fCustomer.SelectedCustomer.CID,
+                                fCustomer.SelectedCustomer.Address,
+                                fCustomer.SelectedCustomer.Email,
+                                fCustomer.SelectedCustomer.Phone,
+                                fCustomer.SelectedCustomer.BirthDate.ToString("dd/MM/yyyy"),
+                                fCustomer.SelectedCustomer.Gender
+                            );
+
+                            ReloadAccountGrid(AccountList.Accounts);
+                            isChanged = true;
+
+                            // Reload transaction history nếu đang hiển thị account này
+                            LoadTransactionHistory(acc.AccountNumber);
+                        }
                     }
                 }
             }
         }
-        
+
+        // Event handler double-click cho dgvSub để mở FormBill
+        private void dgvSub_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            // Lấy Transaction object từ dòng được chọn
+            Transaction? trans = dgvSub.Rows[e.RowIndex].DataBoundItem as Transaction;
+            if (trans != null)
+            {
+                try
+                {
+                    using FormBill fBill = new FormBill(trans);
+                    fBill.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(
+                        $"Lỗi khi hiển thị chi tiết giao dịch:\n{ex.Message}",
+                        "Lỗi",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
+            }
+        }
     }
 }

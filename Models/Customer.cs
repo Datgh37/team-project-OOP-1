@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BankManagement.Models
@@ -14,16 +15,38 @@ namespace BankManagement.Models
         Female = 2, 
         Other = 3
     }
+    
     public class Customer
     {
         private string _phone = ""; // Backing field for Phone property
         private string _email = ""; // Backing field for Email property
+        private string _cid = "";   // Backing field for CID property
+        private DateTime _dob;
         public Guid UID { get; private set; } // Customer UniqueID
-        public string CID { get; private set; } // Citizen ID
+        
+        // ✅ NEW: CID with validation
+        public string CID // Optional, Can be Empty, 9 digits if provided
+        { 
+            get => _cid; 
+            private set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    _cid = "";
+                    return;
+                }
+              
+                string pattern = @"^\d{9}$";
+                if (Regex.IsMatch(value, pattern))
+                    _cid = value;
+                else
+                    throw new FormatException("CID must be exactly 9 digits!");
+            }
+        }
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string Address { get; set; }
-        public string Email // Optional, Nullable, Follow Email format
+        public string Email // Optional, Can be Empty, Follow Email format
         { 
             get => _email; 
             set
@@ -34,13 +57,13 @@ namespace BankManagement.Models
                     return;
                 }
                 //string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$"; // Basic email pattern
-                string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"; // More strict email pattern
-                if (System.Text.RegularExpressions.Regex.IsMatch(value, pattern))
-                    _email = value;
-                else
-                    throw new FormatException("Email format is invalid!");
+                //string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"; // More strict email pattern
+                //if (System.Text.RegularExpressions.Regex.IsMatch(value, pattern))
+                //    _email = value;
+                //else
+                //    throw new FormatException("Email format is invalid!");
                 // Alternative method using MailAddress class
-                /*try
+                try
                 {
                     var addr = new System.Net.Mail.MailAddress(value);
                     _email = addr.Address;
@@ -48,10 +71,10 @@ namespace BankManagement.Models
                 catch
                 {
                     throw new FormatException("Email format is invalid!");
-                }*/
+                }
             }
         } 
-        public string Phone // 10 Digits, Nullable
+        public string Phone // Optional, Can be Empty, 10 Digits
         {
             get => _phone; 
             set 
@@ -67,14 +90,41 @@ namespace BankManagement.Models
                     throw new FormatException("Phone number must be exactly 10 digits!");
             }
         } 
-        public DateTime BirthDate { get; set; }
+        
+        public DateTime BirthDate 
+        {
+            get => _dob; 
+            set
+            {
+
+                if (value.Date > DateTime.Now.Date)
+                    throw new ArgumentException("Birth date cannot be in the future!");
+                
+                if (DateTime.Now.Year - value.Year > 150)
+                    throw new ArgumentException("Birth date is too old (maximum 150 years)!");
+                
+                int age = DateTime.Now.Year - value.Year;
+                
+                if (value.Date > DateTime.Now.Date.AddYears(-age))
+                {
+                    age--;
+                }
+
+                if (age < 15)
+                    throw new ArgumentException($"Customer must be at least 15 years old! Current age: {age}");
+                
+                _dob = value;
+            }
+        }
         public Gender Gender { get; set; }
+
         public Customer()
         {
             UID = Guid.NewGuid();
             CID = LastName = FirstName = Address = Email = Phone = string.Empty;
             Gender = Gender.None;
         }
+        
         public Customer(string lastName, string firstName, Gender gender = Gender.None)
         {
             UID = Guid.NewGuid();
@@ -84,6 +134,7 @@ namespace BankManagement.Models
             Address = Email = Phone = string.Empty;
             Gender = gender;
         }
+        
         public Customer(string lastName, string firstName, string cid, string address, string email, string phone, DateTime birthDate, Gender gender = Gender.None)
             : this(lastName, firstName, gender)
         {
@@ -93,11 +144,13 @@ namespace BankManagement.Models
             Phone = phone;
             BirthDate = birthDate;
         }
+        
         public Customer(Customer c)
             : this(c.LastName, c.FirstName, c.CID, c.Address, c.Email, c.Phone, c.BirthDate, c.Gender)
         {
             this.UID = c.UID;
         }
+        
         public Customer(string dataLine)
         {
             var line = dataLine.Split(",");
@@ -114,13 +167,13 @@ namespace BankManagement.Models
         }
         public void UpdateInfo(string lastName, string firstName)
         {
-            if (lastName != null) LastName = lastName;
-            if (firstName != null) FirstName = firstName;
+            if (!string.IsNullOrEmpty(lastName)) LastName = lastName;
+            if (!string.IsNullOrEmpty(lastName)) FirstName = firstName;
         }
         public void UpdateInfo(string lastName, string firstName, string cid)
         {
             UpdateInfo(lastName, firstName);
-            if (cid != null) CID = cid;
+            if (!string.IsNullOrEmpty(lastName)) CID = cid;
         }
         public void UpdateInfo(string lastName, string firstName, string cid, string address)
         {

@@ -24,7 +24,6 @@ namespace BankManagement
 
         private void FormFlash_Load(object sender, EventArgs e)
         {
-            base.OnShown(e);
             this.ActiveControl = null;
         }
     }

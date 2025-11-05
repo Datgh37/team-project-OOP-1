@@ -13,6 +13,8 @@ namespace BankManagement.Utils
         public List<Customer> Customers { get => _customers; }
         public void AddCustomer(Customer customer)
         {
+            if (customer == null)
+                throw new ArgumentNullException(nameof(customer), "Customer cannot be null!");
             if (_customers.Any(c => c.UID == customer.UID || c.CID == customer.CID))
                 throw new Exception("Customer already exists!");
             _customers.Add(customer);
@@ -29,6 +31,10 @@ namespace BankManagement.Utils
             if (customer == null)
                 throw new Exception("Customer Not Found");
             _customers.Remove(customer);
+        }
+        public void ClearList()
+        {
+            _customers.Clear();
         }
         //public void RemoveCustomer(string cid) => _customers.RemoveAll(c => c.CID == cid);
         public Customer? FindById(Guid id) => _customers.FirstOrDefault(c => c.UID == id);
@@ -77,6 +83,11 @@ namespace BankManagement.Utils
                     }
                 }
             }
+        }
+        public void SaveCustomersToCSV(string filePath = "")
+        {
+            filePath = string.IsNullOrEmpty(filePath) ? GlobalSettings.CustomerInfoPath : filePath;
+            _customers.SaveCSV(filePath);
         }
     }
 }
