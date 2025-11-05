@@ -27,11 +27,11 @@ namespace BankManagement
         {
             // Attach event handler for Main Form menu item, using lambda expression
             tsmiMainForm.Click += (_, __) => OpenChild<FormMain>();
-            //tsmiAddForm.Click += (_, __) => OpenChild<FormAdd>();
+            tsmiAddForm.Click += (_, __) => OpenChild<FormAdd>();
             //tsmiEditForm.Click += (_, __) => OpenChild<FormEdit>();
             //tsmiCustomerForm.Click += (_, __) => OpenChild<FormCustomer>();
-            //tsmiTransactionForm.Click += (_, __) => OpenChild<FormTransaction>();
-            //tsmiTransactionBillForm.Click += (_, __) => OpenChild<FormTransactionBill>();
+            tsmiTransactionForm.Click += (_, __) => OpenChild<FormTransaction>();
+            //tsmiTransactionBillForm.Click += (_, __) => OpenChild<FormBill>();
 
             // Attach event handlers for MDI layout menu items
             tsmiCascade.Click += (_, __) => LayoutMdi(MdiLayout.Cascade);

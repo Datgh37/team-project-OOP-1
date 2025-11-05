@@ -47,6 +47,7 @@
             Name = "FormFlash";
             ShowIcon = false;
             ShowInTaskbar = false;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Form1";
             TopMost = true;
             Load += FormFlash_Load;

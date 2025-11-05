@@ -11,13 +11,13 @@ namespace BankManagement.Models
         private static int _number = 10000; // Initial Bank Number
         //public string BankName { get; set; }
         public string AccountNumber { get; } // Bank Account Number, Read Only, Unique
-        public Guid CustomerID { get ; private set; } // Customer ID, Account Owner, Unique
         public double Balance { get; private set; } // Balance, with Debit/Savings account, Debt with Credit account
         public double InterestRate { get; private set; }
+        public DateTime OpenAt { get; } // Account Open Time, Read Only
         public AccountType Type { get; } // Account Type (Debit / Credit / Savings)
         public string AccountTypeName { get => Type.AccType; } // A separate property to get data from Type
-        public DateTime OpenAt { get; } // Account Open Time, Read Only
-       
+        public Guid CustomerID { get; private set; } // Customer ID, Account Owner, Unique
+        
         // CONSTRUCTOR
         // No Need for parameterless Constructor, currently using Full optional constructor
         public Account(AccountTypeEnum type = AccountTypeEnum.Debit, double initBalance = 0, Customer? customer = null)
@@ -34,14 +34,36 @@ namespace BankManagement.Models
         public Account(string dataLine)
         {
             string[] line = dataLine.Split(",");
+            if (line.Length < 6)
+                throw new FormatException($"Invalid account data line. Expected 6 fields, got {line.Length}");
+            
             AccountNumber = line[0];
             Balance = line[1].ToDouble();
             InterestRate = line[2].ToDouble();
             OpenAt = line[3].ToDateMonthYear();
-            // Parse enum from number or string
-            AccountTypeEnum typeEnum = (AccountTypeEnum)Enum.Parse(typeof(AccountTypeEnum), line[4]);
+            
+            // Parse enum - handle both integer and string format
+            AccountTypeEnum typeEnum;
+            if (int.TryParse(line[4], out int enumValue))
+            {
+                typeEnum = (AccountTypeEnum)enumValue;
+            }
+            else
+            {
+                typeEnum = (AccountTypeEnum)Enum.Parse(typeof(AccountTypeEnum), line[4]);
+            }
             Type = new AccountType(typeEnum, InterestRate);
-            CustomerID = Guid.Parse(line[5]);
+            
+            // Parse GUID (support both formats)
+            string guidString = line[5].Trim();
+            if (guidString.Length == 32) // No hyphens
+            {
+                guidString = $"{guidString.Substring(0, 8)}-{guidString.Substring(8, 4)}-" +
+                            $"{guidString.Substring(12, 4)}-{guidString.Substring(16, 4)}-{guidString[20..]}";
+            }
+            if (!Guid.TryParse(guidString, out Guid parsedGuid))
+                throw new FormatException($"Invalid CustomerID: {guidString}");
+            CustomerID = parsedGuid;
         }
         public Account(Account acc) // Copy Constructor
         {
@@ -69,6 +91,7 @@ namespace BankManagement.Models
         }
         public void ChangeInterestRate(double rate)
         {
+            if (rate == InterestRate) return;
             switch (Type.AccType)
             {
                 case "Debit":
@@ -90,7 +113,7 @@ namespace BankManagement.Models
                     throw new Exception("Unexpected Error");
             }
         }
-        public void ApplyInterest() => Balance += Balance * (InterestRate / 100);
+        public void ApplyInterest() => Balance += Math.Abs(Balance) * (InterestRate / 100);
         public void Deposit(double amount)
         {
             if (amount < 0) throw new ArgumentException("Invalid Amount!");
@@ -98,8 +121,15 @@ namespace BankManagement.Models
         }
         public void Withdraw(double amount)
         {
-            if (amount < 0) throw new ArgumentException("Invalid Amount!");
-            else if (Balance < amount && !Type.AllowOverdraft) throw new InvalidOperationException("Insufficient Balance!");
+            if (amount < 0) 
+                throw new ArgumentException("Invalid Amount!");
+            
+            if (!Type.AllowOverdraft && Balance < amount)
+                throw new InvalidOperationException("Insufficient Balance!");
+
+            if (Type.AllowOverdraft && (Balance - amount) < -Type.CreditLimit)
+                throw new InvalidOperationException($"Exceeds Credit Limit! Maximum overdraft: {MoneyFmt.Format(Type.CreditLimit)}");
+            
             Balance -= amount;
         }
         // Update Account Number in case of importing external file to avoid conflicts
@@ -115,8 +145,8 @@ namespace BankManagement.Models
     }
     internal static class MoneyFmt
     {
-        public static string Format(double amount) =>
-            string.Format("{0:N2} VND", amount);
+        public static string Format(double? amount) =>
+           string.Format("{0:N0} VND", amount);
         // Format amount, 0: First parameter, N: Number format, 2: Number of decimal digit
         // Ex: 10000 => 10000.00 VND
     }

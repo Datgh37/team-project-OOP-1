@@ -36,15 +36,11 @@
             tsiForms = new ToolStripMenuItem();
             tsmiMainForm = new ToolStripMenuItem();
             tsmiAddForm = new ToolStripMenuItem();
-            tsmiEditForm = new ToolStripMenuItem();
-            tsmiCustomerForm = new ToolStripMenuItem();
             tsmiTransactionForm = new ToolStripMenuItem();
-            tsmiTransactionBillForm = new ToolStripMenuItem();
             tsiMenu = new ToolStripMenuItem();
             tsmiCascade = new ToolStripMenuItem();
             tsmiTileHorizontal = new ToolStripMenuItem();
             tsmiTileVertical = new ToolStripMenuItem();
-            toolStrip1 = new ToolStrip();
             contextMenuStrip1 = new ContextMenuStrip(components);
             toolStripSeparator1 = new ToolStripSeparator();
             statusStrip.SuspendLayout();
@@ -86,7 +82,7 @@
             // 
             // tsiForms
             // 
-            tsiForms.DropDownItems.AddRange(new ToolStripItem[] { tsmiMainForm, tsmiAddForm, tsmiEditForm, tsmiCustomerForm, tsmiTransactionForm, tsmiTransactionBillForm });
+            tsiForms.DropDownItems.AddRange(new ToolStripItem[] { tsmiMainForm, tsmiAddForm, tsmiTransactionForm });
             tsiForms.Name = "tsiForms";
             tsiForms.Size = new Size(68, 25);
             tsiForms.Text = "Forms";
@@ -94,38 +90,20 @@
             // tsmiMainForm
             // 
             tsmiMainForm.Name = "tsmiMainForm";
-            tsmiMainForm.Size = new Size(173, 26);
+            tsmiMainForm.Size = new Size(224, 26);
             tsmiMainForm.Text = "Main";
             // 
             // tsmiAddForm
             // 
             tsmiAddForm.Name = "tsmiAddForm";
-            tsmiAddForm.Size = new Size(173, 26);
+            tsmiAddForm.Size = new Size(224, 26);
             tsmiAddForm.Text = "Add";
-            // 
-            // tsmiEditForm
-            // 
-            tsmiEditForm.Name = "tsmiEditForm";
-            tsmiEditForm.Size = new Size(173, 26);
-            tsmiEditForm.Text = "Edit";
-            // 
-            // tsmiCustomerForm
-            // 
-            tsmiCustomerForm.Name = "tsmiCustomerForm";
-            tsmiCustomerForm.Size = new Size(173, 26);
-            tsmiCustomerForm.Text = "Customer";
             // 
             // tsmiTransactionForm
             // 
             tsmiTransactionForm.Name = "tsmiTransactionForm";
-            tsmiTransactionForm.Size = new Size(173, 26);
+            tsmiTransactionForm.Size = new Size(224, 26);
             tsmiTransactionForm.Text = "Transaction";
-            // 
-            // tsmiTransactionBillForm
-            // 
-            tsmiTransactionBillForm.Name = "tsmiTransactionBillForm";
-            tsmiTransactionBillForm.Size = new Size(173, 26);
-            tsmiTransactionBillForm.Text = "Bill";
             // 
             // tsiMenu
             // 
@@ -137,29 +115,20 @@
             // tsmiCascade
             // 
             tsmiCascade.Name = "tsmiCascade";
-            tsmiCascade.Size = new Size(194, 26);
+            tsmiCascade.Size = new Size(224, 26);
             tsmiCascade.Text = "Cascade";
             // 
             // tsmiTileHorizontal
             // 
             tsmiTileHorizontal.Name = "tsmiTileHorizontal";
-            tsmiTileHorizontal.Size = new Size(194, 26);
+            tsmiTileHorizontal.Size = new Size(224, 26);
             tsmiTileHorizontal.Text = "Tile Horizontal";
             // 
             // tsmiTileVertical
             // 
             tsmiTileVertical.Name = "tsmiTileVertical";
-            tsmiTileVertical.Size = new Size(194, 26);
+            tsmiTileVertical.Size = new Size(224, 26);
             tsmiTileVertical.Text = "Tile Vertical";
-            // 
-            // toolStrip1
-            // 
-            toolStrip1.ImageScalingSize = new Size(20, 20);
-            toolStrip1.Location = new Point(0, 29);
-            toolStrip1.Name = "toolStrip1";
-            toolStrip1.Size = new Size(1084, 25);
-            toolStrip1.TabIndex = 3;
-            toolStrip1.Text = "toolStrip1";
             // 
             // contextMenuStrip1
             // 
@@ -178,7 +147,6 @@
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1084, 566);
-            Controls.Add(toolStrip1);
             Controls.Add(statusStrip);
             Controls.Add(menuStrip1);
             IsMdiContainer = true;
@@ -204,7 +172,6 @@
         private ToolStripStatusLabel tslblStatus;
         private ToolStripStatusLabel tslblDateTime;
         private MenuStrip menuStrip1;
-        private ToolStrip toolStrip1;
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripMenuItem tsiForms;
@@ -214,9 +181,6 @@
         private ToolStripMenuItem tsmiTileVertical;
         private ToolStripMenuItem tsmiMainForm;
         private ToolStripMenuItem tsmiAddForm;
-        private ToolStripMenuItem tsmiEditForm;
         private ToolStripMenuItem tsmiTransactionForm;
-        private ToolStripMenuItem tsmiTransactionBillForm;
-        private ToolStripMenuItem tsmiCustomerForm;
     }
 }

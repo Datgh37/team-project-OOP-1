@@ -10,15 +10,23 @@ namespace BankManagement.Utils
     public class AccountManagement
     {
         private readonly List<Account> _accounts = new(); // Bank Accounts
-        private readonly List<Transaction> _transactions = new(); // Transactions
         public List<Account> Accounts { get => _accounts; } // Public List to access
-        public List<Transaction> Transactions { get => _transactions; }
         // CRUD: Create, Read, Update, Delete
         public void AddAccount(Account account)
         {
-            // Validate to check if duplicates account
+            if (account == null)
+                throw new ArgumentNullException(nameof(account), "Account cannot be null!");
+            
             if (_accounts.Any(a => a.AccountNumber == account.AccountNumber))
-                throw new Exception("Account already exists!");
+                throw new InvalidOperationException($"Account {account.AccountNumber} already exists!");
+            
+            if (HasAccountType(account.CustomerID, account.Type.Type))
+            {
+                throw new InvalidOperationException(
+                    $"Customer already has a {account.Type.AccType} account! " +
+                    "Each customer can only have one account of each type.");
+            }
+            
             _accounts.Add(account);
         }
         public void RemoveAccount(Account account) // Remove Directly
@@ -36,7 +44,10 @@ namespace BankManagement.Utils
             }
             else throw new Exception("Account Not Found!");
         }
-
+        public void ClearList()
+        {
+            _accounts.Clear();
+        }
         /* Alternative Remove Approach
         public bool RemoveAccount(Account account) // Remove Directly
         {
@@ -87,33 +98,70 @@ namespace BankManagement.Utils
             }
         }
         // MISC
-        // Get List from CSV File
-        public void ImportAccountListFromCSV(string fileName = "")
+        // Get Statistic
+        public int GetTotalItemsInList()
         {
-            fileName = (fileName == "") ? GlobalSettings.AccountInfoPath : fileName; // Get default path
-            _accounts.Clear(); // Clear all old data to import new form File
-            // Stream Reader, read file content
-            using (StreamReader reader = new StreamReader(fileName))
+            return _accounts.Count;
+        }
+        public (int, int, int) GetTotalItemsEachAccountType()
+        {
+            int d = 0, c = 0, s = 0;
+            foreach(Account acc in _accounts)
             {
-                if (!reader.EndOfStream) reader.ReadLine(); // Skip Header line
+                switch (acc.AccountTypeName)
+                {
+                    case "Debit":
+                        d++;
+                        break;
+                    case "Credit":
+                        c++;
+                        break;
+                    case "Savings":
+                        s++;
+                        break;
+                    default:
+                        throw new ArgumentException("Unexpected Error!");
+                }
+            }
+            return (d,c,s);
+        }
+        
+        // List Interaction with CSV File
+        public void ImportAccountListFromCSV(string filePath = "")
+        {
+            filePath = (filePath == "") ? GlobalSettings.AccountInfoPath : filePath;
+            _accounts.Clear();
+            
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                if (!reader.EndOfStream) reader.ReadLine(); // Skip Header
+                int lineNumber = 1; // Track line numbers for debugging
                 while (!reader.EndOfStream)
                 {
                     string? line = reader.ReadLine();
+                    lineNumber++;
                     if (!string.IsNullOrWhiteSpace(line))
                     {
-                        Account acc = new Account(line);
-                        _accounts.Add(acc);
-                    } 
+                        try
+                        {
+                            Account acc = new Account(line);
+                            _accounts.Add(acc);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new FormatException($"Error parsing line {lineNumber}: {line}", ex);
+                        }
+                    }
                 }
             }
             Account.UpdateAccountNumberSeed(_accounts);
         }
-        public List<Account> GetAccountListFromCSV(string fileName = "")
+        public List<Account> GetAccountListFromCSV(string filePath = "")
         {
-            fileName = (fileName == "") ? GlobalSettings.AccountInfoPath : fileName; // Get default path
+            filePath = (filePath == "") ? GlobalSettings.AccountInfoPath : filePath; // Get default path
             var accounts = new List<Account>();
             // Stream Reader, read file content
-            using (StreamReader reader = new StreamReader(fileName))
+            using (StreamReader reader = new StreamReader(filePath))
             {
                 if (!reader.EndOfStream) reader.ReadLine(); // Skip Header line
                 while (!reader.EndOfStream)
@@ -128,57 +176,40 @@ namespace BankManagement.Utils
             }
             Account.UpdateAccountNumberSeed(accounts);
             return accounts;
-        }
-        // Transaction methods
-        public void Deposit(string accNumber, double amount) 
+        }  
+        public void SaveAccountsToCSV(string filePath = "")
         {
-            try
-            {
-                GetOrThrow(accNumber).Deposit(amount);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Deposit failed for Account[{accNumber}]\nError:", ex);
-            }
-        }
-        public void Withdraw(string accNumber, double amount)
-        {
-            try
-            {                
-                GetOrThrow(accNumber).Withdraw(amount);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Withdraw failed for Account[{accNumber}]\nError:", ex);
-            }
-        }
-        // Note: May be will develop to transfer to different Banks later
-        public void Transfer(string fromNumber, string toNumber, double amount)
-        {
-            var from = GetOrThrow(fromNumber); // Get From Account
-            var to = GetOrThrow(toNumber); // Get To Account
+            filePath = string.IsNullOrEmpty(filePath) ? GlobalSettings.AccountInfoPath : filePath;
+            _accounts.SaveCSV(filePath);
+            //StringBuilder csv = new StringBuilder();
+            //csv.AppendLine("AccountNumber,Balance,InterestRate,OpenAt,AccountTypeName,CustomerID");
 
-            ValidateTransfer(from, to, amount);
-            from.Withdraw(amount);
-            to.Deposit(amount);
+            //foreach (var acc in _accounts)
+            //{
+            //    string line = $"{acc.AccountNumber},{acc.Balance},{acc.InterestRate}," +
+            //                 $"{acc.OpenAt:dd-MM-yyyy},{(int)acc.Type.Type},{acc.CustomerID:N}";
+            //    csv.AppendLine(line);
+            //}
 
-            Transaction trans = new Transaction(fromNumber, toNumber, amount, TransactionType.Transfer);
-            _transactions.Add(trans);
-        }
-        private void ValidateTransfer(Account fromAcc, Account toAcc, double amount) 
-        {
-            if (fromAcc == toAcc)
-                throw new Exception("Cannot transfer to the same account!");
-            if (fromAcc.Type.CanTransfer == false)
-                throw new Exception("This account cannot be used to transfer money!");
-            if (amount <= 0)
-                throw new ArgumentException("Transfer amount must be a positive value (amount > 0)!");
-            if (!fromAcc.Type.AllowOverdraft && fromAcc.Balance < amount)
-                throw new InvalidOperationException("Insufficient Balance!");
-            if (fromAcc.Type.AllowOverdraft && (fromAcc.Balance - amount) < -fromAcc.Type.CreditLimit)
-                    throw new InvalidOperationException("Exceeds Credit Limit!");
+            //File.WriteAllText(filePath, csv.ToString(), Encoding.UTF8);
         }
         private Account GetOrThrow(string accNumber) =>
             this[accNumber] ?? throw new Exception("Account Not Exist!");
+
+        // Check if customer already has this account type
+        public bool HasAccountType(Guid customerId, AccountTypeEnum accountType)
+        {
+            return _accounts.Any(a => 
+                a.CustomerID == customerId && 
+                a.Type.Type == accountType);
+        }
+        
+        // Get existing account of same type for customer
+        public Account? GetAccountByCustomerAndType(Guid customerId, AccountTypeEnum accountType)
+        {
+            return _accounts.FirstOrDefault(a => 
+                a.CustomerID == customerId && 
+                a.Type.Type == accountType);
+        }
     }
 }

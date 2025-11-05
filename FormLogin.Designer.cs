@@ -60,7 +60,7 @@
             pnlLogin.Location = new Point(0, 0);
             pnlLogin.Margin = new Padding(4);
             pnlLogin.Name = "pnlLogin";
-            pnlLogin.Size = new Size(969, 505);
+            pnlLogin.Size = new Size(969, 468);
             pnlLogin.TabIndex = 0;
             // 
             // btnCancel
@@ -169,7 +169,7 @@
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(969, 505);
+            ClientSize = new Size(969, 468);
             Controls.Add(pnlLogin);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4);
