@@ -13,36 +13,26 @@ namespace BankManagement
 {
     public partial class FormMenu : Form
     {
+        private Panel panelMenu;
+        private Button currentBtn;
+        private Form activeForm = null;
+        public Action OnAddButtonClick;
+        public Action OnTransferButtonClick;
         private System.Windows.Forms.Timer? _clockTimer;
         public FormMenu()
         {
             InitializeComponent();
-            ConfigureMenu();
             StartClock();
-
-            // Open FormMain on startup (optional)
-            OpenChild<FormMain>();
+            pictureBoxClose.Visible = false;
         }
-        private void ConfigureMenu()
+        private void FormMenu_Load(object sender, EventArgs e)
         {
-            // Attach event handler for Main Form menu item, using lambda expression
-            tsmiMainForm.Click += (_, __) => OpenChild<FormMain>();
-            tsmiAddForm.Click += (_, __) => OpenChild<FormAdd>();
-            //tsmiEditForm.Click += (_, __) => OpenChild<FormEdit>();
-            //tsmiCustomerForm.Click += (_, __) => OpenChild<FormCustomer>();
-            tsmiTransactionForm.Click += (_, __) => OpenChild<FormTransaction>();
-            //tsmiTransactionBillForm.Click += (_, __) => OpenChild<FormBill>();
+            // Start the parent form fullscreen
+            this.WindowState = FormWindowState.Maximized;
 
-            // Attach event handlers for MDI layout menu items
-            tsmiCascade.Click += (_, __) => LayoutMdi(MdiLayout.Cascade);
-            tsmiTileHorizontal.Click += (_, __) => LayoutMdi(MdiLayout.TileHorizontal);
-            tsmiTileVertical.Click += (_, __) => LayoutMdi(MdiLayout.TileVertical);
-            //tsiArrange.Click += (_, __) => LayoutMdi(MdiLayout.ArrangeIcons);
-
-            // Set the MDI window list item for the Window menu
-            //menuStrip1.MdiWindowListItem = windowMenu;
+            // Ensure child visibility follows parent window state
+            this.Resize += FormMenu_Resize;
         }
-
         private void StartClock()
         {
             _clockTimer = new System.Windows.Forms.Timer { Interval = 1000, Enabled = true };
@@ -50,54 +40,115 @@ namespace BankManagement
             tslblDateTime.Text = DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss");
             tslblStatus.Text = "Ready";
         }
-        // Ensures a single instance per form type and activates if already open
-        private void OpenChild<TForm>() where TForm : Form, new()
+        private void ActivateButton(object btnSender)
         {
-            var existing = MdiChildren.FirstOrDefault(f => f is TForm);
-            if (existing != null)
+            if (btnSender != null)
             {
-                existing.WindowState = FormWindowState.Maximized;
-                existing.Activate();
-                return;
-            }
-
-            var form = new TForm
-            {
-                MdiParent = this,
-                StartPosition = FormStartPosition.CenterParent
-            };
-            form.WindowState = FormWindowState.Normal;
-            form.FormClosed += (_, __) => tslblStatus.Text = "Ready";
-            // Change Status of the status label
-            tslblStatus.Text = $"Opened {typeof(TForm).Name}";
-            form.Show();
-        }
-        // Handle Icon for Maximized Child Form
-        private void FormMenu_MdiChildActivate(object? sender, EventArgs e)
-        {
-            if (this.ActiveMdiChild != null && this.ActiveMdiChild.WindowState == FormWindowState.Maximized)
-            {
-                if (this.ActiveMdiChild.Icon != null)
-                    this.Icon = this.ActiveMdiChild.Icon;
-            }
-        }
-        // Handle Closing and Checks all remains Child Form 
-        private void FormMenu_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            // Đóng tất cả form con
-            foreach (var child in MdiChildren)
-            {
-                if (!child.IsDisposed)
+                if (currentBtn != (Button)btnSender)
                 {
-                    child.Close(); // Will call FormClosing/Closed in Child form
-                    if (!child.IsDisposed) // If child form refuses to close (e.Cancel = true)
-                    {
-                        e.Cancel = true; // Cancel
-                        return;
-                    }
+                    DisableButton();
+                    currentBtn = (Button)btnSender;
+                    currentBtn.BackColor = Color.FromArgb(67, 69, 94);
+                    currentBtn.ForeColor = Color.White;
+                    currentBtn.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
                 }
             }
         }
+        private void DisableButton()
+        {
+            foreach (Control previousBtn in panel1.Controls)
+            {
+                if (previousBtn.GetType() == typeof(Button))
+                {
+                    previousBtn.BackColor = Color.FromArgb(50, 52, 76);
+                    previousBtn.ForeColor = Color.Gainsboro;
+                    previousBtn.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+                }
+            }
+        }
+        private void OpenChildForm(Form childForm, object btnSender)
+        {
+            if (activeForm != null)
+            {
+                // Đóng form con trước đó
+                activeForm.Close();
+            }
+
+            ActivateButton(btnSender);
+
+            activeForm = childForm;
+
+            // Prepare the form for embedding inside panelDesktop.
+            // Important: ensure the child is in Normal state so Dock = Fill behaves correctly
+            childForm.TopLevel = false; // Đảm bảo không là cửa sổ riêng
+            childForm.ShowInTaskbar = false; // avoid separate taskbar entry
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.WindowState = FormWindowState.Normal; // reset any designer Maximized
+            childForm.Dock = DockStyle.Fill;
+            //childForm.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+            // Gắn form con vào panel cha
+            panelDesktop.Controls.Clear(); // Nên clear tránh chồng form
+            panelDesktop.Controls.Add(childForm);
+            panelDesktop.Tag = childForm;
+
+            childForm.BringToFront();
+            childForm.Show();
+        }
+
+        // Keep child visibility/sizing in sync when parent is minimized/restored
+        private void FormMenu_Resize(object? sender, EventArgs e)
+        {
+            if (activeForm == null) return;
+
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                // Hide embedded form (prevents it appearing in taskbar or staying visible)
+                activeForm.Visible = false;
+            }
+            else
+            {
+                // Restore visibility and ensure layout is correct
+                activeForm.Visible = true;
+                activeForm.WindowState = FormWindowState.Normal;
+                // Ensure docking/size recomputed
+                activeForm.Dock = DockStyle.Fill;
+                activeForm.BringToFront();
+            }
+        }
+
+        private void btnHome_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormMain(this), sender);
+            pictureBoxClose.Visible = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            OnTransferButtonClick?.Invoke();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OnAddButtonClick?.Invoke();
+        }
+        private void Reset()
+        {
+            DisableButton();
+            currentBtn = null;
+            pictureBoxClose.Visible = false;
+        }
+
+        private void pictureBoxClose_Click(object sender, EventArgs e)
+        {
+            if (activeForm != null)
+            {
+                activeForm.Close();
+            }
+            Reset();
+        }
+
+        
     }
 }
 

@@ -149,11 +149,6 @@ namespace BankManagement
             txtPassword.UseSystemPasswordChar = !chkShow.Checked;
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void lnlForgot_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             MessageBox.Show("Hãy liên hệ admin để đổi mật khẩu", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);

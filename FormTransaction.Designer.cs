@@ -76,21 +76,20 @@
             panelTransfer.Controls.Add(lblFromAccType);
             panelTransfer.Controls.Add(lblBalance);
             panelTransfer.Controls.Add(lblTitle);
-            panelTransfer.Dock = DockStyle.Fill;
             panelTransfer.Font = new Font("Segoe UI", 13.25F, FontStyle.Bold);
-            panelTransfer.Location = new Point(0, 0);
-            panelTransfer.Margin = new Padding(4);
+            panelTransfer.Location = new Point(0, -1);
             panelTransfer.Name = "panelTransfer";
-            panelTransfer.Size = new Size(961, 744);
+            panelTransfer.Size = new Size(747, 532);
             panelTransfer.TabIndex = 0;
             // 
             // radWithdraw
             // 
             radWithdraw.AutoSize = true;
             radWithdraw.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            radWithdraw.Location = new Point(707, 440);
+            radWithdraw.Location = new Point(550, 314);
+            radWithdraw.Margin = new Padding(2, 2, 2, 2);
             radWithdraw.Name = "radWithdraw";
-            radWithdraw.Size = new Size(137, 34);
+            radWithdraw.Size = new Size(113, 29);
             radWithdraw.TabIndex = 3;
             radWithdraw.TabStop = true;
             radWithdraw.Text = "Withdraw";
@@ -101,9 +100,10 @@
             // 
             radDeposit.AutoSize = true;
             radDeposit.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            radDeposit.Location = new Point(496, 440);
+            radDeposit.Location = new Point(386, 314);
+            radDeposit.Margin = new Padding(2, 2, 2, 2);
             radDeposit.Name = "radDeposit";
-            radDeposit.Size = new Size(114, 34);
+            radDeposit.Size = new Size(95, 29);
             radDeposit.TabIndex = 3;
             radDeposit.TabStop = true;
             radDeposit.Text = "Deposit";
@@ -115,9 +115,10 @@
             radTransfer.AutoSize = true;
             radTransfer.Checked = true;
             radTransfer.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
-            radTransfer.Location = new Point(287, 440);
+            radTransfer.Location = new Point(223, 314);
+            radTransfer.Margin = new Padding(2, 2, 2, 2);
             radTransfer.Name = "radTransfer";
-            radTransfer.Size = new Size(118, 34);
+            radTransfer.Size = new Size(100, 29);
             radTransfer.TabIndex = 3;
             radTransfer.TabStop = true;
             radTransfer.Text = "Transfer";
@@ -126,10 +127,9 @@
             // 
             // btnCancel
             // 
-            btnCancel.Location = new Point(698, 639);
-            btnCancel.Margin = new Padding(4);
+            btnCancel.Location = new Point(543, 456);
             btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(165, 50);
+            btnCancel.Size = new Size(128, 36);
             btnCancel.TabIndex = 2;
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
@@ -137,10 +137,9 @@
             // 
             // btnConfirm
             // 
-            btnConfirm.Location = new Point(287, 639);
-            btnConfirm.Margin = new Padding(4);
+            btnConfirm.Location = new Point(223, 456);
             btnConfirm.Name = "btnConfirm";
-            btnConfirm.Size = new Size(165, 50);
+            btnConfirm.Size = new Size(128, 36);
             btnConfirm.TabIndex = 2;
             btnConfirm.Text = "Confirm";
             btnConfirm.UseVisualStyleBackColor = true;
@@ -149,10 +148,9 @@
             // txtFromAcc
             // 
             txtFromAcc.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtFromAcc.Location = new Point(287, 203);
-            txtFromAcc.Margin = new Padding(4);
+            txtFromAcc.Location = new Point(223, 145);
             txtFromAcc.Name = "txtFromAcc";
-            txtFromAcc.Size = new Size(346, 39);
+            txtFromAcc.Size = new Size(270, 33);
             txtFromAcc.TabIndex = 1;
             txtFromAcc.TextChanged += txtFromAcc_TextChanged;
             txtFromAcc.Leave += txtFromAcc_Leave;
@@ -160,19 +158,17 @@
             // txtAmount
             // 
             txtAmount.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtAmount.Location = new Point(287, 364);
-            txtAmount.Margin = new Padding(4);
+            txtAmount.Location = new Point(223, 260);
             txtAmount.Name = "txtAmount";
-            txtAmount.Size = new Size(346, 39);
+            txtAmount.Size = new Size(270, 33);
             txtAmount.TabIndex = 1;
             // 
             // txtToAcc
             // 
             txtToAcc.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtToAcc.Location = new Point(287, 286);
-            txtToAcc.Margin = new Padding(4);
+            txtToAcc.Location = new Point(223, 204);
             txtToAcc.Name = "txtToAcc";
-            txtToAcc.Size = new Size(346, 39);
+            txtToAcc.Size = new Size(270, 33);
             txtToAcc.TabIndex = 1;
             txtToAcc.TextChanged += txtToAcc_TextChanged;
             txtToAcc.Leave += txtToAcc_Leave;
@@ -180,60 +176,54 @@
             // txtNotes
             // 
             txtNotes.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtNotes.Location = new Point(287, 511);
-            txtNotes.Margin = new Padding(4);
+            txtNotes.Location = new Point(223, 365);
             txtNotes.Multiline = true;
             txtNotes.Name = "txtNotes";
-            txtNotes.Size = new Size(576, 97);
+            txtNotes.Size = new Size(449, 70);
             txtNotes.TabIndex = 1;
             // 
             // lblAmount
             // 
             lblAmount.AutoSize = true;
-            lblAmount.Location = new Point(45, 367);
-            lblAmount.Margin = new Padding(4, 0, 4, 0);
+            lblAmount.Location = new Point(35, 262);
             lblAmount.Name = "lblAmount";
-            lblAmount.Size = new Size(108, 31);
+            lblAmount.Size = new Size(86, 25);
             lblAmount.TabIndex = 0;
             lblAmount.Text = "Amount:";
             // 
             // lblTransactionType
             // 
             lblTransactionType.AutoSize = true;
-            lblTransactionType.Location = new Point(45, 441);
-            lblTransactionType.Margin = new Padding(4, 0, 4, 0);
+            lblTransactionType.Location = new Point(35, 315);
             lblTransactionType.Name = "lblTransactionType";
-            lblTransactionType.Size = new Size(199, 31);
+            lblTransactionType.Size = new Size(162, 25);
             lblTransactionType.TabIndex = 0;
             lblTransactionType.Text = "Transaction Type:";
             // 
             // lblNotes
             // 
             lblNotes.AutoSize = true;
-            lblNotes.Location = new Point(45, 515);
-            lblNotes.Margin = new Padding(4, 0, 4, 0);
+            lblNotes.Location = new Point(35, 368);
             lblNotes.Name = "lblNotes";
-            lblNotes.Size = new Size(219, 31);
+            lblNotes.Size = new Size(175, 25);
             lblNotes.TabIndex = 0;
             lblNotes.Text = "Description (Note):";
             // 
             // lblToAcc
             // 
             lblToAcc.AutoSize = true;
-            lblToAcc.Location = new Point(45, 289);
-            lblToAcc.Margin = new Padding(4, 0, 4, 0);
+            lblToAcc.Location = new Point(35, 206);
             lblToAcc.Name = "lblToAcc";
-            lblToAcc.Size = new Size(140, 31);
+            lblToAcc.Size = new Size(113, 25);
             lblToAcc.TabIndex = 0;
             lblToAcc.Text = "To Account:";
             // 
             // lblFromAcc
             // 
             lblFromAcc.AutoSize = true;
-            lblFromAcc.Location = new Point(45, 206);
-            lblFromAcc.Margin = new Padding(4, 0, 4, 0);
+            lblFromAcc.Location = new Point(35, 147);
             lblFromAcc.Name = "lblFromAcc";
-            lblFromAcc.Size = new Size(171, 31);
+            lblFromAcc.Size = new Size(136, 25);
             lblFromAcc.TabIndex = 0;
             lblFromAcc.Text = "From Account:";
             // 
@@ -241,10 +231,9 @@
             // 
             lblToAccType.AutoSize = true;
             lblToAccType.Font = new Font("Segoe UI", 13.25F);
-            lblToAccType.Location = new Point(664, 289);
-            lblToAccType.Margin = new Padding(4, 0, 4, 0);
+            lblToAccType.Location = new Point(516, 206);
             lblToAccType.Name = "lblToAccType";
-            lblToAccType.Size = new Size(19, 31);
+            lblToAccType.Size = new Size(16, 25);
             lblToAccType.TabIndex = 0;
             lblToAccType.Text = ".";
             // 
@@ -252,10 +241,9 @@
             // 
             lblMoney.AutoSize = true;
             lblMoney.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblMoney.Location = new Point(287, 123);
-            lblMoney.Margin = new Padding(4, 0, 4, 0);
+            lblMoney.Location = new Point(223, 88);
             lblMoney.Name = "lblMoney";
-            lblMoney.Size = new Size(27, 32);
+            lblMoney.Size = new Size(22, 25);
             lblMoney.TabIndex = 0;
             lblMoney.Text = "0";
             // 
@@ -263,10 +251,9 @@
             // 
             lblReceiver.AutoSize = true;
             lblReceiver.Font = new Font("Segoe UI", 13.25F);
-            lblReceiver.Location = new Point(287, 251);
-            lblReceiver.Margin = new Padding(4, 0, 4, 0);
+            lblReceiver.Location = new Point(223, 179);
             lblReceiver.Name = "lblReceiver";
-            lblReceiver.Size = new Size(19, 31);
+            lblReceiver.Size = new Size(16, 25);
             lblReceiver.TabIndex = 0;
             lblReceiver.Text = ".";
             // 
@@ -274,10 +261,9 @@
             // 
             lblSender.AutoSize = true;
             lblSender.Font = new Font("Segoe UI", 13.25F);
-            lblSender.Location = new Point(287, 163);
-            lblSender.Margin = new Padding(4, 0, 4, 0);
+            lblSender.Location = new Point(223, 116);
             lblSender.Name = "lblSender";
-            lblSender.Size = new Size(19, 31);
+            lblSender.Size = new Size(16, 25);
             lblSender.TabIndex = 0;
             lblSender.Text = ".";
             // 
@@ -285,20 +271,18 @@
             // 
             lblFromAccType.AutoSize = true;
             lblFromAccType.Font = new Font("Segoe UI", 13.25F);
-            lblFromAccType.Location = new Point(664, 206);
-            lblFromAccType.Margin = new Padding(4, 0, 4, 0);
+            lblFromAccType.Location = new Point(516, 147);
             lblFromAccType.Name = "lblFromAccType";
-            lblFromAccType.Size = new Size(19, 31);
+            lblFromAccType.Size = new Size(16, 25);
             lblFromAccType.TabIndex = 0;
             lblFromAccType.Text = ".";
             // 
             // lblBalance
             // 
             lblBalance.AutoSize = true;
-            lblBalance.Location = new Point(45, 123);
-            lblBalance.Margin = new Padding(4, 0, 4, 0);
+            lblBalance.Location = new Point(35, 88);
             lblBalance.Name = "lblBalance";
-            lblBalance.Size = new Size(103, 31);
+            lblBalance.Size = new Size(84, 25);
             lblBalance.TabIndex = 0;
             lblBalance.Text = "Balance:";
             // 
@@ -306,20 +290,19 @@
             // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold);
-            lblTitle.Location = new Point(433, 48);
-            lblTitle.Margin = new Padding(4, 0, 4, 0);
+            lblTitle.Location = new Point(337, 34);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(134, 32);
+            lblTitle.Size = new Size(106, 25);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "TRANSFER";
             // 
             // FormTransaction
             // 
-            AutoScaleDimensions = new SizeF(9F, 21F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(961, 744);
+            ClientSize = new Size(747, 531);
             Controls.Add(panelTransfer);
-            Margin = new Padding(4, 3, 4, 3);
+            Margin = new Padding(3, 2, 3, 2);
             MaximizeBox = false;
             Name = "FormTransaction";
             StartPosition = FormStartPosition.CenterScreen;

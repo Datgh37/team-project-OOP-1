@@ -13,7 +13,7 @@ namespace BankManagement
             //ApplicationConfiguration.Initialize();
             FormFlash ff = new FormFlash();
             ff.ShowDialog();
-            if (ff.DialogResult == DialogResult.OK) { Application.Run(new FormMenu()); }
+            if (ff.DialogResult == DialogResult.OK) { Application.Run(new FormMenu());}
 
             //Application.Run(new FormAdd());
 

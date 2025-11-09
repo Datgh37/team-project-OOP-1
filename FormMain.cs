@@ -16,6 +16,7 @@ namespace BankManagement
         private TransactionManagement TransactionList = new TransactionManagement(); // Lịch sử giao dịch
         private List<Account> initAccountList = new();  // danh sách khi khởi tạo form hoặc tạo giao dịch (để đối chiếu thay đổi và save file)
         private bool isChanged = false;
+        private FormMenu formMenu;
         // Dùng cho chức năng sort
         private enum SortState { None, Asc, Desc };
         private SortState accountNumberSort = SortState.None;
@@ -94,7 +95,7 @@ namespace BankManagement
             dgvSub.Refresh();
 
             // Cập nhật label hiển thị account number
-            lblAccountNumberDisplay.Text = $"Account: {accountNumber}";
+            lblAccountNumberDisplay.Text = $" Showing Transaction History Of Account: {accountNumber}";
 
             // Format lại columns
             if (dgvSub.Columns["Amount"] != null)
@@ -112,6 +113,11 @@ namespace BankManagement
         public FormMain()
         {
             InitializeComponent();
+        }
+        public FormMain(FormMenu menu)
+        {
+            InitializeComponent();
+            this.formMenu = menu;
         }
 
         private void FormMain_Load(object? sender, EventArgs e)
@@ -146,6 +152,13 @@ namespace BankManagement
             tslblDeposit.Text = "Deposit: 0";
             tslblWithdraw.Text = "Withdraw: 0";
             tslblTransfer.Text = "Transfer: 0";
+
+            // Tạo và liên kết FormMenu
+            if (formMenu != null)
+            {
+                formMenu.OnAddButtonClick = OpenFormAdd;
+                formMenu.OnTransferButtonClick = OpenFormTransfer;
+            }
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -196,8 +209,9 @@ namespace BankManagement
                 // Nếu No -> thoát mà không lưu
             }
         }
+
         // Xử lý Add
-        private void btnAdd_Click(object sender, EventArgs e)
+        private void OpenFormAdd()
         {
             try
             {
@@ -224,38 +238,9 @@ namespace BankManagement
                 return;
             }
         }
-        // Xử lý Search
-        private void btnSearch_Click(object sender, EventArgs e)
-        {
-            string keyword = txtSearch.Text.Trim().ToLower();
 
-            if (string.IsNullOrEmpty(keyword))
-            {
-                // Nếu đã ở trạng thái bình thường thì không reload nữa
-                if (!isNormalState)
-                    ReloadAccountGrid(AccountList.Accounts);
-                return;
-            }
-            // Lọc list theo AccountNumber hoặc Type hoặc CustomerID
-            var filtered = AccountList.Accounts.Where(a =>
-                a.AccountNumber.ToLower().Contains(keyword) ||
-                a.AccountTypeName.ToLower().Contains(keyword) ||
-                a.CustomerID.ToString().ToLower().Contains(keyword)
-            ).ToList();
-            // Bind lại DataGridView
-            ReloadAccountGrid(filtered);
-            isNormalState = false;
-        }
-        // Xử lý phụ cho Search, reload table
-        private void txtSearch_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtSearch.Text))
-            {
-                ReloadAccountGrid(AccountList.Accounts);
-            }
-        }
         // Xử lý chức năng mở form tạo giao dịch
-        private void btnOpenTransfer_Click(object sender, EventArgs e)
+        private void OpenFormTransfer()
         {
             using FormTransaction ftransfer = new FormTransaction();
             ftransfer.ShowDialog();
@@ -305,6 +290,37 @@ namespace BankManagement
                 );
             }
         }
+        // Xử lý Search
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string keyword = txtSearch.Text.Trim().ToLower();
+
+            if (string.IsNullOrEmpty(keyword))
+            {
+                // Nếu đã ở trạng thái bình thường thì không reload nữa
+                if (!isNormalState)
+                    ReloadAccountGrid(AccountList.Accounts);
+                return;
+            }
+            // Lọc list theo AccountNumber hoặc Type hoặc CustomerID
+            var filtered = AccountList.Accounts.Where(a =>
+                a.AccountNumber.ToLower().Contains(keyword) ||
+                a.AccountTypeName.ToLower().Contains(keyword) ||
+                a.CustomerID.ToString().ToLower().Contains(keyword)
+            ).ToList();
+            // Bind lại DataGridView
+            ReloadAccountGrid(filtered);
+            isNormalState = false;
+        }
+        // Xử lý phụ cho Search, reload table
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                ReloadAccountGrid(AccountList.Accounts);
+            }
+        }
+        
         // Xử lý Edit, Delete
         private void dgvMain_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

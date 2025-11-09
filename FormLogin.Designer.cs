@@ -30,7 +30,7 @@
         {
             components = new System.ComponentModel.Container();
             pnlLogin = new Panel();
-            btnCancel = new Button();
+            label1 = new Label();
             btnLogin = new Button();
             lnlForgot = new LinkLabel();
             chkShow = new CheckBox();
@@ -46,7 +46,8 @@
             // 
             // pnlLogin
             // 
-            pnlLogin.Controls.Add(btnCancel);
+            pnlLogin.BackColor = SystemColors.Control;
+            pnlLogin.Controls.Add(label1);
             pnlLogin.Controls.Add(btnLogin);
             pnlLogin.Controls.Add(lnlForgot);
             pnlLogin.Controls.Add(chkShow);
@@ -58,54 +59,56 @@
             pnlLogin.Dock = DockStyle.Fill;
             pnlLogin.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             pnlLogin.Location = new Point(0, 0);
-            pnlLogin.Margin = new Padding(4);
             pnlLogin.Name = "pnlLogin";
-            pnlLogin.Size = new Size(969, 468);
+            pnlLogin.Size = new Size(475, 370);
             pnlLogin.TabIndex = 0;
             // 
-            // btnCancel
+            // label1
             // 
-            btnCancel.Location = new Point(620, 324);
-            btnCancel.Margin = new Padding(4);
-            btnCancel.Name = "btnCancel";
-            btnCancel.Size = new Size(122, 50);
-            btnCancel.TabIndex = 4;
-            btnCancel.Text = "Cancel";
-            btnCancel.UseVisualStyleBackColor = true;
-            btnCancel.Click += btnCancel_Click;
+            label1.AutoSize = true;
+            label1.Font = new Font("Cooper Black", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.Location = new Point(162, 40);
+            label1.Name = "label1";
+            label1.Size = new Size(114, 34);
+            label1.TabIndex = 5;
+            label1.Text = "LOGIN";
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(294, 324);
-            btnLogin.Margin = new Padding(4);
+            btnLogin.BackColor = Color.FromArgb(50, 52, 76);
+            btnLogin.FlatAppearance.BorderSize = 0;
+            btnLogin.FlatStyle = FlatStyle.Flat;
+            btnLogin.ForeColor = Color.White;
+            btnLogin.Location = new Point(140, 284);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(122, 50);
+            btnLogin.Size = new Size(165, 36);
             btnLogin.TabIndex = 4;
             btnLogin.Text = "Login";
-            btnLogin.UseVisualStyleBackColor = true;
+            btnLogin.UseVisualStyleBackColor = false;
             btnLogin.Click += btnLogin_Click;
             // 
             // lnlForgot
             // 
             lnlForgot.AutoSize = true;
+            lnlForgot.DisabledLinkColor = Color.Black;
             lnlForgot.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lnlForgot.Location = new Point(294, 239);
-            lnlForgot.Margin = new Padding(4, 0, 4, 0);
+            lnlForgot.LinkVisited = true;
+            lnlForgot.Location = new Point(48, 226);
             lnlForgot.Name = "lnlForgot";
-            lnlForgot.Size = new Size(141, 23);
+            lnlForgot.Size = new Size(111, 17);
             lnlForgot.TabIndex = 3;
             lnlForgot.TabStop = true;
             lnlForgot.Text = "Forgot Pasword ?";
+            lnlForgot.VisitedLinkColor = Color.Black;
             lnlForgot.LinkClicked += lnlForgot_LinkClicked;
             // 
             // chkShow
             // 
             chkShow.AutoSize = true;
             chkShow.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            chkShow.Location = new Point(667, 237);
-            chkShow.Margin = new Padding(4);
+            chkShow.Location = new Point(338, 226);
             chkShow.Name = "chkShow";
-            chkShow.Size = new Size(73, 27);
+            chkShow.Size = new Size(58, 21);
             chkShow.TabIndex = 2;
             chkShow.Text = "Show";
             chkShow.UseVisualStyleBackColor = true;
@@ -113,51 +116,54 @@
             // 
             // txtPassword
             // 
+            txtPassword.BackColor = Color.FromArgb(221, 221, 235);
+            txtPassword.BorderStyle = BorderStyle.None;
+            txtPassword.Cursor = Cursors.IBeam;
             txtPassword.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtPassword.Location = new Point(294, 186);
-            txtPassword.Margin = new Padding(4);
+            txtPassword.Location = new Point(48, 183);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(446, 39);
+            txtPassword.Size = new Size(348, 26);
             txtPassword.TabIndex = 1;
             txtPassword.UseSystemPasswordChar = true;
             // 
             // txtUsername
             // 
+            txtUsername.BackColor = Color.FromArgb(221, 221, 235);
+            txtUsername.BorderStyle = BorderStyle.None;
+            txtUsername.Cursor = Cursors.IBeam;
             txtUsername.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtUsername.Location = new Point(294, 122);
-            txtUsername.Margin = new Padding(4);
+            txtUsername.Location = new Point(48, 123);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(446, 39);
+            txtUsername.Size = new Size(348, 26);
             txtUsername.TabIndex = 1;
             // 
             // lblShutDownMessage
             // 
             lblShutDownMessage.AutoSize = true;
             lblShutDownMessage.Font = new Font("Segoe UI", 10F);
-            lblShutDownMessage.Location = new Point(294, 278);
-            lblShutDownMessage.Margin = new Padding(4, 0, 4, 0);
+            lblShutDownMessage.Location = new Point(222, 252);
             lblShutDownMessage.Name = "lblShutDownMessage";
-            lblShutDownMessage.Size = new Size(0, 23);
+            lblShutDownMessage.Size = new Size(0, 19);
             lblShutDownMessage.TabIndex = 0;
             lblShutDownMessage.Visible = false;
             // 
             // lblPassword
             // 
             lblPassword.AutoSize = true;
-            lblPassword.Location = new Point(156, 190);
-            lblPassword.Margin = new Padding(4, 0, 4, 0);
+            lblPassword.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPassword.Location = new Point(48, 165);
             lblPassword.Name = "lblPassword";
-            lblPassword.Size = new Size(129, 32);
+            lblPassword.Size = new Size(62, 15);
             lblPassword.TabIndex = 0;
             lblPassword.Text = "Password:";
             // 
             // lblUsername
             // 
             lblUsername.AutoSize = true;
-            lblUsername.Location = new Point(150, 126);
-            lblUsername.Margin = new Padding(4, 0, 4, 0);
+            lblUsername.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblUsername.Location = new Point(48, 105);
             lblUsername.Name = "lblUsername";
-            lblUsername.Size = new Size(135, 32);
+            lblUsername.Size = new Size(67, 15);
             lblUsername.TabIndex = 0;
             lblUsername.Text = "Username:";
             // 
@@ -167,12 +173,11 @@
             // 
             // FormLogin
             // 
-            AutoScaleDimensions = new SizeF(9F, 21F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(969, 468);
+            ClientSize = new Size(475, 370);
             Controls.Add(pnlLogin);
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            Margin = new Padding(4);
             MaximizeBox = false;
             Name = "FormLogin";
             StartPosition = FormStartPosition.CenterScreen;
@@ -192,10 +197,10 @@
         private TextBox txtPassword;
         private TextBox txtUsername;
         private CheckBox chkShow;
-        private Button btnCancel;
         private Button btnLogin;
         private ErrorProvider errorProvider1;
         private Label lblShutDownMessage;
         private LinkLabel lnlForgot;
+        private Label label1;
     }
 }
