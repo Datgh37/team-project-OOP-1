@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
             miniToolStrip = new StatusStrip();
             dgvMain = new DataGridView();
             AccountNumber = new DataGridViewTextBoxColumn();
@@ -90,24 +90,24 @@
             dgvMain.AllowUserToAddRows = false;
             dgvMain.AllowUserToDeleteRows = false;
             dgvMain.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvMain.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvMain.Columns.AddRange(new DataGridViewColumn[] { AccountNumber, Balance, InterestRate, OpenAt, AccountType, CustomerID, Edit, Delete });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Window;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(67, 69, 94);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvMain.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Window;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(67, 69, 94);
+            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvMain.DefaultCellStyle = dataGridViewCellStyle6;
             dgvMain.Dock = DockStyle.Fill;
             dgvMain.Location = new Point(3, 53);
             dgvMain.Name = "dgvMain";
@@ -205,6 +205,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.BackColor = Color.FromArgb(157, 157, 194);
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 70F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
@@ -273,24 +274,28 @@
             // 
             // tslblDataRowCount
             // 
+            tslblDataRowCount.BackColor = SystemColors.Control;
             tslblDataRowCount.Name = "tslblDataRowCount";
             tslblDataRowCount.Size = new Size(93, 17);
             tslblDataRowCount.Text = "Total Items: N/A";
             // 
             // tslblDebitCount
             // 
+            tslblDebitCount.BackColor = SystemColors.Control;
             tslblDebitCount.Name = "tslblDebitCount";
             tslblDebitCount.Size = new Size(41, 17);
             tslblDebitCount.Text = "Debit: ";
             // 
             // tslblCreditCount
             // 
+            tslblCreditCount.BackColor = SystemColors.Control;
             tslblCreditCount.Name = "tslblCreditCount";
             tslblCreditCount.Size = new Size(45, 17);
             tslblCreditCount.Text = "Credit: ";
             // 
             // tslblSavingsCount
             // 
+            tslblSavingsCount.BackColor = SystemColors.Control;
             tslblSavingsCount.Name = "tslblSavingsCount";
             tslblSavingsCount.Size = new Size(53, 17);
             tslblSavingsCount.Text = "Savings: ";
@@ -308,24 +313,28 @@
             // 
             // tslblSubDataRowCount
             // 
+            tslblSubDataRowCount.BackColor = SystemColors.Control;
             tslblSubDataRowCount.Name = "tslblSubDataRowCount";
             tslblSubDataRowCount.Size = new Size(61, 17);
             tslblSubDataRowCount.Text = "Total: N/A";
             // 
             // tslblDeposit
             // 
+            tslblDeposit.BackColor = SystemColors.Control;
             tslblDeposit.Name = "tslblDeposit";
             tslblDeposit.Size = new Size(53, 17);
             tslblDeposit.Text = "Deposit: ";
             // 
             // tslblWithdraw
             // 
+            tslblWithdraw.BackColor = SystemColors.Control;
             tslblWithdraw.Name = "tslblWithdraw";
             tslblWithdraw.Size = new Size(64, 17);
             tslblWithdraw.Text = "Withdraw: ";
             // 
             // tslblTransfer
             // 
+            tslblTransfer.BackColor = SystemColors.Control;
             tslblTransfer.Name = "tslblTransfer";
             tslblTransfer.Size = new Size(55, 17);
             tslblTransfer.Text = "Transfer: ";
@@ -345,10 +354,12 @@
             // 
             lblAccountNumberDisplay.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             lblAccountNumberDisplay.AutoSize = true;
+            lblAccountNumberDisplay.Font = new Font("Arial", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblAccountNumberDisplay.ForeColor = Color.White;
             lblAccountNumberDisplay.Location = new Point(2, 12);
             lblAccountNumberDisplay.Margin = new Padding(2, 0, 2, 0);
             lblAccountNumberDisplay.Name = "lblAccountNumberDisplay";
-            lblAccountNumberDisplay.Size = new Size(335, 20);
+            lblAccountNumberDisplay.Size = new Size(355, 18);
             lblAccountNumberDisplay.TabIndex = 0;
             lblAccountNumberDisplay.Text = "Showing Transaction History Of Account: Number";
             // 
@@ -358,24 +369,24 @@
             dgvSub.AllowUserToDeleteRows = false;
             dgvSub.AllowUserToOrderColumns = true;
             dgvSub.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = SystemColors.Control;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            dgvSub.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = SystemColors.Control;
+            dataGridViewCellStyle7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            dgvSub.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             dgvSub.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSub.Columns.AddRange(new DataGridViewColumn[] { FromAccount, ToAccount, Type, Amount });
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = SystemColors.Window;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle4.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(67, 69, 94);
-            dataGridViewCellStyle4.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvSub.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = SystemColors.Window;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(67, 69, 94);
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            dgvSub.DefaultCellStyle = dataGridViewCellStyle8;
             dgvSub.Dock = DockStyle.Fill;
             dgvSub.Location = new Point(971, 53);
             dgvSub.Name = "dgvSub";

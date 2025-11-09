@@ -26,11 +26,11 @@ namespace BankManagement
             InitializeComponent();
             SelectedAccount = new Account(account);
             SelectedCustomer = new Customer(customer);
-            
+
             // Lưu tên gốc để so sánh
             _originalFirstName = customer.FirstName;
             _originalLastName = customer.LastName;
-            
+
             this.ActiveControl = txtFirstName;
             txtFirstName.Focus();
         }
@@ -61,13 +61,13 @@ namespace BankManagement
                     string.IsNullOrWhiteSpace(txtBalance.Text) ||
                     string.IsNullOrWhiteSpace(dtpDoB.Text))
                 {
-                    MessageBox.Show("Please fill in all required fields!", "Missing Information", 
+                    MessageBox.Show("Please fill in all required fields!", "Missing Information",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
                 // Kiểm tra xem họ tên có thay đổi không
-                bool nameChanged = txtFirstName.Text.Trim() != _originalFirstName || 
+                bool nameChanged = txtFirstName.Text.Trim() != _originalFirstName ||
                                    txtLastName.Text.Trim() != _originalLastName;
 
                 // Update Customer
@@ -85,13 +85,13 @@ namespace BankManagement
                 // Update Account
                 if (!double.TryParse(txtBalance.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out double balance))
                 {
-                    MessageBox.Show("Số dư không hợp lệ!", "Lỗi nhập liệu", 
+                    MessageBox.Show("Số dư không hợp lệ!", "Lỗi nhập liệu",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 if (!double.TryParse(txtInterestRate.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out double rate))
                 {
-                    MessageBox.Show("Mức lãi không hợp lệ!, Kiểm tra input", "Lỗi nhập liệu", 
+                    MessageBox.Show("Mức lãi không hợp lệ!, Kiểm tra input", "Lỗi nhập liệu",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -130,6 +130,11 @@ namespace BankManagement
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void panelBase_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
