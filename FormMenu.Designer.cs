@@ -13,9 +13,20 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing)
             {
-                components.Dispose();
+                // Dispose timer
+                _clockTimer?.Stop();
+                _clockTimer?.Dispose();
+
+                // Dispose active form
+                if (activeForm != null && !activeForm.IsDisposed)
+                {
+                    activeForm.Dispose();
+                }
+
+                // Dispose components (auto-generated)
+                components?.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -41,20 +52,20 @@
             tsmiTileHorizontal = new ToolStripMenuItem();
             tsmiTileVertical = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
-            panel1 = new Panel();
-            pictureBoxClose = new PictureBox();
+            pnlDashBoard = new Panel();
+            ptbClose = new PictureBox();
             btnHome = new Button();
             btnTransfer = new Button();
             btnAdd = new Button();
-            panel2 = new Panel();
-            pictureBox1 = new PictureBox();
-            label1 = new Label();
+            pnlTitle = new Panel();
+            ptbIcon = new PictureBox();
+            lblTitle = new Label();
             panelDesktop = new Panel();
             statusStrip.SuspendLayout();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxClose).BeginInit();
-            panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            pnlDashBoard.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)ptbClose).BeginInit();
+            pnlTitle.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)ptbIcon).BeginInit();
             SuspendLayout();
             // 
             // statusStrip
@@ -62,23 +73,22 @@
             statusStrip.AutoSize = false;
             statusStrip.ImageScalingSize = new Size(20, 20);
             statusStrip.Items.AddRange(new ToolStripItem[] { tslblStatus, tslblDateTime });
-            statusStrip.Location = new Point(200, 640);
+            statusStrip.Location = new Point(257, 896);
             statusStrip.Name = "statusStrip";
-            statusStrip.Padding = new Padding(1, 0, 11, 0);
-            statusStrip.Size = new Size(1284, 21);
+            statusStrip.Size = new Size(1651, 29);
             statusStrip.TabIndex = 1;
             statusStrip.Text = "Status Bar";
             // 
             // tslblStatus
             // 
             tslblStatus.Name = "tslblStatus";
-            tslblStatus.Size = new Size(39, 16);
+            tslblStatus.Size = new Size(53, 23);
             tslblStatus.Text = "Ready";
             // 
             // tslblDateTime
             // 
             tslblDateTime.Name = "tslblDateTime";
-            tslblDateTime.Size = new Size(58, 16);
+            tslblDateTime.Size = new Size(76, 23);
             tslblDateTime.Text = "DateTime";
             // 
             // tsiForms
@@ -91,19 +101,19 @@
             // tsmiMainForm
             // 
             tsmiMainForm.Name = "tsmiMainForm";
-            tsmiMainForm.Size = new Size(135, 22);
+            tsmiMainForm.Size = new Size(173, 26);
             tsmiMainForm.Text = "Main";
             // 
             // tsmiAddForm
             // 
             tsmiAddForm.Name = "tsmiAddForm";
-            tsmiAddForm.Size = new Size(135, 22);
+            tsmiAddForm.Size = new Size(173, 26);
             tsmiAddForm.Text = "Add";
             // 
             // tsmiTransactionForm
             // 
             tsmiTransactionForm.Name = "tsmiTransactionForm";
-            tsmiTransactionForm.Size = new Size(135, 22);
+            tsmiTransactionForm.Size = new Size(173, 26);
             tsmiTransactionForm.Text = "Transaction";
             // 
             // tsiMenu
@@ -116,19 +126,19 @@
             // tsmiCascade
             // 
             tsmiCascade.Name = "tsmiCascade";
-            tsmiCascade.Size = new Size(151, 22);
+            tsmiCascade.Size = new Size(194, 26);
             tsmiCascade.Text = "Cascade";
             // 
             // tsmiTileHorizontal
             // 
             tsmiTileHorizontal.Name = "tsmiTileHorizontal";
-            tsmiTileHorizontal.Size = new Size(151, 22);
+            tsmiTileHorizontal.Size = new Size(194, 26);
             tsmiTileHorizontal.Text = "Tile Horizontal";
             // 
             // tsmiTileVertical
             // 
             tsmiTileVertical.Name = "tsmiTileVertical";
-            tsmiTileVertical.Size = new Size(151, 22);
+            tsmiTileVertical.Size = new Size(194, 26);
             tsmiTileVertical.Text = "Tile Vertical";
             // 
             // toolStripSeparator1
@@ -136,31 +146,33 @@
             toolStripSeparator1.Name = "toolStripSeparator1";
             toolStripSeparator1.Size = new Size(57, 6);
             // 
-            // panel1
+            // pnlDashBoard
             // 
-            panel1.BackColor = Color.FromArgb(50, 52, 76);
-            panel1.Controls.Add(pictureBoxClose);
-            panel1.Controls.Add(btnHome);
-            panel1.Controls.Add(btnTransfer);
-            panel1.Controls.Add(btnAdd);
-            panel1.Dock = DockStyle.Left;
-            panel1.Location = new Point(0, 62);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(200, 599);
-            panel1.TabIndex = 3;
+            pnlDashBoard.BackColor = Color.FromArgb(50, 52, 76);
+            pnlDashBoard.Controls.Add(ptbClose);
+            pnlDashBoard.Controls.Add(btnHome);
+            pnlDashBoard.Controls.Add(btnTransfer);
+            pnlDashBoard.Controls.Add(btnAdd);
+            pnlDashBoard.Dock = DockStyle.Left;
+            pnlDashBoard.Location = new Point(0, 87);
+            pnlDashBoard.Margin = new Padding(4);
+            pnlDashBoard.Name = "pnlDashBoard";
+            pnlDashBoard.Size = new Size(257, 838);
+            pnlDashBoard.TabIndex = 3;
             // 
-            // pictureBoxClose
+            // ptbClose
             // 
-            pictureBoxClose.BackColor = Color.FromArgb(67, 69, 94);
-            pictureBoxClose.BackgroundImageLayout = ImageLayout.None;
-            pictureBoxClose.Image = (Image)resources.GetObject("pictureBoxClose.Image");
-            pictureBoxClose.Location = new Point(162, 24);
-            pictureBoxClose.Name = "pictureBoxClose";
-            pictureBoxClose.Size = new Size(20, 20);
-            pictureBoxClose.SizeMode = PictureBoxSizeMode.AutoSize;
-            pictureBoxClose.TabIndex = 0;
-            pictureBoxClose.TabStop = false;
-            pictureBoxClose.Click += pictureBoxClose_Click;
+            ptbClose.BackColor = Color.FromArgb(67, 69, 94);
+            ptbClose.BackgroundImageLayout = ImageLayout.None;
+            ptbClose.Image = (Image)resources.GetObject("ptbClose.Image");
+            ptbClose.Location = new Point(208, 34);
+            ptbClose.Margin = new Padding(4);
+            ptbClose.Name = "ptbClose";
+            ptbClose.Size = new Size(20, 20);
+            ptbClose.SizeMode = PictureBoxSizeMode.AutoSize;
+            ptbClose.TabIndex = 0;
+            ptbClose.TabStop = false;
+            ptbClose.Click += ptbClose_Click;
             // 
             // btnHome
             // 
@@ -172,9 +184,10 @@
             btnHome.Image = (Image)resources.GetObject("btnHome.Image");
             btnHome.ImageAlign = ContentAlignment.MiddleLeft;
             btnHome.Location = new Point(0, 0);
+            btnHome.Margin = new Padding(4);
             btnHome.Name = "btnHome";
-            btnHome.Padding = new Padding(10, 0, 0, 0);
-            btnHome.Size = new Size(200, 63);
+            btnHome.Padding = new Padding(13, 0, 0, 0);
+            btnHome.Size = new Size(257, 88);
             btnHome.TabIndex = 5;
             btnHome.Text = "  Home";
             btnHome.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -190,16 +203,17 @@
             btnTransfer.ForeColor = Color.White;
             btnTransfer.Image = (Image)resources.GetObject("btnTransfer.Image");
             btnTransfer.ImageAlign = ContentAlignment.MiddleLeft;
-            btnTransfer.Location = new Point(0, 63);
+            btnTransfer.Location = new Point(0, 88);
+            btnTransfer.Margin = new Padding(4);
             btnTransfer.Name = "btnTransfer";
-            btnTransfer.Padding = new Padding(10, 0, 0, 0);
-            btnTransfer.Size = new Size(200, 63);
+            btnTransfer.Padding = new Padding(13, 0, 0, 0);
+            btnTransfer.Size = new Size(257, 88);
             btnTransfer.TabIndex = 7;
-            btnTransfer.Text = " Transfer";
+            btnTransfer.Text = "  Transaction";
             btnTransfer.TextAlign = ContentAlignment.MiddleLeft;
             btnTransfer.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnTransfer.UseVisualStyleBackColor = false;
-            btnTransfer.Click += button2_Click;
+            btnTransfer.Click += btnTransfer_Click;
             // 
             // btnAdd
             // 
@@ -210,87 +224,93 @@
             btnAdd.ForeColor = Color.White;
             btnAdd.Image = (Image)resources.GetObject("btnAdd.Image");
             btnAdd.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAdd.Location = new Point(0, 126);
+            btnAdd.Location = new Point(0, 176);
+            btnAdd.Margin = new Padding(4);
             btnAdd.Name = "btnAdd";
-            btnAdd.Padding = new Padding(10, 0, 0, 0);
-            btnAdd.Size = new Size(200, 63);
+            btnAdd.Padding = new Padding(13, 0, 0, 0);
+            btnAdd.Size = new Size(257, 88);
             btnAdd.TabIndex = 6;
             btnAdd.Text = "  Add User";
             btnAdd.TextAlign = ContentAlignment.MiddleLeft;
             btnAdd.TextImageRelation = TextImageRelation.ImageBeforeText;
             btnAdd.UseVisualStyleBackColor = false;
-            btnAdd.Click += button1_Click;
+            btnAdd.Click += btnAdd_Click;
             // 
-            // panel2
+            // pnlTitle
             // 
-            panel2.BackColor = Color.FromArgb(36, 39, 59);
-            panel2.Controls.Add(pictureBox1);
-            panel2.Controls.Add(label1);
-            panel2.Dock = DockStyle.Top;
-            panel2.Location = new Point(0, 0);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(1484, 62);
-            panel2.TabIndex = 0;
+            pnlTitle.BackColor = Color.FromArgb(36, 39, 59);
+            pnlTitle.Controls.Add(ptbIcon);
+            pnlTitle.Controls.Add(lblTitle);
+            pnlTitle.Dock = DockStyle.Top;
+            pnlTitle.Location = new Point(0, 0);
+            pnlTitle.Margin = new Padding(4);
+            pnlTitle.Name = "pnlTitle";
+            pnlTitle.Size = new Size(1908, 87);
+            pnlTitle.TabIndex = 0;
             // 
-            // pictureBox1
+            // ptbIcon
             // 
-            pictureBox1.BackColor = Color.FromArgb(36, 39, 59);
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(12, 3);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(57, 53);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 5;
-            pictureBox1.TabStop = false;
+            ptbIcon.BackColor = Color.FromArgb(36, 39, 59);
+            ptbIcon.Image = (Image)resources.GetObject("ptbIcon.Image");
+            ptbIcon.Location = new Point(15, 11);
+            ptbIcon.Margin = new Padding(4);
+            ptbIcon.Name = "ptbIcon";
+            ptbIcon.Size = new Size(65, 65);
+            ptbIcon.SizeMode = PictureBoxSizeMode.StretchImage;
+            ptbIcon.TabIndex = 5;
+            ptbIcon.TabStop = false;
             // 
-            // label1
+            // lblTitle
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 21.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(75, 9);
-            label1.Name = "label1";
-            label1.Size = new Size(278, 40);
-            label1.TabIndex = 5;
-            label1.Text = "Bank Management\r\n";
-            label1.TextAlign = ContentAlignment.MiddleCenter;
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.White;
+            lblTitle.Location = new Point(96, 20);
+            lblTitle.Margin = new Padding(4, 0, 4, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(321, 46);
+            lblTitle.TabIndex = 5;
+            lblTitle.Text = "Bank Management\r\n";
+            lblTitle.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panelDesktop
             // 
             panelDesktop.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelDesktop.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             panelDesktop.BackColor = Color.FromArgb(221, 221, 235);
-            panelDesktop.Location = new Point(200, 62);
+            panelDesktop.Location = new Point(257, 87);
+            panelDesktop.Margin = new Padding(4);
             panelDesktop.Name = "panelDesktop";
-            panelDesktop.Size = new Size(1284, 575);
+            panelDesktop.Size = new Size(1651, 805);
             panelDesktop.TabIndex = 5;
             // 
             // FormMenu
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1484, 661);
+            ClientSize = new Size(1908, 925);
             Controls.Add(statusStrip);
             Controls.Add(panelDesktop);
-            Controls.Add(panel1);
-            Controls.Add(panel2);
+            Controls.Add(pnlDashBoard);
+            Controls.Add(pnlTitle);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             IsMdiContainer = true;
-            Margin = new Padding(2);
-            MinimumSize = new Size(1500, 700);
+            MinimumSize = new Size(1918, 961);
             Name = "FormMenu";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Menu";
             WindowState = FormWindowState.Maximized;
             Load += FormMenu_Load;
+            Resize += FormMenu_Resize;
             statusStrip.ResumeLayout(false);
             statusStrip.PerformLayout();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBoxClose).EndInit();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            pnlDashBoard.ResumeLayout(false);
+            pnlDashBoard.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)ptbClose).EndInit();
+            pnlTitle.ResumeLayout(false);
+            pnlTitle.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)ptbIcon).EndInit();
             ResumeLayout(false);
         }
 
@@ -308,14 +328,14 @@
         private ToolStripMenuItem tsmiMainForm;
         private ToolStripMenuItem tsmiAddForm;
         private ToolStripMenuItem tsmiTransactionForm;
-        private Panel panel1;
-        private Panel panel2;
-        private Label label1;
-        private PictureBox pictureBox1;
+        private Panel pnlDashBoard;
+        private Panel pnlTitle;
+        private Label lblTitle;
+        private PictureBox ptbIcon;
         private Button btnHome;
         private Button btnAdd;
         private Button btnTransfer;
         private Panel panelDesktop;
-        private PictureBox pictureBoxClose;
+        private PictureBox ptbClose;
     }
 }

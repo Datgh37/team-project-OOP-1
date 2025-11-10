@@ -79,5 +79,18 @@ namespace BankManagement.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        internal static System.Drawing.Bitmap view_all {
+            get {
+                object obj = ResourceManager.GetObject("view_all", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap view_selected {
+            get {
+                object obj = ResourceManager.GetObject("view_selected", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

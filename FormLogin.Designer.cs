@@ -59,17 +59,19 @@
             pnlLogin.Dock = DockStyle.Fill;
             pnlLogin.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             pnlLogin.Location = new Point(0, 0);
+            pnlLogin.Margin = new Padding(4);
             pnlLogin.Name = "pnlLogin";
-            pnlLogin.Size = new Size(475, 370);
+            pnlLogin.Size = new Size(730, 518);
             pnlLogin.TabIndex = 0;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Cooper Black", 21.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(162, 40);
+            label1.Font = new Font("Lato", 22.1999989F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(285, 62);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(114, 34);
+            label1.Size = new Size(135, 45);
             label1.TabIndex = 5;
             label1.Text = "LOGIN";
             // 
@@ -79,9 +81,10 @@
             btnLogin.FlatAppearance.BorderSize = 0;
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.ForeColor = Color.White;
-            btnLogin.Location = new Point(140, 284);
+            btnLogin.Location = new Point(251, 396);
+            btnLogin.Margin = new Padding(4);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(165, 36);
+            btnLogin.Size = new Size(212, 50);
             btnLogin.TabIndex = 4;
             btnLogin.Text = "Login";
             btnLogin.UseVisualStyleBackColor = false;
@@ -91,11 +94,13 @@
             // 
             lnlForgot.AutoSize = true;
             lnlForgot.DisabledLinkColor = Color.Black;
-            lnlForgot.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lnlForgot.Font = new Font("Lato", 9.75F);
+            lnlForgot.ForeColor = SystemColors.ControlText;
             lnlForgot.LinkVisited = true;
-            lnlForgot.Location = new Point(48, 226);
+            lnlForgot.Location = new Point(133, 314);
+            lnlForgot.Margin = new Padding(4, 0, 4, 0);
             lnlForgot.Name = "lnlForgot";
-            lnlForgot.Size = new Size(111, 17);
+            lnlForgot.Size = new Size(137, 21);
             lnlForgot.TabIndex = 3;
             lnlForgot.TabStop = true;
             lnlForgot.Text = "Forgot Pasword ?";
@@ -105,10 +110,12 @@
             // chkShow
             // 
             chkShow.AutoSize = true;
-            chkShow.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            chkShow.Location = new Point(338, 226);
+            chkShow.Font = new Font("Lato", 9.75F);
+            chkShow.ForeColor = SystemColors.ControlText;
+            chkShow.Location = new Point(506, 314);
+            chkShow.Margin = new Padding(4);
             chkShow.Name = "chkShow";
-            chkShow.Size = new Size(58, 21);
+            chkShow.Size = new Size(72, 25);
             chkShow.TabIndex = 2;
             chkShow.Text = "Show";
             chkShow.UseVisualStyleBackColor = true;
@@ -119,10 +126,11 @@
             txtPassword.BackColor = Color.FromArgb(221, 221, 235);
             txtPassword.BorderStyle = BorderStyle.None;
             txtPassword.Cursor = Cursors.IBeam;
-            txtPassword.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtPassword.Location = new Point(48, 183);
+            txtPassword.Font = new Font("Lato", 14.25F);
+            txtPassword.Location = new Point(133, 254);
+            txtPassword.Margin = new Padding(4);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(348, 26);
+            txtPassword.Size = new Size(447, 29);
             txtPassword.TabIndex = 1;
             txtPassword.UseSystemPasswordChar = true;
             // 
@@ -131,39 +139,43 @@
             txtUsername.BackColor = Color.FromArgb(221, 221, 235);
             txtUsername.BorderStyle = BorderStyle.None;
             txtUsername.Cursor = Cursors.IBeam;
-            txtUsername.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtUsername.Location = new Point(48, 123);
+            txtUsername.Font = new Font("Lato", 14.25F);
+            txtUsername.Location = new Point(133, 170);
+            txtUsername.Margin = new Padding(4);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(348, 26);
+            txtUsername.Size = new Size(447, 29);
             txtUsername.TabIndex = 1;
             // 
             // lblShutDownMessage
             // 
             lblShutDownMessage.AutoSize = true;
             lblShutDownMessage.Font = new Font("Segoe UI", 10F);
-            lblShutDownMessage.Location = new Point(222, 252);
+            lblShutDownMessage.Location = new Point(356, 351);
+            lblShutDownMessage.Margin = new Padding(4, 0, 4, 0);
             lblShutDownMessage.Name = "lblShutDownMessage";
-            lblShutDownMessage.Size = new Size(0, 19);
+            lblShutDownMessage.Size = new Size(0, 23);
             lblShutDownMessage.TabIndex = 0;
             lblShutDownMessage.Visible = false;
             // 
             // lblPassword
             // 
             lblPassword.AutoSize = true;
-            lblPassword.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblPassword.Location = new Point(48, 165);
+            lblPassword.Font = new Font("Lato", 9F, FontStyle.Bold);
+            lblPassword.Location = new Point(133, 229);
+            lblPassword.Margin = new Padding(4, 0, 4, 0);
             lblPassword.Name = "lblPassword";
-            lblPassword.Size = new Size(62, 15);
+            lblPassword.Size = new Size(79, 18);
             lblPassword.TabIndex = 0;
             lblPassword.Text = "Password:";
             // 
             // lblUsername
             // 
             lblUsername.AutoSize = true;
-            lblUsername.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblUsername.Location = new Point(48, 105);
+            lblUsername.Font = new Font("Lato", 9F, FontStyle.Bold);
+            lblUsername.Location = new Point(133, 145);
+            lblUsername.Margin = new Padding(4, 0, 4, 0);
             lblUsername.Name = "lblUsername";
-            lblUsername.Size = new Size(67, 15);
+            lblUsername.Size = new Size(82, 18);
             lblUsername.TabIndex = 0;
             lblUsername.Text = "Username:";
             // 
@@ -173,11 +185,12 @@
             // 
             // FormLogin
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(475, 370);
+            ClientSize = new Size(730, 518);
             Controls.Add(pnlLogin);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(4);
             MaximizeBox = false;
             Name = "FormLogin";
             StartPosition = FormStartPosition.CenterScreen;
