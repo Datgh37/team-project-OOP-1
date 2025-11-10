@@ -179,7 +179,7 @@
             btnHome.BackColor = Color.FromArgb(50, 52, 76);
             btnHome.FlatAppearance.BorderSize = 0;
             btnHome.FlatStyle = FlatStyle.Flat;
-            btnHome.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnHome.Font = new Font("Source Sans 3", 16F, FontStyle.Bold);
             btnHome.ForeColor = Color.White;
             btnHome.Image = (Image)resources.GetObject("btnHome.Image");
             btnHome.ImageAlign = ContentAlignment.MiddleLeft;
@@ -187,7 +187,7 @@
             btnHome.Margin = new Padding(4);
             btnHome.Name = "btnHome";
             btnHome.Padding = new Padding(13, 0, 0, 0);
-            btnHome.Size = new Size(257, 88);
+            btnHome.Size = new Size(257, 87);
             btnHome.TabIndex = 5;
             btnHome.Text = "  Home";
             btnHome.TextImageRelation = TextImageRelation.ImageBeforeText;
@@ -199,7 +199,7 @@
             btnTransfer.BackColor = Color.FromArgb(50, 52, 76);
             btnTransfer.FlatAppearance.BorderSize = 0;
             btnTransfer.FlatStyle = FlatStyle.Flat;
-            btnTransfer.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTransfer.Font = new Font("Source Sans 3", 16F, FontStyle.Bold);
             btnTransfer.ForeColor = Color.White;
             btnTransfer.Image = (Image)resources.GetObject("btnTransfer.Image");
             btnTransfer.ImageAlign = ContentAlignment.MiddleLeft;
@@ -207,7 +207,7 @@
             btnTransfer.Margin = new Padding(4);
             btnTransfer.Name = "btnTransfer";
             btnTransfer.Padding = new Padding(13, 0, 0, 0);
-            btnTransfer.Size = new Size(257, 88);
+            btnTransfer.Size = new Size(257, 87);
             btnTransfer.TabIndex = 7;
             btnTransfer.Text = "  Transaction";
             btnTransfer.TextAlign = ContentAlignment.MiddleLeft;
@@ -220,7 +220,7 @@
             btnAdd.BackColor = Color.FromArgb(50, 52, 76);
             btnAdd.FlatAppearance.BorderSize = 0;
             btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnAdd.Font = new Font("Source Sans 3", 16F, FontStyle.Bold);
             btnAdd.ForeColor = Color.White;
             btnAdd.Image = (Image)resources.GetObject("btnAdd.Image");
             btnAdd.ImageAlign = ContentAlignment.MiddleLeft;
@@ -228,7 +228,7 @@
             btnAdd.Margin = new Padding(4);
             btnAdd.Name = "btnAdd";
             btnAdd.Padding = new Padding(13, 0, 0, 0);
-            btnAdd.Size = new Size(257, 88);
+            btnAdd.Size = new Size(257, 87);
             btnAdd.TabIndex = 6;
             btnAdd.Text = "  Add User";
             btnAdd.TextAlign = ContentAlignment.MiddleLeft;
@@ -263,12 +263,12 @@
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblTitle.Font = new Font("Source Sans 3", 22.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.ForeColor = Color.White;
             lblTitle.Location = new Point(96, 20);
             lblTitle.Margin = new Padding(4, 0, 4, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(321, 46);
+            lblTitle.Size = new Size(324, 46);
             lblTitle.TabIndex = 5;
             lblTitle.Text = "Bank Management\r\n";
             lblTitle.TextAlign = ContentAlignment.MiddleCenter;

@@ -131,10 +131,5 @@ namespace BankManagement
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
-
-        private void panelBase_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

@@ -57,6 +57,7 @@
             // 
             // panel1
             // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel1.BackColor = Color.FromArgb(221, 221, 235);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(btnExit);
@@ -81,26 +82,26 @@
             panel1.Controls.Add(lblUID);
             panel1.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             panel1.Location = new Point(15, 17);
-            panel1.Margin = new Padding(4, 4, 4, 4);
+            panel1.Margin = new Padding(4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(800, 787);
+            panel1.Size = new Size(855, 787);
             panel1.TabIndex = 0;
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(64, 85);
-            pictureBox1.Margin = new Padding(4, 4, 4, 4);
+            pictureBox1.Location = new Point(101, 81);
+            pictureBox1.Margin = new Padding(4);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(103, 112);
+            pictureBox1.Size = new Size(120, 120);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 2;
             pictureBox1.TabStop = false;
             // 
             // btnExit
             // 
-            btnExit.Location = new Point(440, 671);
-            btnExit.Margin = new Padding(4, 4, 4, 4);
+            btnExit.Location = new Point(493, 670);
+            btnExit.Margin = new Padding(4);
             btnExit.Name = "btnExit";
             btnExit.Size = new Size(158, 45);
             btnExit.TabIndex = 1;
@@ -110,8 +111,8 @@
             // 
             // btnEdit
             // 
-            btnEdit.Location = new Point(188, 671);
-            btnEdit.Margin = new Padding(4, 4, 4, 4);
+            btnEdit.Location = new Point(241, 670);
+            btnEdit.Margin = new Padding(4);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(158, 45);
             btnEdit.TabIndex = 1;
@@ -123,7 +124,7 @@
             // 
             lbl_uid.AutoSize = true;
             lbl_uid.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_uid.Location = new Point(260, 102);
+            lbl_uid.Location = new Point(313, 101);
             lbl_uid.Margin = new Padding(4, 0, 4, 0);
             lbl_uid.Name = "lbl_uid";
             lbl_uid.Size = new Size(59, 32);
@@ -134,7 +135,7 @@
             // 
             lbl_cid.AutoSize = true;
             lbl_cid.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_cid.Location = new Point(260, 150);
+            lbl_cid.Location = new Point(313, 149);
             lbl_cid.Margin = new Padding(4, 0, 4, 0);
             lbl_cid.Name = "lbl_cid";
             lbl_cid.Size = new Size(59, 32);
@@ -145,7 +146,7 @@
             // 
             lbl_gender.AutoSize = true;
             lbl_gender.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_gender.Location = new Point(492, 266);
+            lbl_gender.Location = new Point(545, 265);
             lbl_gender.Margin = new Padding(4, 0, 4, 0);
             lbl_gender.Name = "lbl_gender";
             lbl_gender.Size = new Size(59, 32);
@@ -156,7 +157,7 @@
             // 
             lbl_dob.AutoSize = true;
             lbl_dob.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_dob.Location = new Point(492, 344);
+            lbl_dob.Location = new Point(545, 343);
             lbl_dob.Margin = new Padding(4, 0, 4, 0);
             lbl_dob.Name = "lbl_dob";
             lbl_dob.Size = new Size(59, 32);
@@ -167,7 +168,7 @@
             // 
             lbl_phone.AutoSize = true;
             lbl_phone.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_phone.Location = new Point(492, 463);
+            lbl_phone.Location = new Point(545, 462);
             lbl_phone.Margin = new Padding(4, 0, 4, 0);
             lbl_phone.Name = "lbl_phone";
             lbl_phone.Size = new Size(59, 32);
@@ -178,7 +179,7 @@
             // 
             lbl_email.AutoSize = true;
             lbl_email.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_email.Location = new Point(174, 546);
+            lbl_email.Location = new Point(227, 545);
             lbl_email.Margin = new Padding(4, 0, 4, 0);
             lbl_email.Name = "lbl_email";
             lbl_email.Size = new Size(59, 32);
@@ -189,7 +190,7 @@
             // 
             lbl_address.AutoSize = true;
             lbl_address.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_address.Location = new Point(174, 463);
+            lbl_address.Location = new Point(227, 462);
             lbl_address.Margin = new Padding(4, 0, 4, 0);
             lbl_address.Name = "lbl_address";
             lbl_address.Size = new Size(59, 32);
@@ -200,7 +201,7 @@
             // 
             lbl_lastname.AutoSize = true;
             lbl_lastname.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_lastname.Location = new Point(174, 344);
+            lbl_lastname.Location = new Point(227, 343);
             lbl_lastname.Margin = new Padding(4, 0, 4, 0);
             lbl_lastname.Name = "lbl_lastname";
             lbl_lastname.Size = new Size(59, 32);
@@ -211,7 +212,7 @@
             // 
             lbl_firstname.AutoSize = true;
             lbl_firstname.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbl_firstname.Location = new Point(174, 266);
+            lbl_firstname.Location = new Point(227, 265);
             lbl_firstname.Margin = new Padding(4, 0, 4, 0);
             lbl_firstname.Name = "lbl_firstname";
             lbl_firstname.Size = new Size(59, 32);
@@ -222,7 +223,7 @@
             // 
             lblGender.AutoSize = true;
             lblGender.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblGender.Location = new Point(492, 237);
+            lblGender.Location = new Point(545, 236);
             lblGender.Margin = new Padding(4, 0, 4, 0);
             lblGender.Name = "lblGender";
             lblGender.Size = new Size(86, 28);
@@ -233,7 +234,7 @@
             // 
             lblDOB.AutoSize = true;
             lblDOB.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblDOB.Location = new Point(492, 315);
+            lblDOB.Location = new Point(545, 314);
             lblDOB.Margin = new Padding(4, 0, 4, 0);
             lblDOB.Name = "lblDOB";
             lblDOB.Size = new Size(142, 28);
@@ -244,7 +245,7 @@
             // 
             lblPhone.AutoSize = true;
             lblPhone.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblPhone.Location = new Point(492, 434);
+            lblPhone.Location = new Point(545, 433);
             lblPhone.Margin = new Padding(4, 0, 4, 0);
             lblPhone.Name = "lblPhone";
             lblPhone.Size = new Size(76, 28);
@@ -255,7 +256,7 @@
             // 
             lblEmail.AutoSize = true;
             lblEmail.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblEmail.Location = new Point(174, 517);
+            lblEmail.Location = new Point(227, 516);
             lblEmail.Margin = new Padding(4, 0, 4, 0);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(69, 28);
@@ -266,7 +267,7 @@
             // 
             lblAddress.AutoSize = true;
             lblAddress.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblAddress.Location = new Point(174, 434);
+            lblAddress.Location = new Point(227, 433);
             lblAddress.Margin = new Padding(4, 0, 4, 0);
             lblAddress.Name = "lblAddress";
             lblAddress.Size = new Size(92, 28);
@@ -277,7 +278,7 @@
             // 
             lblLastName.AutoSize = true;
             lblLastName.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblLastName.Location = new Point(174, 315);
+            lblLastName.Location = new Point(227, 314);
             lblLastName.Margin = new Padding(4, 0, 4, 0);
             lblLastName.Name = "lblLastName";
             lblLastName.Size = new Size(111, 28);
@@ -288,7 +289,7 @@
             // 
             lblFirstName.AutoSize = true;
             lblFirstName.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblFirstName.Location = new Point(174, 237);
+            lblFirstName.Location = new Point(227, 236);
             lblFirstName.Margin = new Padding(4, 0, 4, 0);
             lblFirstName.Name = "lblFirstName";
             lblFirstName.Size = new Size(114, 28);
@@ -299,7 +300,7 @@
             // 
             lblCID.AutoSize = true;
             lblCID.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblCID.Location = new Point(199, 154);
+            lblCID.Location = new Point(252, 153);
             lblCID.Margin = new Padding(4, 0, 4, 0);
             lblCID.Name = "lblCID";
             lblCID.Size = new Size(50, 28);
@@ -310,7 +311,7 @@
             // 
             lblUID.AutoSize = true;
             lblUID.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            lblUID.Location = new Point(197, 106);
+            lblUID.Location = new Point(250, 105);
             lblUID.Margin = new Padding(4, 0, 4, 0);
             lblUID.Name = "lblUID";
             lblUID.Size = new Size(52, 28);
@@ -322,11 +323,11 @@
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(157, 157, 194);
-            ClientSize = new Size(831, 820);
+            ClientSize = new Size(886, 820);
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Margin = new Padding(4, 4, 4, 4);
+            Margin = new Padding(4);
             MaximizeBox = false;
             Name = "FormCustomer";
             StartPosition = FormStartPosition.CenterScreen;

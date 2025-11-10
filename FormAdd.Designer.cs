@@ -88,8 +88,8 @@
             // 
             // btnAdd
             // 
-            btnAdd.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnAdd.Location = new Point(303, 448);
+            btnAdd.Font = new Font("Source Sans 3", 14.25F, FontStyle.Bold);
+            btnAdd.Location = new Point(308, 433);
             btnAdd.Margin = new Padding(3, 4, 3, 4);
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(183, 49);
@@ -101,72 +101,72 @@
             // comboType
             // 
             comboType.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboType.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            comboType.Font = new Font("Source Sans 3", 12F);
             comboType.FormattingEnabled = true;
             comboType.Items.AddRange(new object[] { "Debit", "Credit", "Savings" });
             comboType.Location = new Point(482, 360);
             comboType.Margin = new Padding(3, 4, 3, 4);
             comboType.Name = "comboType";
-            comboType.Size = new Size(199, 40);
+            comboType.Size = new Size(199, 33);
             comboType.TabIndex = 3;
             comboType.SelectedIndexChanged += comboType_SelectedIndexChanged;
             // 
             // cboGender
             // 
             cboGender.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboGender.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cboGender.Font = new Font("Source Sans 3", 12F);
             cboGender.FormattingEnabled = true;
             cboGender.Items.AddRange(new object[] { "Male", "Female", "Others" });
             cboGender.Location = new Point(527, 253);
             cboGender.Margin = new Padding(3, 4, 3, 4);
             cboGender.Name = "cboGender";
-            cboGender.Size = new Size(154, 40);
+            cboGender.Size = new Size(154, 33);
             cboGender.TabIndex = 3;
             // 
             // dtpDoB
             // 
-            dtpDoB.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dtpDoB.Font = new Font("Source Sans 3", 12F);
             dtpDoB.Location = new Point(107, 253);
             dtpDoB.Margin = new Padding(3, 4, 3, 4);
             dtpDoB.Name = "dtpDoB";
-            dtpDoB.Size = new Size(374, 39);
+            dtpDoB.Size = new Size(374, 36);
             dtpDoB.TabIndex = 2;
             // 
             // txtBalance
             // 
-            txtBalance.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtBalance.Font = new Font("Source Sans 3", 12F);
             txtBalance.Location = new Point(107, 360);
             txtBalance.Margin = new Padding(3, 4, 3, 4);
             txtBalance.Name = "txtBalance";
-            txtBalance.Size = new Size(329, 39);
+            txtBalance.Size = new Size(329, 36);
             txtBalance.TabIndex = 1;
             // 
             // txtLastName
             // 
-            txtLastName.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtLastName.Font = new Font("Source Sans 3", 12F);
             txtLastName.Location = new Point(417, 155);
             txtLastName.Margin = new Padding(3, 4, 3, 4);
             txtLastName.Name = "txtLastName";
-            txtLastName.Size = new Size(265, 39);
+            txtLastName.Size = new Size(265, 36);
             txtLastName.TabIndex = 1;
             // 
             // txtCID
             // 
-            txtCID.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtCID.Font = new Font("Source Sans 3", 12F);
             txtCID.Location = new Point(107, 69);
             txtCID.Margin = new Padding(3, 4, 3, 4);
             txtCID.Name = "txtCID";
-            txtCID.Size = new Size(575, 39);
+            txtCID.Size = new Size(575, 36);
             txtCID.TabIndex = 1;
             txtCID.TextChanged += txtCID_TextChanged;
             // 
             // txtFirstName
             // 
-            txtFirstName.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtFirstName.Font = new Font("Source Sans 3", 12F);
             txtFirstName.Location = new Point(107, 155);
             txtFirstName.Margin = new Padding(3, 4, 3, 4);
             txtFirstName.Name = "txtFirstName";
-            txtFirstName.Size = new Size(265, 39);
+            txtFirstName.Size = new Size(265, 36);
             txtFirstName.TabIndex = 1;
             // 
             // lblBalance
@@ -232,7 +232,7 @@
             // lblNote
             // 
             lblNote.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblNote.Location = new Point(107, 501);
+            lblNote.Location = new Point(112, 486);
             lblNote.Name = "lblNote";
             lblNote.Size = new Size(576, 78);
             lblNote.TabIndex = 0;

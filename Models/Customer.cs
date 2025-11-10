@@ -24,7 +24,6 @@ namespace BankManagement.Models
         private DateTime _dob;
         public Guid UID { get; private set; } // Customer UniqueID
         
-        // ✅ NEW: CID with validation
         public string CID // Optional, Can be Empty, 9 digits if provided
         { 
             get => _cid; 
@@ -111,7 +110,7 @@ namespace BankManagement.Models
                 }
 
                 if (age < 15)
-                    throw new ArgumentException($"Customer must be at least 15 years old! Current age: {age}");
+                    throw new ArgumentException($"Customer must be at least 15 years old!\nCurrent age: {age}");
                 
                 _dob = value;
             }
