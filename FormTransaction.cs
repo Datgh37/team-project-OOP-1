@@ -74,7 +74,7 @@ namespace BankManagement
             {
                 // Hiển thị số dư
                 lblMoney.Text = $"{acc.Balance:N0} VND";
-                
+
                 // Hiển thị loại tài khoản
                 lblFromAccType.Text = "Type: " + acc.Type.AccType;
 
@@ -183,8 +183,8 @@ namespace BankManagement
                     $"Số dư hiện tại: {fromAccount.Balance:N0} VND\n" +
                     $"Số tiền cần rút: {amount:N0} VND\n" +
                     $"Còn thiếu: {(amount - fromAccount.Balance):N0} VND",
-                    "Số dư không đủ", 
-                    MessageBoxButtons.OK, 
+                    "Số dư không đủ",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 txtAmount.Focus();
                 return false;
@@ -193,11 +193,11 @@ namespace BankManagement
             // Kiểm tra cho Credit - Vượt hạn mức tín dụng
             if (fromAccount.Type.AllowOverdraft && (fromAccount.Balance - amount) < -fromAccount.Type.CreditLimit)
             {
-                double currentDebt = Math.Max(0, -fromAccount.Balance); 
+                double currentDebt = Math.Max(0, -fromAccount.Balance);
                 double availableCredit = fromAccount.Type.CreditLimit - currentDebt;
                 double totalAvailable = fromAccount.Balance + fromAccount.Type.CreditLimit;
                 double exceededAmount = amount - totalAvailable;
-                
+
                 MessageBox.Show(
                     $"Vượt quá hạn mức tín dụng!\n\n" +
                     $"Thông tin tài khoản Credit:\n" +
@@ -210,8 +210,8 @@ namespace BankManagement
                     $"━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
                     $"Số tiền muốn rút: {amount:N0} VND\n" +
                     $"Vượt quá: {exceededAmount:N0} VND",
-                    "Vượt hạn mức tín dụng", 
-                    MessageBoxButtons.OK, 
+                    "Vượt hạn mức tín dụng",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 txtAmount.Focus();
                 return false;
@@ -263,8 +263,8 @@ namespace BankManagement
                 MessageBox.Show(
                     $"Tài khoản {fromAccount.Type.AccType} không được phép chuyển tiền.\n\n" +
                     $"Chỉ tài khoản Debit và Credit mới có thể thực hiện chuyển khoản.",
-                    "Không có quyền chuyển tiền", 
-                    MessageBoxButtons.OK, 
+                    "Không có quyền chuyển tiền",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 return false;
             }
@@ -277,8 +277,8 @@ namespace BankManagement
                     $"Số dư hiện tại: {fromAccount.Balance:N0} VND\n" +
                     $"Số tiền chuyển: {amount:N0} VND\n" +
                     $"Còn thiếu: {(amount - fromAccount.Balance):N0} VND",
-                    "Số dư không đủ", 
-                    MessageBoxButtons.OK, 
+                    "Số dư không đủ",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 txtAmount.Focus();
                 return false;
@@ -291,7 +291,7 @@ namespace BankManagement
                 double availableCredit = fromAccount.Type.CreditLimit - currentDebt;
                 double totalAvailable = fromAccount.Balance + fromAccount.Type.CreditLimit;
                 double exceededAmount = amount - totalAvailable;
-                
+
                 MessageBox.Show(
                     $"Vượt quá hạn mức tín dụng!\n\n" +
                     $"Thông tin tài khoản Nguồn:\n" +
@@ -307,8 +307,8 @@ namespace BankManagement
                     $"Số tiền muốn chuyển: {amount:N0} VND\n" +
                     $"Vượt quá hạn mức: {exceededAmount:N0} VND\n\n" +
                     $"Gợi ý: Bạn chỉ có thể chuyển tối đa {totalAvailable:N0} VND",
-                    "Vượt hạn mức tín dụng", 
-                    MessageBoxButtons.OK, 
+                    "Vượt hạn mức tín dụng",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 txtAmount.Focus();
                 return false;
@@ -402,7 +402,7 @@ namespace BankManagement
             try
             {
                 string? accNum = txtFromAcc?.Text?.Trim();
-                
+
                 // Chỉ tra cứu khi nhập đủ 5 ký tự
                 if (!string.IsNullOrEmpty(accNum) && accNum.Length >= 5)
                 {
@@ -444,7 +444,7 @@ namespace BankManagement
             try
             {
                 string? accNum = txtToAcc?.Text?.Trim();
-                
+
                 if (!string.IsNullOrEmpty(accNum) && accNum.Length >= 5)
                 {
                     DisplayToAccountInfo(accNum);
@@ -485,7 +485,7 @@ namespace BankManagement
         {
             string fromAccInput = txtFromAcc.Text.Trim();
             string toAccInput = txtToAcc.Text.Trim();
-            
+
             if (!double.TryParse(txtAmount.Text.Trim(), out double amount) || amount <= 0)
             {
                 MessageBox.Show("Vui lòng nhập số tiền hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -528,10 +528,10 @@ namespace BankManagement
                     // Lưu số dư ban đầu
                     originalToBalance = toAccount.Balance;
 
-                    string receiverName = receiverCustomer != null 
-                        ? $"{receiverCustomer.LastName} {receiverCustomer.FirstName}" 
+                    string receiverName = receiverCustomer != null
+                        ? $"{receiverCustomer.LastName} {receiverCustomer.FirstName}"
                         : "Unknown";
-            
+
                     // Thực hiện giao dịch
                     toAccount.Deposit(amount);
                     transaction = new Transaction(null, toAccInput, null, receiverName, amount, TransactionType.Deposit);
@@ -544,10 +544,10 @@ namespace BankManagement
                     // Lưu số dư ban đầu
                     originalFromBalance = fromAccount.Balance;
 
-                    string senderName = senderCustomer != null 
-                        ? $"{senderCustomer.LastName} {senderCustomer.FirstName}" 
+                    string senderName = senderCustomer != null
+                        ? $"{senderCustomer.LastName} {senderCustomer.FirstName}"
                         : "Unknown";
-            
+
                     // Thực hiện giao dịch
                     fromAccount.Withdraw(amount);
                     transaction = new Transaction(fromAccInput, null, senderName, null, amount, TransactionType.Withdraw);
@@ -561,13 +561,13 @@ namespace BankManagement
                     originalFromBalance = fromAccount.Balance;
                     originalToBalance = toAccount.Balance;
 
-                    string senderName = senderCustomer != null 
-                        ? $"{senderCustomer.LastName} {senderCustomer.FirstName}" 
+                    string senderName = senderCustomer != null
+                        ? $"{senderCustomer.LastName} {senderCustomer.FirstName}"
                         : "Unknown";
-                    string receiverName = receiverCustomer != null 
-                        ? $"{receiverCustomer.LastName} {receiverCustomer.FirstName}" 
+                    string receiverName = receiverCustomer != null
+                        ? $"{receiverCustomer.LastName} {receiverCustomer.FirstName}"
                         : "Unknown";
-            
+
                     // Thực hiện giao dịch
                     fromAccount.Withdraw(amount);
                     toAccount.Deposit(amount);
@@ -684,5 +684,17 @@ namespace BankManagement
             }
         }
 
+        private void lblToAcc_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void lblReceiver_Click(object sender, EventArgs e)
+        {
+            
+        }
+        private void lblToAccType_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
