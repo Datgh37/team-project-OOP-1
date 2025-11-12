@@ -1,0 +1,3 @@
+TransactionID,FromAccountNumber,Sender,ToAccountNumber,Receiver,Amount,GetTransType,TransactionTime
+1c81fd7e-f643-4f82-becb-5972b2a22259,96127,Tran Binh,79947,Le Cuong,1000000,Transfer,11-11-2025
+6871912a-6d0d-4fde-8b9a-2349c0438bfd,58618,Pham Duong,,,100000,Withdraw,11-11-2025

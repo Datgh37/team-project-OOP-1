@@ -13,7 +13,7 @@ namespace BankManagement
         private readonly bool _isStandaloneMode;
         public Account? NewAccount { get; private set; }
         public Customer? NewCustomer { get; private set; }
-
+        // FORM
         public FormAdd()
         {
             InitializeComponent();
@@ -44,7 +44,6 @@ namespace BankManagement
             InitializeComponent();
             _isStandaloneMode = false;
 
-            // ✅ Sử dụng trực tiếp reference, KHÔNG tạo copy
             _accList = accountMgmt;
             _custList = customerMgmt;
 
@@ -57,7 +56,7 @@ namespace BankManagement
             cboGender.SelectedIndex = -1; // No default gender
             txtBalance.Text = "0"; // Default Balance
         }
-
+        // EVENTS
         private void btnAdd_Click(object sender, EventArgs e)
         {
             try
@@ -97,8 +96,8 @@ namespace BankManagement
                 {
                     string inputFirstName = txtFirstName.Text.Trim();
                     string inputLastName = txtLastName.Text.Trim();
-                    
-                    if (existingCustomer.FirstName != inputFirstName || 
+
+                    if (existingCustomer.FirstName != inputFirstName ||
                         existingCustomer.LastName != inputLastName)
                     {
                         MessageBox.Show(
@@ -113,7 +112,7 @@ namespace BankManagement
                             "Thông tin không khớp",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
-                        
+
                         txtFirstName.Focus();
                         return;
                     }
@@ -289,24 +288,24 @@ namespace BankManagement
         private void txtCID_TextChanged(object sender, EventArgs e)
         {
             string cid = txtCID.Text.Trim();
-            
+
             // Chỉ query khi đủ 9 ký tự
             if (cid.Length != 9)
             {
                 txtCID.BackColor = SystemColors.Window;
-                
+
                 // Reset lại trạng thái khi chưa đủ 9 ký tự
                 txtFirstName.ReadOnly = false;
                 txtLastName.ReadOnly = false;
                 dtpDoB.Enabled = true;
                 cboGender.Enabled = true;
-                
+
                 return;
             }
 
             // Tìm customer theo CID
             Customer? existingCustomer = _custList.FindByCID(cid);
-            
+
             if (existingCustomer != null)
             {
                 // Autofill thông tin
@@ -314,19 +313,19 @@ namespace BankManagement
                 txtLastName.Text = existingCustomer.LastName;
 
                 dtpDoB.Value = existingCustomer.BirthDate;
-                
+
                 // Set theo SelectedIndex (Vì DropDownStyle = DropDownList)
                 cboGender.SelectedIndex = (int)existingCustomer.Gender;
 
                 // Đổi màu nền để báo hiệu đã tìm thấy
                 txtCID.BackColor = Color.LightGreen;
-                
+
                 // Lock các field để không cho sửa
                 txtFirstName.ReadOnly = true;
                 txtLastName.ReadOnly = true;
                 dtpDoB.Enabled = false;
                 cboGender.Enabled = false;
-                
+
                 // Reset balance
                 txtBalance.Text = "0";
             }
@@ -334,19 +333,19 @@ namespace BankManagement
             {
                 // Không tìm thấy -> cho phép nhập mới
                 txtCID.BackColor = Color.LightYellow;
-                
+
                 // Clear các field
                 txtFirstName.Clear();
                 txtLastName.Clear();
                 dtpDoB.Value = DateTime.Now;
                 cboGender.SelectedIndex = -1;
-                
+
                 // Unlock các field
                 txtFirstName.ReadOnly = false;
                 txtLastName.ReadOnly = false;
                 dtpDoB.Enabled = true;
                 cboGender.Enabled = true;
-                
+
                 // Reset balance
                 txtBalance.Text = "0";
             }
@@ -359,13 +358,13 @@ namespace BankManagement
             txtLastName.Clear();
             txtBalance.Text = "0";
             dtpDoB.Value = DateTime.Now;
-            
+
             comboType.SelectedIndex = 0; // Debit
             cboGender.SelectedIndex = -1; // None
-            
+
             // Reset màu nền
             txtCID.BackColor = SystemColors.Window;
-            
+
             // Unlock tất cả fields
             txtFirstName.ReadOnly = false;
             txtLastName.ReadOnly = false;
@@ -373,7 +372,7 @@ namespace BankManagement
             cboGender.Enabled = true;
             txtBalance.Enabled = true;
             lblBalance.Enabled = true;
-            
+
             // Focus vào field đầu tiên
             txtCID.Focus();
         }

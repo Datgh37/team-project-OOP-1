@@ -80,17 +80,19 @@
             pnlTittle.BackColor = Color.FromArgb(221, 221, 235);
             pnlTittle.Controls.Add(lblTitle);
             pnlTittle.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
-            pnlTittle.Location = new Point(6, 6);
+            pnlTittle.Location = new Point(8, 8);
+            pnlTittle.Margin = new Padding(4);
             pnlTittle.Name = "pnlTittle";
-            pnlTittle.Size = new Size(705, 77);
+            pnlTittle.Size = new Size(906, 108);
             pnlTittle.TabIndex = 0;
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Location = new Point(237, 27);
+            lblTitle.Location = new Point(309, 38);
+            lblTitle.Margin = new Padding(4, 0, 4, 0);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(236, 28);
+            lblTitle.Size = new Size(297, 35);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "TRANSACTION RECEIPT";
             // 
@@ -103,21 +105,21 @@
             pnlRowTo.Controls.Add(lblToAcc);
             pnlRowTo.Dock = DockStyle.Top;
             pnlRowTo.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
-            pnlRowTo.Location = new Point(2, 65);
-            pnlRowTo.Margin = new Padding(2, 2, 2, 2);
+            pnlRowTo.Location = new Point(3, 90);
             pnlRowTo.Name = "pnlRowTo";
-            pnlRowTo.Padding = new Padding(4, 4, 4, 4);
-            pnlRowTo.Size = new Size(701, 59);
+            pnlRowTo.Padding = new Padding(5, 6, 5, 6);
+            pnlRowTo.Size = new Size(900, 79);
             pnlRowTo.TabIndex = 4;
             // 
             // lblToAccNum
             // 
             lblToAccNum.AutoSize = true;
-            lblToAccNum.Font = new Font("Segoe UI", 12F);
-            lblToAccNum.Location = new Point(312, 34);
+            lblToAccNum.Font = new Font("Source Sans 3", 13.25F);
+            lblToAccNum.Location = new Point(401, 45);
+            lblToAccNum.Margin = new Padding(4, 0, 4, 0);
             lblToAccNum.Name = "lblToAccNum";
             lblToAccNum.RightToLeft = RightToLeft.No;
-            lblToAccNum.Size = new Size(128, 21);
+            lblToAccNum.Size = new Size(174, 28);
             lblToAccNum.TabIndex = 0;
             lblToAccNum.Text = "Account Number";
             lblToAccNum.TextAlign = ContentAlignment.MiddleCenter;
@@ -125,11 +127,12 @@
             // lblTo
             // 
             lblTo.AutoSize = true;
-            lblTo.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTo.Location = new Point(312, 4);
+            lblTo.Font = new Font("Source Sans 3", 15F);
+            lblTo.Location = new Point(401, 9);
+            lblTo.Margin = new Padding(4, 0, 4, 0);
             lblTo.Name = "lblTo";
             lblTo.RightToLeft = RightToLeft.No;
-            lblTo.Size = new Size(105, 25);
+            lblTo.Size = new Size(130, 30);
             lblTo.TabIndex = 0;
             lblTo.Text = "To Account";
             lblTo.TextAlign = ContentAlignment.MiddleCenter;
@@ -137,9 +140,10 @@
             // lblToAcc
             // 
             lblToAcc.AutoSize = true;
-            lblToAcc.Location = new Point(229, 3);
+            lblToAcc.Location = new Point(294, 4);
+            lblToAcc.Margin = new Padding(4, 0, 4, 0);
             lblToAcc.Name = "lblToAcc";
-            lblToAcc.Size = new Size(39, 28);
+            lblToAcc.Size = new Size(50, 35);
             lblToAcc.TabIndex = 0;
             lblToAcc.Text = "To:";
             lblToAcc.TextAlign = ContentAlignment.MiddleCenter;
@@ -152,21 +156,21 @@
             pnlRowTID.Controls.Add(lblTid);
             pnlRowTID.Dock = DockStyle.Top;
             pnlRowTID.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
-            pnlRowTID.Location = new Point(2, 288);
-            pnlRowTID.Margin = new Padding(2, 2, 2, 2);
+            pnlRowTID.Location = new Point(3, 387);
             pnlRowTID.Name = "pnlRowTID";
-            pnlRowTID.Padding = new Padding(4, 4, 4, 4);
-            pnlRowTID.Size = new Size(701, 35);
+            pnlRowTID.Padding = new Padding(5, 6, 5, 6);
+            pnlRowTID.Size = new Size(900, 45);
             pnlRowTID.TabIndex = 2;
             // 
             // lblID
             // 
             lblID.AutoSize = true;
-            lblID.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblID.Location = new Point(312, 4);
+            lblID.Font = new Font("Source Sans 3", 15F);
+            lblID.Location = new Point(401, 9);
+            lblID.Margin = new Padding(4, 0, 4, 0);
             lblID.Name = "lblID";
             lblID.RightToLeft = RightToLeft.No;
-            lblID.Size = new Size(131, 25);
+            lblID.Size = new Size(164, 30);
             lblID.TabIndex = 0;
             lblID.Text = "Transaction ID";
             lblID.TextAlign = ContentAlignment.MiddleCenter;
@@ -174,9 +178,10 @@
             // lblTid
             // 
             lblTid.AutoSize = true;
-            lblTid.Location = new Point(121, 3);
+            lblTid.Location = new Point(155, 4);
+            lblTid.Margin = new Padding(4, 0, 4, 0);
             lblTid.Name = "lblTid";
-            lblTid.Size = new Size(153, 28);
+            lblTid.Size = new Size(189, 35);
             lblTid.TabIndex = 0;
             lblTid.Text = "Transaction ID:";
             lblTid.TextAlign = ContentAlignment.MiddleCenter;
@@ -190,21 +195,21 @@
             pnlRowFrom.Controls.Add(lblFromAcc);
             pnlRowFrom.Dock = DockStyle.Top;
             pnlRowFrom.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
-            pnlRowFrom.Location = new Point(2, 2);
-            pnlRowFrom.Margin = new Padding(2, 2, 2, 2);
+            pnlRowFrom.Location = new Point(3, 3);
             pnlRowFrom.Name = "pnlRowFrom";
-            pnlRowFrom.Padding = new Padding(4, 4, 4, 4);
-            pnlRowFrom.Size = new Size(701, 59);
+            pnlRowFrom.Padding = new Padding(5, 6, 5, 6);
+            pnlRowFrom.Size = new Size(900, 81);
             pnlRowFrom.TabIndex = 3;
             // 
             // lblFromAccNum
             // 
             lblFromAccNum.AutoSize = true;
-            lblFromAccNum.Font = new Font("Segoe UI", 12F);
-            lblFromAccNum.Location = new Point(312, 34);
+            lblFromAccNum.Font = new Font("Source Sans 3", 13.25F);
+            lblFromAccNum.Location = new Point(401, 47);
+            lblFromAccNum.Margin = new Padding(4, 0, 4, 0);
             lblFromAccNum.Name = "lblFromAccNum";
             lblFromAccNum.RightToLeft = RightToLeft.No;
-            lblFromAccNum.Size = new Size(128, 21);
+            lblFromAccNum.Size = new Size(174, 28);
             lblFromAccNum.TabIndex = 0;
             lblFromAccNum.Text = "Account Number";
             lblFromAccNum.TextAlign = ContentAlignment.MiddleCenter;
@@ -212,11 +217,12 @@
             // lblFrom
             // 
             lblFrom.AutoSize = true;
-            lblFrom.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblFrom.Location = new Point(312, 4);
+            lblFrom.Font = new Font("Source Sans 3", 15F);
+            lblFrom.Location = new Point(401, 11);
+            lblFrom.Margin = new Padding(4, 0, 4, 0);
             lblFrom.Name = "lblFrom";
             lblFrom.RightToLeft = RightToLeft.No;
-            lblFrom.Size = new Size(129, 25);
+            lblFrom.Size = new Size(160, 30);
             lblFrom.TabIndex = 0;
             lblFrom.Text = "From Account";
             lblFrom.TextAlign = ContentAlignment.MiddleCenter;
@@ -224,9 +230,10 @@
             // lblFromAcc
             // 
             lblFromAcc.AutoSize = true;
-            lblFromAcc.Location = new Point(203, 4);
+            lblFromAcc.Location = new Point(261, 6);
+            lblFromAcc.Margin = new Padding(4, 0, 4, 0);
             lblFromAcc.Name = "lblFromAcc";
-            lblFromAcc.Size = new Size(65, 28);
+            lblFromAcc.Size = new Size(83, 35);
             lblFromAcc.TabIndex = 0;
             lblFromAcc.Text = "From:";
             lblFromAcc.TextAlign = ContentAlignment.MiddleCenter;
@@ -239,21 +246,21 @@
             pnlRowTTime.Controls.Add(lblTtime);
             pnlRowTTime.Dock = DockStyle.Top;
             pnlRowTTime.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
-            pnlRowTTime.Location = new Point(2, 168);
-            pnlRowTTime.Margin = new Padding(2, 2, 2, 2);
+            pnlRowTTime.Location = new Point(3, 228);
             pnlRowTTime.Name = "pnlRowTTime";
-            pnlRowTTime.Padding = new Padding(4, 4, 4, 4);
-            pnlRowTTime.Size = new Size(701, 36);
+            pnlRowTTime.Padding = new Padding(5, 6, 5, 6);
+            pnlRowTTime.Size = new Size(900, 47);
             pnlRowTTime.TabIndex = 5;
             // 
             // lblTime
             // 
             lblTime.AutoSize = true;
-            lblTime.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTime.Location = new Point(312, 4);
+            lblTime.Font = new Font("Source Sans 3", 15F);
+            lblTime.Location = new Point(401, 11);
+            lblTime.Margin = new Padding(4, 0, 4, 0);
             lblTime.Name = "lblTime";
             lblTime.RightToLeft = RightToLeft.No;
-            lblTime.Size = new Size(150, 25);
+            lblTime.Size = new Size(189, 30);
             lblTime.TabIndex = 0;
             lblTime.Text = "Transaction time";
             lblTime.TextAlign = ContentAlignment.MiddleCenter;
@@ -261,9 +268,10 @@
             // lblTtime
             // 
             lblTtime.AutoSize = true;
-            lblTtime.Location = new Point(95, 4);
+            lblTtime.Location = new Point(122, 6);
+            lblTtime.Margin = new Padding(4, 0, 4, 0);
             lblTtime.Name = "lblTtime";
-            lblTtime.Size = new Size(179, 28);
+            lblTtime.Size = new Size(222, 35);
             lblTtime.TabIndex = 0;
             lblTtime.Text = "Transaction Time:";
             lblTtime.TextAlign = ContentAlignment.MiddleCenter;
@@ -276,21 +284,21 @@
             pnlRowNote.Controls.Add(lblNotes);
             pnlRowNote.Dock = DockStyle.Top;
             pnlRowNote.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
-            pnlRowNote.Location = new Point(2, 327);
-            pnlRowNote.Margin = new Padding(2, 2, 2, 2);
+            pnlRowNote.Location = new Point(3, 438);
             pnlRowNote.Name = "pnlRowNote";
-            pnlRowNote.Padding = new Padding(4, 4, 4, 4);
-            pnlRowNote.Size = new Size(701, 36);
+            pnlRowNote.Padding = new Padding(5, 6, 5, 6);
+            pnlRowNote.Size = new Size(900, 47);
             pnlRowNote.TabIndex = 6;
             // 
             // lblDescription
             // 
             lblDescription.AutoSize = true;
-            lblDescription.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblDescription.Location = new Point(312, 4);
+            lblDescription.Font = new Font("Source Sans 3", 15F);
+            lblDescription.Location = new Point(401, 11);
+            lblDescription.Margin = new Padding(4, 0, 4, 0);
             lblDescription.Name = "lblDescription";
             lblDescription.RightToLeft = RightToLeft.No;
-            lblDescription.Size = new Size(53, 25);
+            lblDescription.Size = new Size(63, 30);
             lblDescription.TabIndex = 0;
             lblDescription.Text = "Note";
             lblDescription.TextAlign = ContentAlignment.MiddleCenter;
@@ -298,9 +306,10 @@
             // lblNotes
             // 
             lblNotes.AutoSize = true;
-            lblNotes.Location = new Point(205, 4);
+            lblNotes.Location = new Point(263, 6);
+            lblNotes.Margin = new Padding(4, 0, 4, 0);
             lblNotes.Name = "lblNotes";
-            lblNotes.Size = new Size(64, 28);
+            lblNotes.Size = new Size(81, 35);
             lblNotes.TabIndex = 0;
             lblNotes.Text = "Note:";
             lblNotes.TextAlign = ContentAlignment.MiddleCenter;
@@ -313,21 +322,21 @@
             pnlRowStatus.Controls.Add(lblStatus);
             pnlRowStatus.Dock = DockStyle.Top;
             pnlRowStatus.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
-            pnlRowStatus.Location = new Point(2, 248);
-            pnlRowStatus.Margin = new Padding(2, 2, 2, 2);
+            pnlRowStatus.Location = new Point(3, 334);
             pnlRowStatus.Name = "pnlRowStatus";
-            pnlRowStatus.Padding = new Padding(4, 4, 4, 4);
-            pnlRowStatus.Size = new Size(701, 36);
+            pnlRowStatus.Padding = new Padding(5, 6, 5, 6);
+            pnlRowStatus.Size = new Size(900, 47);
             pnlRowStatus.TabIndex = 7;
             // 
             // lblSta
             // 
             lblSta.AutoSize = true;
-            lblSta.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblSta.Location = new Point(312, 4);
+            lblSta.Font = new Font("Source Sans 3", 15F);
+            lblSta.Location = new Point(401, 11);
+            lblSta.Margin = new Padding(4, 0, 4, 0);
             lblSta.Name = "lblSta";
             lblSta.RightToLeft = RightToLeft.No;
-            lblSta.Size = new Size(62, 25);
+            lblSta.Size = new Size(78, 30);
             lblSta.TabIndex = 0;
             lblSta.Text = "Status";
             lblSta.TextAlign = ContentAlignment.MiddleCenter;
@@ -335,9 +344,10 @@
             // lblStatus
             // 
             lblStatus.AutoSize = true;
-            lblStatus.Location = new Point(194, 4);
+            lblStatus.Location = new Point(250, 6);
+            lblStatus.Margin = new Padding(4, 0, 4, 0);
             lblStatus.Name = "lblStatus";
-            lblStatus.Size = new Size(76, 28);
+            lblStatus.Size = new Size(94, 35);
             lblStatus.TabIndex = 0;
             lblStatus.Text = "Status:";
             lblStatus.TextAlign = ContentAlignment.MiddleCenter;
@@ -350,21 +360,21 @@
             pnlRowAmount.Controls.Add(lblAmount);
             pnlRowAmount.Dock = DockStyle.Top;
             pnlRowAmount.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
-            pnlRowAmount.Location = new Point(2, 128);
-            pnlRowAmount.Margin = new Padding(2, 2, 2, 2);
+            pnlRowAmount.Location = new Point(3, 175);
             pnlRowAmount.Name = "pnlRowAmount";
-            pnlRowAmount.Padding = new Padding(4, 4, 4, 4);
-            pnlRowAmount.Size = new Size(701, 36);
+            pnlRowAmount.Padding = new Padding(5, 6, 5, 6);
+            pnlRowAmount.Size = new Size(900, 47);
             pnlRowAmount.TabIndex = 8;
             // 
             // lblMoney
             // 
             lblMoney.AutoSize = true;
-            lblMoney.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblMoney.Location = new Point(312, 4);
+            lblMoney.Font = new Font("Source Sans 3", 15F);
+            lblMoney.Location = new Point(401, 11);
+            lblMoney.Margin = new Padding(4, 0, 4, 0);
             lblMoney.Name = "lblMoney";
             lblMoney.RightToLeft = RightToLeft.No;
-            lblMoney.Size = new Size(79, 25);
+            lblMoney.Size = new Size(98, 30);
             lblMoney.TabIndex = 0;
             lblMoney.Text = "Amount";
             lblMoney.TextAlign = ContentAlignment.MiddleCenter;
@@ -372,22 +382,29 @@
             // lblAmount
             // 
             lblAmount.AutoSize = true;
-            lblAmount.Location = new Point(176, 4);
+            lblAmount.Location = new Point(226, 6);
+            lblAmount.Margin = new Padding(4, 0, 4, 0);
             lblAmount.Name = "lblAmount";
-            lblAmount.Size = new Size(93, 28);
+            lblAmount.Size = new Size(118, 35);
             lblAmount.TabIndex = 0;
             lblAmount.Text = "Amount:";
             lblAmount.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // btnFinish
             // 
-            btnFinish.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
-            btnFinish.Location = new Point(304, 16);
+            btnFinish.BackColor = Color.FromArgb(67, 69, 94);
+            btnFinish.Cursor = Cursors.Hand;
+            btnFinish.FlatAppearance.BorderSize = 0;
+            btnFinish.FlatStyle = FlatStyle.Flat;
+            btnFinish.Font = new Font("Segoe UI", 13.5F, FontStyle.Bold);
+            btnFinish.ForeColor = Color.White;
+            btnFinish.Location = new Point(359, 40);
+            btnFinish.Margin = new Padding(4);
             btnFinish.Name = "btnFinish";
-            btnFinish.Size = new Size(103, 35);
+            btnFinish.Size = new Size(181, 49);
             btnFinish.TabIndex = 1;
-            btnFinish.Text = "Finish";
-            btnFinish.UseVisualStyleBackColor = true;
+            btnFinish.Text = "✓ FINISH";
+            btnFinish.UseVisualStyleBackColor = false;
             btnFinish.Click += btnFinish_Click;
             // 
             // tableLayoutPanel
@@ -404,8 +421,7 @@
             tableLayoutPanel.Controls.Add(pnlRowTID, 0, 6);
             tableLayoutPanel.Controls.Add(pnlRowNote, 0, 7);
             tableLayoutPanel.Controls.Add(pnlButton, 0, 8);
-            tableLayoutPanel.Location = new Point(6, 86);
-            tableLayoutPanel.Margin = new Padding(2, 2, 2, 2);
+            tableLayoutPanel.Location = new Point(8, 120);
             tableLayoutPanel.Name = "tableLayoutPanel";
             tableLayoutPanel.RowCount = 9;
             tableLayoutPanel.RowStyles.Add(new RowStyle());
@@ -417,7 +433,7 @@
             tableLayoutPanel.RowStyles.Add(new RowStyle());
             tableLayoutPanel.RowStyles.Add(new RowStyle());
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel.Size = new Size(705, 446);
+            tableLayoutPanel.Size = new Size(906, 624);
             tableLayoutPanel.TabIndex = 11;
             // 
             // pnlRowTType
@@ -428,21 +444,21 @@
             pnlRowTType.Controls.Add(lblTType);
             pnlRowTType.Dock = DockStyle.Top;
             pnlRowTType.Font = new Font("Segoe UI", 14.5F, FontStyle.Bold);
-            pnlRowTType.Location = new Point(2, 208);
-            pnlRowTType.Margin = new Padding(2, 2, 2, 2);
+            pnlRowTType.Location = new Point(3, 281);
             pnlRowTType.Name = "pnlRowTType";
-            pnlRowTType.Padding = new Padding(4, 4, 4, 4);
-            pnlRowTType.Size = new Size(701, 36);
+            pnlRowTType.Padding = new Padding(5, 6, 5, 6);
+            pnlRowTType.Size = new Size(900, 47);
             pnlRowTType.TabIndex = 5;
             // 
             // lblTransactionType
             // 
             lblTransactionType.AutoSize = true;
-            lblTransactionType.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTransactionType.Location = new Point(312, 4);
+            lblTransactionType.Font = new Font("Source Sans 3", 15F);
+            lblTransactionType.Location = new Point(401, 11);
+            lblTransactionType.Margin = new Padding(4, 0, 4, 0);
             lblTransactionType.Name = "lblTransactionType";
             lblTransactionType.RightToLeft = RightToLeft.No;
-            lblTransactionType.Size = new Size(152, 25);
+            lblTransactionType.Size = new Size(192, 30);
             lblTransactionType.TabIndex = 0;
             lblTransactionType.Text = "Transaction Type";
             lblTransactionType.TextAlign = ContentAlignment.MiddleCenter;
@@ -450,9 +466,10 @@
             // lblTType
             // 
             lblTType.AutoSize = true;
-            lblTType.Location = new Point(95, 4);
+            lblTType.Location = new Point(124, 6);
+            lblTType.Margin = new Padding(4, 0, 4, 0);
             lblTType.Name = "lblTType";
-            lblTType.Size = new Size(177, 28);
+            lblTType.Size = new Size(220, 35);
             lblTType.TabIndex = 0;
             lblTType.Text = "Transaction Type:";
             lblTType.TextAlign = ContentAlignment.MiddleCenter;
@@ -463,10 +480,9 @@
             pnlButton.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             pnlButton.Controls.Add(btnFinish);
             pnlButton.Dock = DockStyle.Fill;
-            pnlButton.Location = new Point(2, 367);
-            pnlButton.Margin = new Padding(2, 2, 2, 2);
+            pnlButton.Location = new Point(3, 491);
             pnlButton.Name = "pnlButton";
-            pnlButton.Size = new Size(701, 77);
+            pnlButton.Size = new Size(900, 130);
             pnlButton.TabIndex = 9;
             // 
             // panelBase
@@ -477,24 +493,25 @@
             panelBase.Controls.Add(pnlTittle);
             panelBase.Controls.Add(tableLayoutPanel);
             panelBase.Location = new Point(0, 0);
-            panelBase.Margin = new Padding(2, 2, 2, 2);
             panelBase.Name = "panelBase";
-            panelBase.Size = new Size(717, 541);
+            panelBase.Size = new Size(922, 753);
             panelBase.TabIndex = 12;
             // 
             // FormBill
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(221, 221, 235);
-            ClientSize = new Size(717, 541);
+            ClientSize = new Size(922, 753);
             Controls.Add(panelBase);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4);
             MaximizeBox = false;
+            MinimizeBox = false;
             Name = "FormBill";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FormBill";
+            Text = "Transaction Bill";
             Load += FormBill_Load;
             pnlTittle.ResumeLayout(false);
             pnlTittle.PerformLayout();

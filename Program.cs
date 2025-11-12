@@ -11,21 +11,18 @@ namespace BankManagement
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            FormFlash ff = new FormFlash();
-            ff.ShowDialog();
-            if (ff.DialogResult == DialogResult.OK) { Application.Run(new FormMenu());}
 
-            //Application.Run(new FormAdd());
-
-            //Application.Run(new FormEdit());
-
-            //Application.Run(new FormTransfer());
-
-            //Application.Run(new FormBill());
-
-            //Application.Run(new FormCustomer());
-
-            //Application.Run(new FormLogin());
+            using (var splash = new FormFlash())
+            {
+                if (splash.ShowDialog() != DialogResult.OK)
+                    return;
+            }
+            using (var login = new FormLogin())
+            {
+                if (login.ShowDialog() != DialogResult.OK)
+                    return;
+            }
+            Application.Run(new FormMenu());
         }
     }
 }

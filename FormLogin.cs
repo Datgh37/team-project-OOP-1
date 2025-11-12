@@ -21,7 +21,7 @@ namespace BankManagement
             { "Sau", "4" }
         };
 
-        private int remainingAttempts = 5;
+        private int remainingAttempts = 3;
 
         public FormLogin()
         {
@@ -37,109 +37,95 @@ namespace BankManagement
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            errorProvider1.Clear();
-            bool isValid = true;
-            bool usernameError = false;
-            bool passwordError = false;
-
-            // Kiểm tra Username / Password có rỗng hay không
-            if (string.IsNullOrWhiteSpace(txtUsername.Text))
+            if (ValidateCredentials(txtUsername.Text, txtPassword.Text))
             {
-                errorProvider1.SetError(txtUsername, "Vui lòng nhập tên đăng nhập");
-                isValid = false;
-                usernameError = true;
-            }
-            if (string.IsNullOrWhiteSpace(txtPassword.Text))
-            {
-                errorProvider1.SetError(txtPassword, "Vui lòng nhập mật khẩu");
-                isValid = false;
-                passwordError = true;
-            }
-            // Đối chiếu dữ liệu tài khoản
-            if (isValid)
-            {
-                string username = txtUsername.Text.Trim();
-                string password = txtPassword.Text;
-
-                try
-                {
-                    bool userExists = accounts.TryGetValue(username, out string correctPassword);
-                    bool passCorrect = userExists && password == correctPassword;
-
-                    if (userExists && passCorrect)
-                    {
-                        MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Close();
-                    }
-                    else
-                    {
-                        remainingAttempts--;
-
-                        // Kiểm tra lỗi từng trường
-                        if (!userExists)
-                        {
-                            errorProvider1.SetError(txtUsername, "Tên đăng nhập không đúng");
-                            txtUsername.Focus();
-                            txtUsername.SelectAll();
-                        }
-                        if (userExists && password != correctPassword)
-                        {
-                            errorProvider1.SetError(txtPassword, "Mật khẩu không đúng");
-                            txtPassword.Focus();
-                            txtPassword.SelectAll();
-                        }
-                        if (!userExists && password != correctPassword)
-                        {
-                            // Nếu cả hai đều sai, báo lỗi cả hai, đặt focus vào username
-                            txtUsername.Focus();
-                            txtUsername.SelectAll();
-                        }
-
-                        if (remainingAttempts > 0)
-                        {
-                            MessageBox.Show($"Sai thông tin đăng nhập.\nBạn còn {remainingAttempts} lần thử.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                        else // Hết số lần thử là hiện thông báo, đóng thông báo sau 1s tự đóng ct
-                        {
-                            var dialog = MessageBox.Show($"Sai thông tin đăng nhập.\n" +
-                                $"Bạn đã hết lần thử.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            if (dialog == DialogResult.OK)
-                            {
-                                btnLogin.Enabled = false;
-                                lblShutDownMessage.Text = "Used All Attempt, Exiting...";
-                                lblShutDownMessage.Visible = true;
-                                var shutdownTimer = new System.Windows.Forms.Timer();
-                                shutdownTimer.Interval = 1000; // 1 seconds
-                                shutdownTimer.Tick += (s, args) =>
-                                {
-                                    shutdownTimer.Stop();
-                                    Application.Exit();
-                                };
-                                shutdownTimer.Start();
-                                return;
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Đã xảy ra lỗi khi đăng nhập: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                DialogResult = DialogResult.OK; // closes ShowDialog()
+                Close();
             }
             else
             {
-                // Đặt focus vào trường đầu tiên bị lỗi
-                if (usernameError)
+                DialogResult = DialogResult.None; // keep dialog open
+            }
+        }
+
+        private bool ValidateCredentials(string username, string password)
+        {
+            // Kiểm tra Username / Password có rỗng hay không
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                errorProvider1.SetError(txtUsername, "Vui lòng nhập tên đăng nhập");
+                txtUsername.Focus();
+                txtUsername.SelectAll();
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                errorProvider1.SetError(txtPassword, "Vui lòng nhập mật khẩu");
+                txtPassword.Focus();
+                txtPassword.SelectAll();
+                return false;
+            }
+
+            // Đối chiếu dữ liệu tài khoản
+            bool userExists = accounts.TryGetValue(username, out string correctPassword);
+            bool passCorrect = userExists && password == correctPassword;
+
+            if (userExists && passCorrect)
+            {
+                MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return true;
+            }
+            else
+            {
+                remainingAttempts--;
+
+                // Kiểm tra lỗi từng trường
+                if (!userExists)
                 {
+                    errorProvider1.SetError(txtUsername, "Tên đăng nhập không đúng");
                     txtUsername.Focus();
                     txtUsername.SelectAll();
                 }
-                else if (passwordError)
+                if (userExists && password != correctPassword)
                 {
+                    errorProvider1.SetError(txtPassword, "Mật khẩu không đúng");
                     txtPassword.Focus();
                     txtPassword.SelectAll();
                 }
+                if (!userExists && password != correctPassword)
+                {
+                    // Nếu cả hai đều sai, báo lỗi cả hai, đặt focus vào username
+                    txtUsername.Focus();
+                    txtUsername.SelectAll();
+                }
+
+                if (remainingAttempts > 0)
+                {
+                    MessageBox.Show($"Sai thông tin đăng nhập.\nBạn còn {remainingAttempts} lần thử.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else // Hết số lần thử là hiện thông báo, đóng thông báo sau 1s tự đóng ct
+                {
+                    var dialog = MessageBox.Show($"Sai thông tin đăng nhập.\n" +
+                        $"Bạn đã hết lần thử.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    if (dialog == DialogResult.OK)
+                    {
+                        btnLogin.Enabled = false;
+                        lblShutDownMessage.Text = "Used All Attempt, Exiting...";
+                        lblShutDownMessage.Visible = true;
+                        var shutdownTimer = new System.Windows.Forms.Timer();
+                        shutdownTimer.Interval = 1000; // 1 seconds
+                        shutdownTimer.Tick += (s, args) =>
+                        {
+                            shutdownTimer.Stop();
+                            Application.Exit();
+                        };
+                        shutdownTimer.Start();
+                        return false;
+                    }
+                }
             }
+
+            return false;
         }
 
         private void chkShow_CheckedChanged(object sender, EventArgs e)

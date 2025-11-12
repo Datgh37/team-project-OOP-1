@@ -22,7 +22,9 @@ namespace BankManagement
             this.ActiveControl = txtFromAcc;
             txtFromAcc.Focus();
 
-            // initialize account manager and try to load accounts (silent on error)
+            // Khởi tạo ComboBox - Chọn Transfer làm mặc định
+            cboTransactionMode.SelectedIndex = 0; // 0: Transfer, 1: Deposit, 2: Withdraw
+
             _accountMgr = new AccountManagement();
             _customerMgr = new CustomerManagement();
             try
@@ -396,6 +398,7 @@ namespace BankManagement
 
             return message;
         }
+        
         // EVENT HANDLING
         private void txtFromAcc_TextChanged(object sender, EventArgs e)
         {
@@ -480,7 +483,6 @@ namespace BankManagement
                 // Silent
             }
         }
-
         private void btnConfirm_Click(object sender, EventArgs e)
         {
             string fromAccInput = txtFromAcc.Text.Trim();
@@ -617,84 +619,64 @@ namespace BankManagement
                 );
             }
         }
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void radTransfer_CheckedChanged(object sender, EventArgs e)
+        private void cboTransactionMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (radTransfer.Checked)
+            switch (cboTransactionMode.SelectedIndex)
             {
-                _mode = TransactionType.Transfer;
-                lblTitle.Text = "TRANSFER";
-                lblFromAcc.Enabled = true;
-                txtFromAcc.Enabled = true;
-                lblToAcc.Enabled = true;
-                txtToAcc.Enabled = true;
-                lblSender.Enabled = true;
-                lblReceiver.Enabled = true;
-                lblFromAccType.Enabled = true;
-                lblToAccType.Enabled = true;
-                lblMoney.Enabled = true;
+                case 0: // Transfer
+                    _mode = TransactionType.Transfer;
+                    lblTitle.Text = "TRANSFER";
+                    lblFromAcc.Enabled = true;
+                    txtFromAcc.Enabled = true;
+                    lblToAcc.Enabled = true;
+                    txtToAcc.Enabled = true;
+                    lblSender.Enabled = true;
+                    lblReceiver.Enabled = true;
+                    lblFromAccType.Enabled = true;
+                    lblToAccType.Enabled = true;
+                    lblMoney.Enabled = true;
+                    break;
+
+                case 1: // Deposit
+                    _mode = TransactionType.Deposit;
+                    lblTitle.Text = "DEPOSIT";
+                    lblFromAcc.Enabled = false;
+                    txtFromAcc.Enabled = false;
+                    txtFromAcc.Clear();
+                    lblToAcc.Enabled = true;
+                    txtToAcc.Enabled = true;
+                    lblSender.Enabled = false;
+                    lblSender.Text = "";
+                    lblReceiver.Enabled = true;
+                    lblFromAccType.Enabled = false;
+                    lblFromAccType.Text = "";
+                    lblToAccType.Enabled = true;
+                    lblMoney.Enabled = false;
+                    lblMoney.Text = "";
+                    break;
+
+                case 2: // Withdraw
+                    _mode = TransactionType.Withdraw;
+                    lblTitle.Text = "WITHDRAW";
+                    lblFromAcc.Enabled = true;
+                    txtFromAcc.Enabled = true;
+                    lblToAcc.Enabled = false;
+                    txtToAcc.Enabled = false;
+                    txtToAcc.Clear();
+                    lblSender.Enabled = true;
+                    lblReceiver.Enabled = false;
+                    lblReceiver.Text = "";
+                    lblFromAccType.Enabled = true;
+                    lblToAccType.Enabled = false;
+                    lblToAccType.Text = "";
+                    lblMoney.Enabled = true;
+                    break;
             }
-        }
-
-        private void radDeposit_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radDeposit.Checked)
-            {
-                _mode = TransactionType.Deposit;
-                lblTitle.Text = "DEPOSIT";
-                lblFromAcc.Enabled = false;
-                txtFromAcc.Enabled = false;
-                txtFromAcc.Clear();
-                lblToAcc.Enabled = true;
-                txtToAcc.Enabled = true;
-                lblSender.Enabled = false;
-                lblSender.Text = "";
-                lblReceiver.Enabled = true;
-                lblFromAccType.Enabled = false;
-                lblFromAccType.Text = "";
-                lblToAccType.Enabled = true;
-                lblMoney.Enabled = false;
-                lblMoney.Text = "";
-            }
-        }
-
-        private void radWithdraw_CheckedChanged(object sender, EventArgs e)
-        {
-            if (radWithdraw.Checked)
-            {
-                _mode = TransactionType.Withdraw;
-                lblTitle.Text = "WITHDRAW";
-                lblFromAcc.Enabled = true;
-                txtFromAcc.Enabled = true;
-                lblToAcc.Enabled = false;
-                txtToAcc.Enabled = false;
-                txtToAcc.Clear();
-                lblSender.Enabled = true;
-                lblReceiver.Enabled = false;
-                lblReceiver.Text = "";
-                lblFromAccType.Enabled = true;
-                lblToAccType.Enabled = false;
-                lblToAccType.Text = "";
-                lblMoney.Enabled = true;
-            }
-        }
-
-        private void lblToAcc_Click(object sender, EventArgs e)
-        {
-
-        }
-        private void lblReceiver_Click(object sender, EventArgs e)
-        {
-            
-        }
-        private void lblToAccType_Click(object sender, EventArgs e)
-        {
-            
         }
     }
 }

@@ -131,5 +131,10 @@ namespace BankManagement
             this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
+
+        private void grpCustomerInfo_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

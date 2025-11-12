@@ -66,9 +66,6 @@ namespace BankManagement
             dgvMain.DataSource = list;
             isNormalState = ReferenceEquals(list, AccountList.Accounts);
 
-            // Cập nhật số thứ tự cho dgvMain
-            UpdateRowNumbers(dgvMain, "MainSTT");
-
             (int dc, int cc, int sc) = AccountList.GetTotalItemsEachAccountType();
             tslblDataRowCount.Text = "Total Items: " + AccountList.GetTotalItemsInList().ToString();
             tslblDebitCount.Text = "Debit: " + dc;
@@ -275,21 +272,15 @@ namespace BankManagement
             dgvMain.RowsDefaultCellStyle.BackColor = Color.White;
             dgvMain.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
             dgvMain.AutoGenerateColumns = false;
-            dgvMain.DataSource = AccountList.Accounts;
             dgvMain.Columns["Balance"].DefaultCellStyle.Format = "N0";
             dgvMain.Columns["OpenAt"].DefaultCellStyle.Format = "dd/MM/yyyy";
+            
+            ReloadAccountGrid(AccountList.Accounts);
 
             dgvSub.AutoGenerateColumns = false;
             dgvSub.RowsDefaultCellStyle.BackColor = Color.White;
             dgvSub.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
             LoadTransactionHistory(""); // Clear dgvSub khi khởi động
-
-            // In một vài thông số
-            (int dc, int cc, int sc) = AccountList.GetTotalItemsEachAccountType();
-            tslblDataRowCount.Text = "Total Items: " + AccountList.GetTotalItemsInList().ToString();
-            tslblDebitCount.Text = "Debit: " + dc;
-            tslblCreditCount.Text = "Credit: " + cc;
-            tslblSavingsCount.Text = "Savings: " + sc;
 
             // Initialize sub status bar
             tslblSubDataRowCount.Text = "Total: 0";
@@ -297,9 +288,9 @@ namespace BankManagement
             tslblWithdraw.Text = "Withdraw: 0";
             tslblTransfer.Text = "Transfer: 0";
 
-            // Setup button with Resources (no need to load from file)
-            btnViewMode.Image = Properties.Resources.view_all; // Default icon
-            btnViewMode.Text = ""; // Clear text (icon only)
+            // Setup button with Resources
+            btnViewMode.Image = Properties.Resources.view_all;
+            btnViewMode.Text = "";
             btnViewMode.ImageAlign = ContentAlignment.MiddleCenter;
             btnViewMode.TextAlign = ContentAlignment.MiddleCenter;
             
@@ -312,6 +303,9 @@ namespace BankManagement
                 formMenu.OnAddButtonClick = OpenFormAdd;
                 formMenu.OnTransferButtonClick = OpenFormTransfer;
             }
+
+            dgvMain.DataBindingComplete += (_, __) => UpdateRowNumbers(dgvMain, "MainSTT");
+            dgvSub.DataBindingComplete += (_, __) => UpdateRowNumbers(dgvSub, "SubSTT");
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -607,7 +601,7 @@ namespace BankManagement
         // Xử lý Liên kết Form Customer
         private void dgvMain_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
             string colName = dgvMain.Columns[e.ColumnIndex].Name;
             if (colName == "Edit" || colName == "Delete") return;
 

@@ -67,11 +67,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Lato", 22.1999989F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(285, 62);
+            label1.Font = new Font("Lato", 20F, FontStyle.Bold);
+            label1.Location = new Point(303, 56);
             label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(135, 45);
+            label1.Size = new Size(124, 41);
             label1.TabIndex = 5;
             label1.Text = "LOGIN";
             // 
@@ -81,7 +81,7 @@
             btnLogin.FlatAppearance.BorderSize = 0;
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.ForeColor = Color.White;
-            btnLogin.Location = new Point(251, 396);
+            btnLogin.Location = new Point(251, 388);
             btnLogin.Margin = new Padding(4);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(212, 50);
@@ -94,10 +94,10 @@
             // 
             lnlForgot.AutoSize = true;
             lnlForgot.DisabledLinkColor = Color.Black;
-            lnlForgot.Font = new Font("Lato", 9.75F);
+            lnlForgot.Font = new Font("Lato", 10F);
             lnlForgot.ForeColor = SystemColors.ControlText;
             lnlForgot.LinkVisited = true;
-            lnlForgot.Location = new Point(133, 314);
+            lnlForgot.Location = new Point(133, 306);
             lnlForgot.Margin = new Padding(4, 0, 4, 0);
             lnlForgot.Name = "lnlForgot";
             lnlForgot.Size = new Size(137, 21);
@@ -110,9 +110,9 @@
             // chkShow
             // 
             chkShow.AutoSize = true;
-            chkShow.Font = new Font("Lato", 9.75F);
+            chkShow.Font = new Font("Lato", 10F);
             chkShow.ForeColor = SystemColors.ControlText;
-            chkShow.Location = new Point(506, 314);
+            chkShow.Location = new Point(506, 306);
             chkShow.Margin = new Padding(4);
             chkShow.Name = "chkShow";
             chkShow.Size = new Size(72, 25);
@@ -126,11 +126,11 @@
             txtPassword.BackColor = Color.FromArgb(221, 221, 235);
             txtPassword.BorderStyle = BorderStyle.None;
             txtPassword.Cursor = Cursors.IBeam;
-            txtPassword.Font = new Font("Lato", 14.25F);
+            txtPassword.Font = new Font("Source Sans 3", 13F);
             txtPassword.Location = new Point(133, 254);
             txtPassword.Margin = new Padding(4);
             txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(447, 29);
+            txtPassword.Size = new Size(447, 31);
             txtPassword.TabIndex = 1;
             txtPassword.UseSystemPasswordChar = true;
             // 
@@ -139,11 +139,11 @@
             txtUsername.BackColor = Color.FromArgb(221, 221, 235);
             txtUsername.BorderStyle = BorderStyle.None;
             txtUsername.Cursor = Cursors.IBeam;
-            txtUsername.Font = new Font("Lato", 14.25F);
+            txtUsername.Font = new Font("Source Sans 3", 13F);
             txtUsername.Location = new Point(133, 170);
             txtUsername.Margin = new Padding(4);
             txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(447, 29);
+            txtUsername.Size = new Size(447, 31);
             txtUsername.TabIndex = 1;
             // 
             // lblShutDownMessage
@@ -160,22 +160,22 @@
             // lblPassword
             // 
             lblPassword.AutoSize = true;
-            lblPassword.Font = new Font("Lato", 9F, FontStyle.Bold);
-            lblPassword.Location = new Point(133, 229);
+            lblPassword.Font = new Font("Lato", 10F, FontStyle.Bold);
+            lblPassword.Location = new Point(127, 229);
             lblPassword.Margin = new Padding(4, 0, 4, 0);
             lblPassword.Name = "lblPassword";
-            lblPassword.Size = new Size(79, 18);
+            lblPassword.Size = new Size(89, 21);
             lblPassword.TabIndex = 0;
             lblPassword.Text = "Password:";
             // 
             // lblUsername
             // 
             lblUsername.AutoSize = true;
-            lblUsername.Font = new Font("Lato", 9F, FontStyle.Bold);
-            lblUsername.Location = new Point(133, 145);
+            lblUsername.Font = new Font("Lato", 10F, FontStyle.Bold);
+            lblUsername.Location = new Point(127, 145);
             lblUsername.Margin = new Padding(4, 0, 4, 0);
             lblUsername.Name = "lblUsername";
-            lblUsername.Size = new Size(82, 18);
+            lblUsername.Size = new Size(92, 21);
             lblUsername.TabIndex = 0;
             lblUsername.Text = "Username:";
             // 
