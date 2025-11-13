@@ -77,6 +77,36 @@ namespace BankManagement
             tslblSavingsCount.Text = "Savings: " + sc;
         }
 
+        // Thêm method mới để đồng bộ UI với trạng thái view mode
+        private void UpdateViewModeUI()
+        {
+            if (_showAllTransactions)
+            {
+                // View All mode
+                btnViewMode.Image = Properties.Resources.view_selected;
+                toolTip.SetToolTip(btnViewMode, "Click to show filtered view");
+                lblSubText.Text = "Showing All Transaction History";
+                lblAccountNumberDisplay.Text = "";
+            }
+            else
+            {
+                // Filtered mode
+                btnViewMode.Image = Properties.Resources.view_all;
+                toolTip.SetToolTip(btnViewMode, "Click to show all transactions");
+                
+                if (!string.IsNullOrEmpty(_currentAccountNumber))
+                {
+                    lblSubText.Text = "Showing Transaction history of";
+                    lblAccountNumberDisplay.Text = $"Account: {_currentAccountNumber}";
+                }
+                else
+                {
+                    lblSubText.Text = "Showing Transaction history of";
+                    lblAccountNumberDisplay.Text = "Account: N/A";
+                }
+            }
+        }
+
         // Load Transaction History cho Account được chọn
         private void LoadTransactionHistory(string? accountNumber = null)
         {
@@ -94,9 +124,6 @@ namespace BankManagement
                 dgvSub.DataSource = null;
                 dgvSub.DataSource = TransactionList.Transactions;
                 dgvSub.Refresh();
-
-                lblSubText.Text = "Showing All Transaction History";
-                lblAccountNumberDisplay.Text = "";
 
                 // Format columns
                 if (dgvSub.Columns["Amount"] != null)
@@ -119,7 +146,6 @@ namespace BankManagement
             if (string.IsNullOrEmpty(accountNumber))
             {
                 dgvSub.DataSource = null;
-                lblAccountNumberDisplay.Text = "Account: N/A";
                 tslblSubDataRowCount.Text = "Total: 0";
                 tslblDeposit.Text = "Deposit: 0";
                 tslblWithdraw.Text = "Withdraw: 0";
@@ -152,10 +178,6 @@ namespace BankManagement
             dgvSub.DataSource = TransactionList.Transactions;
             dgvSub.Refresh();
 
-            // Cập nhật label hiển thị account number
-            lblSubText.Text = $"Showing Transaction history of";
-            lblAccountNumberDisplay.Text = $"Account: {accountNumber}";
-
             // Format lại columns
             if (dgvSub.Columns["Amount"] != null)
                 dgvSub.Columns["Amount"].DefaultCellStyle.Format = "N0";
@@ -170,6 +192,7 @@ namespace BankManagement
             tslblWithdraw.Text = $"Withdraw: {withdrawCount}";
             tslblTransfer.Text = $"Transfer: {transferCount}";
         }
+        
         // Xử lý mở Form Add thông qua invoke từ Form Menu
         private void OpenFormAdd()
         {
@@ -182,6 +205,19 @@ namespace BankManagement
                     ReloadAccountGrid(AccountList.Accounts);
 
                     isChanged = true;
+
+                    // Khôi phục lại trạng thái hiển thị của dgvSub
+                    UpdateViewModeUI(); // Đồng bộ UI trước
+                    
+                    if (_showAllTransactions)
+                    {
+                        LoadTransactionHistory(null); // Giữ nguyên chế độ "view all"
+                    }
+                    else
+                    {
+                        // Giữ nguyên chế độ filtered, load lại account hiện tại nếu có
+                        LoadTransactionHistory(string.IsNullOrEmpty(_currentAccountNumber) ? "" : _currentAccountNumber);
+                    }
 
                     MessageBox.Show(
                         $"Account added: {formAdd.NewAccount?.AccountNumber}\n" +
@@ -236,11 +272,18 @@ namespace BankManagement
                 // Refresh DataGridView
                 ReloadAccountGrid(AccountList.Accounts);
 
-                // Reset về filtered mode sau giao dịch
-                _showAllTransactions = false;
-                btnViewMode.Image = Properties.Resources.view_all;
-                toolTip.SetToolTip(btnViewMode, "Click to show all transactions");
-                LoadTransactionHistory("");
+                // Khôi phục lại trạng thái hiển thị của dgvSub
+                UpdateViewModeUI(); // Đồng bộ UI trước
+                
+                if (_showAllTransactions)
+                {
+                    LoadTransactionHistory(null); // Giữ nguyên chế độ "view all"
+                }
+                else
+                {
+                    // Giữ nguyên chế độ filtered, load lại account hiện tại nếu có
+                    LoadTransactionHistory(string.IsNullOrEmpty(_currentAccountNumber) ? "" : _currentAccountNumber);
+                }
             }
             catch (Exception ex)
             {
@@ -293,17 +336,18 @@ namespace BankManagement
             //tslblTransfer.Text = "Transfer: 0";
 
             // Setup button with Resources
-            //btnViewMode.Image = Properties.Resources.view_all;
-            btnViewMode.Image = Properties.Resources.view_selected;
+            btnViewMode.Image = Properties.Resources.view_all;
+            //btnViewMode.Image = Properties.Resources.view_selected;
             btnViewMode.Text = "";
             btnViewMode.ImageAlign = ContentAlignment.MiddleCenter;
             btnViewMode.TextAlign = ContentAlignment.MiddleCenter;
 
+            // Đồng bộ UI theo trạng thái mặc định
+            UpdateViewModeUI();
+            
+            // Load transaction history
             LoadTransactionHistory(null);
 
-            // Add tooltip
-            //toolTip.SetToolTip(btnViewMode, "Click to show all transactions");
-            toolTip.SetToolTip(btnViewMode, "Click to show filtered view");
             // Tạo và liên kết FormMenu
             if (formMenu != null)
             {
@@ -413,20 +457,16 @@ namespace BankManagement
             // Toggle mode
             _showAllTransactions = !_showAllTransactions;
 
+            // Đồng bộ UI với trạng thái mới
+            UpdateViewModeUI();
+
             if (_showAllTransactions)
             {
-                // Switch to "All" mode
-                btnViewMode.Image = Properties.Resources.view_selected;
-                toolTip.SetToolTip(btnViewMode, "Click to show filtered view");
                 // Load all transactions
                 LoadTransactionHistory(null);
             }
             else
             {
-                // Switch to "Filtered" mode
-                btnViewMode.Image = Properties.Resources.view_all;
-                toolTip.SetToolTip(btnViewMode, "Click to show all transactions");
-
                 // Restore filtered view
                 if (!string.IsNullOrEmpty(_currentAccountNumber))
                 {
@@ -518,6 +558,7 @@ namespace BankManagement
                     if (!_showAllTransactions)
                     {
                         LoadTransactionHistory(acc.AccountNumber);
+                        UpdateViewModeUI(); // Cập nhật label sau khi load
                     }
                     else
                     {
