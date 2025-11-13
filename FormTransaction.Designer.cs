@@ -30,12 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormTransaction));
             panelTransfer = new Panel();
+            cboReceiver = new ComboBox();
+            cboSender = new ComboBox();
             cboTransactionMode = new ComboBox();
             btnCancel = new Button();
             btnConfirm = new Button();
-            txtFromAcc = new TextBox();
             txtAmount = new TextBox();
-            txtToAcc = new TextBox();
             txtNotes = new TextBox();
             lblAmount = new Label();
             lblTransactionType = new Label();
@@ -44,8 +44,8 @@
             lblFromAcc = new Label();
             lblToAccType = new Label();
             lblMoney = new Label();
-            lblReceiver = new Label();
-            lblSender = new Label();
+            lblReceiverNum = new Label();
+            lblSenderNum = new Label();
             lblFromAccType = new Label();
             lblBalance = new Label();
             lblTitle = new Label();
@@ -56,12 +56,12 @@
             // 
             panelTransfer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelTransfer.BackColor = Color.FromArgb(221, 221, 235);
+            panelTransfer.Controls.Add(cboReceiver);
+            panelTransfer.Controls.Add(cboSender);
             panelTransfer.Controls.Add(cboTransactionMode);
             panelTransfer.Controls.Add(btnCancel);
             panelTransfer.Controls.Add(btnConfirm);
-            panelTransfer.Controls.Add(txtFromAcc);
             panelTransfer.Controls.Add(txtAmount);
-            panelTransfer.Controls.Add(txtToAcc);
             panelTransfer.Controls.Add(txtNotes);
             panelTransfer.Controls.Add(lblAmount);
             panelTransfer.Controls.Add(lblTransactionType);
@@ -70,8 +70,8 @@
             panelTransfer.Controls.Add(lblFromAcc);
             panelTransfer.Controls.Add(lblToAccType);
             panelTransfer.Controls.Add(lblMoney);
-            panelTransfer.Controls.Add(lblReceiver);
-            panelTransfer.Controls.Add(lblSender);
+            panelTransfer.Controls.Add(lblReceiverNum);
+            panelTransfer.Controls.Add(lblSenderNum);
             panelTransfer.Controls.Add(lblFromAccType);
             panelTransfer.Controls.Add(lblBalance);
             panelTransfer.Controls.Add(lblTitle);
@@ -79,19 +79,42 @@
             panelTransfer.Location = new Point(15, 17);
             panelTransfer.Margin = new Padding(4);
             panelTransfer.Name = "panelTransfer";
-            panelTransfer.Size = new Size(875, 685);
+            panelTransfer.Size = new Size(883, 685);
             panelTransfer.TabIndex = 0;
+            // 
+            // cboReceiver
+            // 
+            cboReceiver.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboReceiver.Font = new Font("Source Sans 3", 13F);
+            cboReceiver.ForeColor = Color.FromArgb(50, 52, 76);
+            cboReceiver.FormattingEnabled = true;
+            cboReceiver.Location = new Point(464, 193);
+            cboReceiver.Name = "cboReceiver";
+            cboReceiver.Size = new Size(309, 35);
+            cboReceiver.TabIndex = 4;
+            // 
+            // cboSender
+            // 
+            cboSender.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSender.Font = new Font("Source Sans 3", 13F);
+            cboSender.ForeColor = Color.FromArgb(50, 52, 76);
+            cboSender.FormattingEnabled = true;
+            cboSender.Location = new Point(116, 193);
+            cboSender.Name = "cboSender";
+            cboSender.Size = new Size(309, 35);
+            cboSender.TabIndex = 4;
             // 
             // cboTransactionMode
             // 
             cboTransactionMode.Cursor = Cursors.Hand;
             cboTransactionMode.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTransactionMode.Font = new Font("Source Sans 3", 13F);
+            cboTransactionMode.ForeColor = Color.FromArgb(50, 52, 76);
             cboTransactionMode.FormattingEnabled = true;
             cboTransactionMode.Items.AddRange(new object[] { "Transfer", "Deposit", "Withdraw" });
-            cboTransactionMode.Location = new Point(550, 305);
+            cboTransactionMode.Location = new Point(536, 305);
             cboTransactionMode.Name = "cboTransactionMode";
-            cboTransactionMode.Size = new Size(203, 35);
+            cboTransactionMode.Size = new Size(237, 35);
             cboTransactionMode.TabIndex = 3;
             cboTransactionMode.SelectedIndexChanged += cboTransactionMode_SelectedIndexChanged;
             // 
@@ -129,51 +152,33 @@
             btnConfirm.UseVisualStyleBackColor = false;
             btnConfirm.Click += btnConfirm_Click;
             // 
-            // txtFromAcc
-            // 
-            txtFromAcc.Font = new Font("Source Sans 3", 12F);
-            txtFromAcc.Location = new Point(120, 193);
-            txtFromAcc.Margin = new Padding(4);
-            txtFromAcc.Name = "txtFromAcc";
-            txtFromAcc.Size = new Size(287, 36);
-            txtFromAcc.TabIndex = 1;
-            txtFromAcc.TextChanged += txtFromAcc_TextChanged;
-            txtFromAcc.Leave += txtFromAcc_Leave;
-            // 
             // txtAmount
             // 
             txtAmount.Font = new Font("Source Sans 3", 12F);
+            txtAmount.ForeColor = Color.FromArgb(50, 52, 76);
             txtAmount.Location = new Point(116, 304);
             txtAmount.Margin = new Padding(4);
             txtAmount.Name = "txtAmount";
             txtAmount.Size = new Size(346, 36);
             txtAmount.TabIndex = 1;
-            // 
-            // txtToAcc
-            // 
-            txtToAcc.Font = new Font("Source Sans 3", 12F);
-            txtToAcc.Location = new Point(493, 193);
-            txtToAcc.Margin = new Padding(4);
-            txtToAcc.Name = "txtToAcc";
-            txtToAcc.Size = new Size(260, 36);
-            txtToAcc.TabIndex = 1;
-            txtToAcc.TextChanged += txtToAcc_TextChanged;
-            txtToAcc.Leave += txtToAcc_Leave;
+            txtAmount.TextAlign = HorizontalAlignment.Right;
             // 
             // txtNotes
             // 
             txtNotes.Font = new Font("Source Sans 3", 12F);
+            txtNotes.ForeColor = Color.FromArgb(50, 52, 76);
             txtNotes.Location = new Point(116, 397);
             txtNotes.Margin = new Padding(4);
             txtNotes.Multiline = true;
             txtNotes.Name = "txtNotes";
-            txtNotes.Size = new Size(637, 131);
+            txtNotes.Size = new Size(657, 131);
             txtNotes.TabIndex = 1;
             // 
             // lblAmount
             // 
             lblAmount.AutoSize = true;
             lblAmount.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
+            lblAmount.ForeColor = Color.FromArgb(50, 52, 76);
             lblAmount.Location = new Point(109, 272);
             lblAmount.Margin = new Padding(4, 0, 4, 0);
             lblAmount.Name = "lblAmount";
@@ -185,7 +190,8 @@
             // 
             lblTransactionType.AutoSize = true;
             lblTransactionType.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
-            lblTransactionType.Location = new Point(544, 272);
+            lblTransactionType.ForeColor = Color.FromArgb(50, 52, 76);
+            lblTransactionType.Location = new Point(530, 272);
             lblTransactionType.Margin = new Padding(4, 0, 4, 0);
             lblTransactionType.Name = "lblTransactionType";
             lblTransactionType.Size = new Size(177, 28);
@@ -196,6 +202,7 @@
             // 
             lblNotes.AutoSize = true;
             lblNotes.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
+            lblNotes.ForeColor = Color.FromArgb(50, 52, 76);
             lblNotes.Location = new Point(109, 365);
             lblNotes.Margin = new Padding(4, 0, 4, 0);
             lblNotes.Name = "lblNotes";
@@ -207,7 +214,8 @@
             // 
             lblToAcc.AutoSize = true;
             lblToAcc.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
-            lblToAcc.Location = new Point(486, 161);
+            lblToAcc.ForeColor = Color.FromArgb(50, 52, 76);
+            lblToAcc.Location = new Point(458, 161);
             lblToAcc.Margin = new Padding(4, 0, 4, 0);
             lblToAcc.Name = "lblToAcc";
             lblToAcc.Size = new Size(123, 28);
@@ -218,6 +226,7 @@
             // 
             lblFromAcc.AutoSize = true;
             lblFromAcc.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
+            lblFromAcc.ForeColor = Color.FromArgb(50, 52, 76);
             lblFromAcc.Location = new Point(113, 161);
             lblFromAcc.Margin = new Padding(4, 0, 4, 0);
             lblFromAcc.Name = "lblFromAcc";
@@ -229,7 +238,8 @@
             // 
             lblToAccType.AutoSize = true;
             lblToAccType.Font = new Font("Segoe UI", 11.5F);
-            lblToAccType.Location = new Point(489, 238);
+            lblToAccType.ForeColor = Color.FromArgb(50, 52, 76);
+            lblToAccType.Location = new Point(458, 238);
             lblToAccType.Margin = new Padding(4, 0, 4, 0);
             lblToAccType.Name = "lblToAccType";
             lblToAccType.Size = new Size(16, 28);
@@ -247,33 +257,35 @@
             lblMoney.TabIndex = 0;
             lblMoney.Text = "0";
             // 
-            // lblReceiver
+            // lblReceiverNum
             // 
-            lblReceiver.AutoSize = true;
-            lblReceiver.Font = new Font("Segoe UI", 11.5F);
-            lblReceiver.Location = new Point(609, 161);
-            lblReceiver.Margin = new Padding(4, 0, 4, 0);
-            lblReceiver.Name = "lblReceiver";
-            lblReceiver.Size = new Size(16, 28);
-            lblReceiver.TabIndex = 0;
-            lblReceiver.Text = ".";
+            lblReceiverNum.AutoSize = true;
+            lblReceiverNum.Font = new Font("Segoe UI", 11.5F);
+            lblReceiverNum.ForeColor = Color.FromArgb(50, 52, 76);
+            lblReceiverNum.Location = new Point(581, 161);
+            lblReceiverNum.Margin = new Padding(4, 0, 4, 0);
+            lblReceiverNum.Name = "lblReceiverNum";
+            lblReceiverNum.Size = new Size(16, 28);
+            lblReceiverNum.TabIndex = 0;
+            lblReceiverNum.Text = ".";
             // 
-            // lblSender
+            // lblSenderNum
             // 
-            lblSender.AutoSize = true;
-            lblSender.Font = new Font("Segoe UI", 11.5F);
-            lblSender.Location = new Point(263, 161);
-            lblSender.Margin = new Padding(4, 0, 4, 0);
-            lblSender.Name = "lblSender";
-            lblSender.Size = new Size(16, 28);
-            lblSender.TabIndex = 0;
-            lblSender.Text = ".";
+            lblSenderNum.AutoSize = true;
+            lblSenderNum.Font = new Font("Segoe UI", 11.5F);
+            lblSenderNum.Location = new Point(263, 161);
+            lblSenderNum.Margin = new Padding(4, 0, 4, 0);
+            lblSenderNum.Name = "lblSenderNum";
+            lblSenderNum.Size = new Size(16, 28);
+            lblSenderNum.TabIndex = 0;
+            lblSenderNum.Text = ".";
             // 
             // lblFromAccType
             // 
             lblFromAccType.AutoSize = true;
             lblFromAccType.Font = new Font("Segoe UI", 11.5F);
-            lblFromAccType.Location = new Point(116, 233);
+            lblFromAccType.ForeColor = Color.FromArgb(50, 52, 76);
+            lblFromAccType.Location = new Point(112, 233);
             lblFromAccType.Margin = new Padding(4, 0, 4, 0);
             lblFromAccType.Name = "lblFromAccType";
             lblFromAccType.Size = new Size(16, 28);
@@ -284,6 +296,7 @@
             // 
             lblBalance.AutoSize = true;
             lblBalance.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
+            lblBalance.ForeColor = Color.FromArgb(50, 52, 76);
             lblBalance.Location = new Point(113, 118);
             lblBalance.Margin = new Padding(4, 0, 4, 0);
             lblBalance.Name = "lblBalance";
@@ -304,10 +317,12 @@
             // 
             // FormTransaction
             // 
+            AcceptButton = btnConfirm;
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(157, 157, 194);
-            ClientSize = new Size(906, 717);
+            CancelButton = btnCancel;
+            ClientSize = new Size(914, 717);
             Controls.Add(panelTransfer);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -330,9 +345,7 @@
         private Label lblBalance;
         private Label lblTitle;
         private Label lblAmount;
-        private TextBox txtFromAcc;
         private TextBox txtAmount;
-        private TextBox txtToAcc;
         private TextBox txtNotes;
         private Label lblNotes;
         private Label lblToAcc;
@@ -342,9 +355,11 @@
         private Label lblTittle;
         private Label lblToAccType;
         private Label lblMoney;
-        private Label lblSender;
-        private Label lblReceiver;
+        private Label lblSenderNum;
+        private Label lblReceiverNum;
         private Label lblTransactionType;
         private ComboBox cboTransactionMode;
+        private ComboBox cboSender;
+        private ComboBox cboReceiver;
     }
 }

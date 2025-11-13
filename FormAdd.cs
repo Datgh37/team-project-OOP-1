@@ -79,9 +79,9 @@ namespace BankManagement
                 {
                     MessageBox.Show(
                         isCreditAccount
-                            ? "Vui lòng nhập đầy đủ số CCCD, Họ và Tên."
-                            : "Vui lòng nhập đầy đủ số CCCD, Họ, Tên và Số dư.",
-                        "Thiếu thông tin",
+                            ? "Please enter all required fields: Citizen ID, Last Name, and First Name."
+                            : "Please enter all required fields: Citizen ID, Last Name, First Name, and Balance.",
+                        "Missing Information",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -101,15 +101,15 @@ namespace BankManagement
                         existingCustomer.LastName != inputLastName)
                     {
                         MessageBox.Show(
-                            $"Họ tên không khớp với dữ liệu!\n\n" +
-                            $"Trong hệ thống:\n" +
-                            $"  • Họ: {existingCustomer.LastName}\n" +
-                            $"  • Tên: {existingCustomer.FirstName}\n\n" +
-                            $"Bạn nhập:\n" +
-                            $"  • Họ: {inputLastName}\n" +
-                            $"  • Tên: {inputFirstName}\n\n" +
-                            "Vui lòng kiểm tra lại!",
-                            "Thông tin không khớp",
+                            $"Name does not match existing data!\n\n" +
+                            $"In the system:\n" +
+                            $"  • Last name: {existingCustomer.LastName}\n" +
+                            $"  • First name: {existingCustomer.FirstName}\n\n" +
+                            $"You entered:\n" +
+                            $"  • Last name: {inputLastName}\n" +
+                            $"  • First name: {inputFirstName}\n\n" +
+                            "Please check again!",
+                            "Information Mismatch",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
 
@@ -123,17 +123,17 @@ namespace BankManagement
                         Account? existingAccount = _accList.GetAccountByCustomerAndType(existingCustomer.UID, accType);
 
                         MessageBox.Show(
-                            $"Khách hàng đã có tài khoản {accType}!\n\n" +
-                            $"Thông tin khách hàng:\n" +
-                            $"  • Tên: {existingCustomer.FirstName} {existingCustomer.LastName}\n" +
+                            $"The customer already has a {accType} account!\n\n" +
+                            $"Customer information:\n" +
+                            $"  • Name: {existingCustomer.FirstName} {existingCustomer.LastName}\n" +
                             $"  • CID: {existingCustomer.CID}\n\n" +
-                            $"Thông tin tài khoản hiện có:\n" +
-                            $"  • Số tài khoản: {existingAccount?.AccountNumber}\n" +
-                            $"  • Loại: {accType}\n" +
-                            $"  • Số dư: {existingAccount?.Balance:N0} VND\n\n" +
-                            "Mỗi khách hàng chỉ được có MỘT tài khoản mỗi loại.\n" +
-                            "Vui lòng chọn loại tài khoản khác hoặc sử dụng tài khoản hiện có.",
-                            "Tài khoản đã tồn tại",
+                            $"Existing account information:\n" +
+                            $"  • Account number: {existingAccount?.AccountNumber}\n" +
+                            $"  • Type: {accType}\n" +
+                            $"  • Balance: {existingAccount?.Balance:N0} VND\n\n" +
+                            "Each customer can only have ONE account of each type.\n" +
+                            "Please select a different account type or use the existing account.",
+                            "Account Already Exists",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Warning);
 
@@ -143,11 +143,11 @@ namespace BankManagement
 
                     // Customer exists and name matches
                     DialogResult confirm = MessageBox.Show(
-                        $"Đã tồn tại khách hàng với CID: {cid}\n" +
-                        $"Tên: {existingCustomer.FirstName} {existingCustomer.LastName}\n\n" +
-                        $"Khách hàng này chưa có tài khoản {accType}.\n" +
-                        "Bạn có muốn tạo tài khoản mới cho khách hàng này?",
-                        "Tạo tài khoản mới",
+                        $"A customer with CID: {cid} already exists\n" +
+                        $"Name: {existingCustomer.FirstName} {existingCustomer.LastName}\n\n" +
+                        $"This customer does not have a {accType} account yet.\n" +
+                        "Do you want to create a new account for this customer?",
+                        "Create New Account",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question);
 
@@ -166,7 +166,7 @@ namespace BankManagement
                 {
                     if (!double.TryParse(txtBalance.Text.Trim(), NumberStyles.Any, CultureInfo.CurrentCulture, out balance) || balance < 0)
                     {
-                        MessageBox.Show("Số dư phải là số dương hợp lệ.", "Lỗi nhập liệu",
+                        MessageBox.Show("Balance must be a valid positive number.", "Input Error",
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                         txtBalance.Focus();
                         return;
@@ -204,12 +204,12 @@ namespace BankManagement
                         _accList.SaveAccountsToCSV();
 
                         MessageBox.Show(
-                            $"Tạo tài khoản thành công!\n\n" +
-                            $"Số tài khoản: {createdAccount.AccountNumber}\n" +
-                            $"Loại tài khoản: {accType}\n" +
-                            $"Chủ tài khoản: {createdCustomer.FirstName} {createdCustomer.LastName}\n" +
-                            $"Số dư ban đầu: {balance:N0} VND",
-                            "Thành công",
+                            $"Account created successfully!\n\n" +
+                            $"Account number: {createdAccount.AccountNumber}\n" +
+                            $"Account type: {accType}\n" +
+                            $"Account holder: {createdCustomer.FirstName} {createdCustomer.LastName}\n" +
+                            $"Initial balance: {balance:N0} VND",
+                            "Success",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information
                         );
@@ -222,8 +222,8 @@ namespace BankManagement
                         _accList.RemoveAccount(createdAccount);
 
                         MessageBox.Show(
-                            $"Lỗi khi lưu dữ liệu:\n{ex.Message}",
-                            "Lỗi",
+                            $"Error while saving data:\n{ex.Message}",
+                            "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -249,7 +249,7 @@ namespace BankManagement
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tạo: {ex.Message}", "Error",
+                MessageBox.Show($"Error while creating: {ex.Message}", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -284,7 +284,6 @@ namespace BankManagement
                     txtBalance.Text = "0";
             }
         }
-
         private void txtCID_TextChanged(object sender, EventArgs e)
         {
             string cid = txtCID.Text.Trim();

@@ -217,6 +217,7 @@
             // 
             lblLastName.AutoSize = true;
             lblLastName.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            lblLastName.ForeColor = Color.FromArgb(50, 52, 76);
             lblLastName.Location = new Point(427, 198);
             lblLastName.Name = "lblLastName";
             lblLastName.Size = new Size(106, 25);
@@ -227,6 +228,7 @@
             // 
             lblBalance.AutoSize = true;
             lblBalance.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            lblBalance.ForeColor = Color.FromArgb(50, 52, 76);
             lblBalance.Location = new Point(118, 412);
             lblBalance.Name = "lblBalance";
             lblBalance.Size = new Size(118, 25);
@@ -237,6 +239,7 @@
             // 
             lblGender.AutoSize = true;
             lblGender.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            lblGender.ForeColor = Color.FromArgb(50, 52, 76);
             lblGender.Location = new Point(117, 296);
             lblGender.Name = "lblGender";
             lblGender.Size = new Size(80, 25);
@@ -247,16 +250,18 @@
             // 
             lblDoB.AutoSize = true;
             lblDoB.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            lblDoB.ForeColor = Color.FromArgb(50, 52, 76);
             lblDoB.Location = new Point(319, 296);
             lblDoB.Name = "lblDoB";
-            lblDoB.Size = new Size(124, 25);
+            lblDoB.Size = new Size(131, 25);
             lblDoB.TabIndex = 0;
-            lblDoB.Text = "Day Of Birth:";
+            lblDoB.Text = "Date Of Birth:";
             // 
             // lblType
             // 
             lblType.AutoSize = true;
             lblType.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            lblType.ForeColor = Color.FromArgb(50, 52, 76);
             lblType.Location = new Point(493, 412);
             lblType.Name = "lblType";
             lblType.Size = new Size(134, 25);
@@ -267,6 +272,7 @@
             // 
             lblCID.AutoSize = true;
             lblCID.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            lblCID.ForeColor = Color.FromArgb(50, 52, 76);
             lblCID.Location = new Point(117, 111);
             lblCID.Name = "lblCID";
             lblCID.Size = new Size(99, 25);
@@ -287,6 +293,7 @@
             // 
             lblFirstName.AutoSize = true;
             lblFirstName.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            lblFirstName.ForeColor = Color.FromArgb(50, 52, 76);
             lblFirstName.Location = new Point(117, 198);
             lblFirstName.Name = "lblFirstName";
             lblFirstName.Size = new Size(108, 25);
@@ -295,8 +302,10 @@
             // 
             // FormAdd
             // 
+            AcceptButton = btnAdd;
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = btnCancel;
             ClientSize = new Size(854, 727);
             Controls.Add(panelBase);
             FormBorderStyle = FormBorderStyle.FixedSingle;

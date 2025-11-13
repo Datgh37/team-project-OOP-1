@@ -78,6 +78,7 @@
             // btnLogin
             // 
             btnLogin.BackColor = Color.FromArgb(50, 52, 76);
+            btnLogin.Cursor = Cursors.Hand;
             btnLogin.FlatAppearance.BorderSize = 0;
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.ForeColor = Color.White;
@@ -110,6 +111,7 @@
             // chkShow
             // 
             chkShow.AutoSize = true;
+            chkShow.Cursor = Cursors.Hand;
             chkShow.Font = new Font("Lato", 10F);
             chkShow.ForeColor = SystemColors.ControlText;
             chkShow.Location = new Point(506, 306);

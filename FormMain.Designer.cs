@@ -30,12 +30,19 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            dgvMainStatusStrip = new StatusStrip();
+            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
             dgvMain = new DataGridView();
             MainSTT = new DataGridViewTextBoxColumn();
             AccountNumber = new DataGridViewTextBoxColumn();
@@ -50,7 +57,7 @@
             panelSearch = new Panel();
             txtSearch = new TextBox();
             btnSearch = new Button();
-            statusStrip1 = new StatusStrip();
+            dgvMainStatusStrip = new StatusStrip();
             tslblDataRowCount = new ToolStripStatusLabel();
             tslblDebitCount = new ToolStripStatusLabel();
             tslblCreditCount = new ToolStripStatusLabel();
@@ -74,47 +81,35 @@
             ((System.ComponentModel.ISupportInitialize)dgvMain).BeginInit();
             tableLayoutPanel.SuspendLayout();
             panelSearch.SuspendLayout();
-            statusStrip1.SuspendLayout();
+            dgvMainStatusStrip.SuspendLayout();
             dgvSubStatusStrip.SuspendLayout();
             panelHistoryBrowser.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvSub).BeginInit();
             SuspendLayout();
-            // 
-            // dgvMainStatusStrip
-            // 
-            dgvMainStatusStrip.AccessibleName = "New item selection";
-            dgvMainStatusStrip.AccessibleRole = AccessibleRole.ButtonDropDown;
-            dgvMainStatusStrip.AutoSize = false;
-            dgvMainStatusStrip.Dock = DockStyle.None;
-            dgvMainStatusStrip.ImageScalingSize = new Size(20, 20);
-            dgvMainStatusStrip.Location = new Point(0, 0);
-            dgvMainStatusStrip.Name = "dgvMainStatusStrip";
-            dgvMainStatusStrip.Size = new Size(1170, 27);
-            dgvMainStatusStrip.TabIndex = 2;
             // 
             // dgvMain
             // 
             dgvMain.AllowUserToAddRows = false;
             dgvMain.AllowUserToDeleteRows = false;
             dgvMain.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = SystemColors.Control;
-            dataGridViewCellStyle5.Font = new Font("Source Sans 3", 12F, FontStyle.Bold);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle25.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle25.BackColor = SystemColors.Control;
+            dataGridViewCellStyle25.Font = new Font("Source Sans 3", 12F, FontStyle.Bold);
+            dataGridViewCellStyle25.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle25.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle25.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle25.WrapMode = DataGridViewTriState.True;
+            dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
             dgvMain.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvMain.Columns.AddRange(new DataGridViewColumn[] { MainSTT, AccountNumber, Balance, InterestRate, OpenAt, AccountType, CustomerID, Edit, Delete });
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = SystemColors.Window;
-            dataGridViewCellStyle6.Font = new Font("Source Sans 3", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(67, 69, 94);
-            dataGridViewCellStyle6.SelectionForeColor = Color.White;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgvMain.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle31.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle31.BackColor = SystemColors.Window;
+            dataGridViewCellStyle31.Font = new Font("Source Sans 3", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle31.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle31.SelectionBackColor = Color.FromArgb(67, 69, 94);
+            dataGridViewCellStyle31.SelectionForeColor = Color.White;
+            dataGridViewCellStyle31.WrapMode = DataGridViewTriState.False;
+            dgvMain.DefaultCellStyle = dataGridViewCellStyle31;
             dgvMain.Dock = DockStyle.Fill;
             dgvMain.Location = new Point(4, 84);
             dgvMain.Margin = new Padding(4);
@@ -122,15 +117,18 @@
             dgvMain.Name = "dgvMain";
             dgvMain.ReadOnly = true;
             dgvMain.RowHeadersWidth = 51;
-            dgvMain.Size = new Size(1236, 833);
+            dgvMain.Size = new Size(1070, 826);
             dgvMain.TabIndex = 1;
             dgvMain.CellClick += dgvMain_CellClick;
             dgvMain.CellContentClick += dgvMain_CellContentClick;
             dgvMain.CellDoubleClick += dgvMain_CellDoubleClick;
+            dgvMain.CellPainting += dgv_CellPainting;
             dgvMain.ColumnHeaderMouseClick += dgvMain_ColumnHeaderMouseClick;
             // 
             // MainSTT
             // 
+            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            MainSTT.DefaultCellStyle = dataGridViewCellStyle26;
             MainSTT.HeaderText = "STT";
             MainSTT.MinimumWidth = 55;
             MainSTT.Name = "MainSTT";
@@ -142,6 +140,8 @@
             // 
             AccountNumber.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             AccountNumber.DataPropertyName = "AccountNumber";
+            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            AccountNumber.DefaultCellStyle = dataGridViewCellStyle27;
             AccountNumber.HeaderText = "AccountNumber";
             AccountNumber.MinimumWidth = 196;
             AccountNumber.Name = "AccountNumber";
@@ -152,26 +152,32 @@
             // 
             Balance.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             Balance.DataPropertyName = "Balance";
+            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleRight;
+            Balance.DefaultCellStyle = dataGridViewCellStyle28;
             Balance.HeaderText = "Balance";
-            Balance.MinimumWidth = 115;
+            Balance.MinimumWidth = 130;
             Balance.Name = "Balance";
             Balance.ReadOnly = true;
-            Balance.Width = 115;
+            Balance.Width = 130;
             // 
             // InterestRate
             // 
             InterestRate.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             InterestRate.DataPropertyName = "InterestRate";
+            dataGridViewCellStyle29.Alignment = DataGridViewContentAlignment.MiddleRight;
+            InterestRate.DefaultCellStyle = dataGridViewCellStyle29;
             InterestRate.HeaderText = "InterestRate";
-            InterestRate.MinimumWidth = 157;
+            InterestRate.MinimumWidth = 130;
             InterestRate.Name = "InterestRate";
             InterestRate.ReadOnly = true;
-            InterestRate.Width = 157;
+            InterestRate.Width = 152;
             // 
             // OpenAt
             // 
             OpenAt.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             OpenAt.DataPropertyName = "OpenAt";
+            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            OpenAt.DefaultCellStyle = dataGridViewCellStyle30;
             OpenAt.HeaderText = "OpenAt";
             OpenAt.MinimumWidth = 113;
             OpenAt.Name = "OpenAt";
@@ -231,7 +237,7 @@
             tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 30F));
             tableLayoutPanel.Controls.Add(panelSearch, 0, 0);
             tableLayoutPanel.Controls.Add(dgvMain, 0, 1);
-            tableLayoutPanel.Controls.Add(statusStrip1, 0, 2);
+            tableLayoutPanel.Controls.Add(dgvMainStatusStrip, 0, 2);
             tableLayoutPanel.Controls.Add(dgvSubStatusStrip, 1, 2);
             tableLayoutPanel.Controls.Add(panelHistoryBrowser, 1, 0);
             tableLayoutPanel.Controls.Add(dgvSub, 1, 1);
@@ -244,7 +250,7 @@
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 80F));
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel.RowStyles.Add(new RowStyle());
-            tableLayoutPanel.Size = new Size(1778, 948);
+            tableLayoutPanel.Size = new Size(1540, 941);
             tableLayoutPanel.TabIndex = 0;
             // 
             // panelSearch
@@ -257,7 +263,7 @@
             panelSearch.Location = new Point(4, 4);
             panelSearch.Margin = new Padding(4);
             panelSearch.Name = "panelSearch";
-            panelSearch.Size = new Size(1236, 72);
+            panelSearch.Size = new Size(1070, 72);
             panelSearch.TabIndex = 0;
             // 
             // txtSearch
@@ -274,6 +280,7 @@
             // 
             // btnSearch
             // 
+            btnSearch.BackColor = Color.White;
             btnSearch.BackgroundImageLayout = ImageLayout.Stretch;
             btnSearch.Cursor = Cursors.Hand;
             btnSearch.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
@@ -281,21 +288,21 @@
             btnSearch.Location = new Point(535, 15);
             btnSearch.Margin = new Padding(4);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(41, 42);
+            btnSearch.Size = new Size(42, 42);
             btnSearch.TabIndex = 2;
             toolTip.SetToolTip(btnSearch, "Search");
-            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.UseVisualStyleBackColor = false;
             btnSearch.Click += btnSearch_Click;
             // 
-            // statusStrip1
+            // dgvMainStatusStrip
             // 
-            statusStrip1.ImageScalingSize = new Size(20, 20);
-            statusStrip1.Items.AddRange(new ToolStripItem[] { tslblDataRowCount, tslblDebitCount, tslblCreditCount, tslblSavingsCount });
-            statusStrip1.Location = new Point(0, 921);
-            statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(1244, 27);
-            statusStrip1.TabIndex = 2;
-            statusStrip1.Text = "statusStrip1";
+            dgvMainStatusStrip.ImageScalingSize = new Size(20, 20);
+            dgvMainStatusStrip.Items.AddRange(new ToolStripItem[] { tslblDataRowCount, tslblDebitCount, tslblCreditCount, tslblSavingsCount });
+            dgvMainStatusStrip.Location = new Point(0, 914);
+            dgvMainStatusStrip.Name = "dgvMainStatusStrip";
+            dgvMainStatusStrip.Size = new Size(1078, 27);
+            dgvMainStatusStrip.TabIndex = 2;
+            dgvMainStatusStrip.Text = "dgvMainStatusStrip";
             // 
             // tslblDataRowCount
             // 
@@ -329,9 +336,9 @@
             // 
             dgvSubStatusStrip.ImageScalingSize = new Size(20, 20);
             dgvSubStatusStrip.Items.AddRange(new ToolStripItem[] { tslblSubDataRowCount, tslblDeposit, tslblWithdraw, tslblTransfer });
-            dgvSubStatusStrip.Location = new Point(1244, 921);
+            dgvSubStatusStrip.Location = new Point(1078, 914);
             dgvSubStatusStrip.Name = "dgvSubStatusStrip";
-            dgvSubStatusStrip.Size = new Size(534, 27);
+            dgvSubStatusStrip.Size = new Size(462, 27);
             dgvSubStatusStrip.TabIndex = 5;
             dgvSubStatusStrip.Text = "statusStrip2";
             // 
@@ -371,10 +378,10 @@
             panelHistoryBrowser.Controls.Add(lblAccountNumberDisplay);
             panelHistoryBrowser.Dock = DockStyle.Fill;
             panelHistoryBrowser.Font = new Font("Segoe UI", 11F);
-            panelHistoryBrowser.Location = new Point(1248, 4);
+            panelHistoryBrowser.Location = new Point(1082, 4);
             panelHistoryBrowser.Margin = new Padding(4);
             panelHistoryBrowser.Name = "panelHistoryBrowser";
-            panelHistoryBrowser.Size = new Size(526, 72);
+            panelHistoryBrowser.Size = new Size(454, 72);
             panelHistoryBrowser.TabIndex = 4;
             // 
             // lblSubText
@@ -396,10 +403,10 @@
             btnViewMode.Cursor = Cursors.Hand;
             btnViewMode.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnViewMode.Image = (Image)resources.GetObject("btnViewMode.Image");
-            btnViewMode.Location = new Point(467, 14);
+            btnViewMode.Location = new Point(394, 14);
             btnViewMode.Margin = new Padding(4);
             btnViewMode.Name = "btnViewMode";
-            btnViewMode.Size = new Size(41, 42);
+            btnViewMode.Size = new Size(42, 42);
             btnViewMode.TabIndex = 2;
             toolTip.SetToolTip(btnViewMode, "View All");
             btnViewMode.UseVisualStyleBackColor = true;
@@ -423,35 +430,36 @@
             dgvSub.AllowUserToDeleteRows = false;
             dgvSub.AllowUserToOrderColumns = true;
             dgvSub.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = SystemColors.Control;
-            dataGridViewCellStyle7.Font = new Font("Source Sans 3", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle7.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            dgvSub.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle32.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle32.BackColor = SystemColors.Control;
+            dataGridViewCellStyle32.Font = new Font("Source Sans 3", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle32.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle32.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle32.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle32.WrapMode = DataGridViewTriState.True;
+            dgvSub.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
             dgvSub.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSub.Columns.AddRange(new DataGridViewColumn[] { SubSTT, FromAccount, ToAccount, Type, Amount });
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = SystemColors.Window;
-            dataGridViewCellStyle8.Font = new Font("Source Sans 3", 12F);
-            dataGridViewCellStyle8.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(67, 69, 94);
-            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
-            dgvSub.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle36.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle36.BackColor = SystemColors.Window;
+            dataGridViewCellStyle36.Font = new Font("Source Sans 3", 12F);
+            dataGridViewCellStyle36.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle36.SelectionBackColor = Color.FromArgb(67, 69, 94);
+            dataGridViewCellStyle36.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle36.WrapMode = DataGridViewTriState.False;
+            dgvSub.DefaultCellStyle = dataGridViewCellStyle36;
             dgvSub.Dock = DockStyle.Fill;
-            dgvSub.Location = new Point(1248, 84);
+            dgvSub.Location = new Point(1082, 84);
             dgvSub.Margin = new Padding(4);
             dgvSub.MultiSelect = false;
             dgvSub.Name = "dgvSub";
             dgvSub.ReadOnly = true;
             dgvSub.RowHeadersWidth = 51;
             dgvSub.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvSub.Size = new Size(526, 833);
+            dgvSub.Size = new Size(454, 826);
             dgvSub.TabIndex = 3;
             dgvSub.CellDoubleClick += dgvSub_CellDoubleClick;
+            dgvSub.CellPainting += dgv_CellPainting;
             // 
             // SubSTT
             // 
@@ -465,8 +473,10 @@
             // 
             FromAccount.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             FromAccount.DataPropertyName = "FromAccountNumber";
+            dataGridViewCellStyle33.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            FromAccount.DefaultCellStyle = dataGridViewCellStyle33;
             FromAccount.HeaderText = "From";
-            FromAccount.MinimumWidth = 6;
+            FromAccount.MinimumWidth = 70;
             FromAccount.Name = "FromAccount";
             FromAccount.ReadOnly = true;
             FromAccount.Width = 87;
@@ -475,11 +485,13 @@
             // 
             ToAccount.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             ToAccount.DataPropertyName = "ToAccountNumber";
+            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ToAccount.DefaultCellStyle = dataGridViewCellStyle34;
             ToAccount.HeaderText = "To";
-            ToAccount.MinimumWidth = 6;
+            ToAccount.MinimumWidth = 70;
             ToAccount.Name = "ToAccount";
             ToAccount.ReadOnly = true;
-            ToAccount.Width = 62;
+            ToAccount.Width = 70;
             // 
             // Type
             // 
@@ -495,6 +507,8 @@
             // 
             Amount.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Amount.DataPropertyName = "Amount";
+            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleRight;
+            Amount.DefaultCellStyle = dataGridViewCellStyle35;
             Amount.HeaderText = "Amount";
             Amount.MinimumWidth = 6;
             Amount.Name = "Amount";
@@ -502,11 +516,13 @@
             // 
             // FormMain
             // 
+            AcceptButton = btnSearch;
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1778, 948);
+            ClientSize = new Size(1540, 941);
             Controls.Add(tableLayoutPanel);
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(3, 2, 3, 2);
             Name = "FormMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Data Browser";
@@ -517,8 +533,8 @@
             tableLayoutPanel.PerformLayout();
             panelSearch.ResumeLayout(false);
             panelSearch.PerformLayout();
-            statusStrip1.ResumeLayout(false);
-            statusStrip1.PerformLayout();
+            dgvMainStatusStrip.ResumeLayout(false);
+            dgvMainStatusStrip.PerformLayout();
             dgvSubStatusStrip.ResumeLayout(false);
             dgvSubStatusStrip.PerformLayout();
             panelHistoryBrowser.ResumeLayout(false);
@@ -528,13 +544,11 @@
         }
 
         #endregion
-
-        private StatusStrip dgvMainStatusStrip;
         private DataGridView dgvMain;
         private TableLayoutPanel tableLayoutPanel;
         private DataGridView dgvSub;
         private Panel panelSearch;
-        private StatusStrip statusStrip1;
+        private StatusStrip dgvMainStatusStrip;
         private ToolStripStatusLabel tslblDataRowCount;
         private ToolStripStatusLabel tslblDebitCount;
         private ToolStripStatusLabel tslblCreditCount;

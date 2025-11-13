@@ -19,11 +19,8 @@ namespace BankManagement
         {
             InitializeComponent();
 
-            this.ActiveControl = txtFromAcc;
-            txtFromAcc.Focus();
-
-            // Khởi tạo ComboBox - Chọn Transfer làm mặc định
-            cboTransactionMode.SelectedIndex = 0; // 0: Transfer, 1: Deposit, 2: Withdraw
+            // Default mode
+            cboTransactionMode.SelectedIndex = 0;
 
             _accountMgr = new AccountManagement();
             _customerMgr = new CustomerManagement();
@@ -36,36 +33,83 @@ namespace BankManagement
             {
                 MessageBox.Show($"Error while trying to load data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
+            _comboItems = BuildAccountItems();
+            BindAccountCombo(cboSender, _comboItems);
+            BindAccountCombo(cboReceiver, _comboItems);
+
+            cboSender.SelectedIndexChanged += (s, e) =>
+            {
+                if (cboSender.SelectedItem is AccountComboItem it)
+                {
+                    lblSenderNum.Text = it.AccountNumber;    
+                    DisplayFromAccountInfo(it.AccountNumber); // updates Type + Money
+                }
+                else
+                {
+                    lblSenderNum.Text = "";
+                    DisplayFromAccountInfo("");
+                }
+            };
+            cboReceiver.SelectedIndexChanged += (s, e) =>
+            {
+                if (cboReceiver.SelectedItem is AccountComboItem it)
+                {
+                    lblReceiverNum.Text = it.AccountNumber;   
+                    DisplayToAccountInfo(it.AccountNumber);   // updates Type
+                }
+                else
+                {
+                    lblReceiverNum.Text = "";
+                    DisplayToAccountInfo("");
+                }
+            };
+
+            this.ActiveControl = cboSender;
+            cboSender.Focus();
         }
 
         public FormTransaction(Account account) : this()
         {
             TransferAccount = new Account(account);
-            txtFromAcc.Text = account.AccountNumber;
+            try { cboSender.SelectedValue = account.AccountNumber; } catch { /* ignore */ }
         }
 
         private void FormTransfer_Load(object sender, EventArgs e)
         {
-            ClearAllLabels();
+            // Sender
+            if (cboSender.SelectedItem is AccountComboItem s)
+            {
+                lblSenderNum.Text = s.AccountNumber;
+                DisplayFromAccountInfo(s.AccountNumber);
+            }
+            else
+            {
+                lblSenderNum.Text = "";
+                lblFromAccType.Text = "";
+                lblMoney.Text = "";
+            }
+
+            // Receiver
+            if (cboReceiver.SelectedItem is AccountComboItem r)
+            {
+                lblReceiverNum.Text = r.AccountNumber;
+                DisplayToAccountInfo(r.AccountNumber);
+            }
+            else
+            {
+                lblReceiverNum.Text = "";
+                lblToAccType.Text = "";
+            }
         }
 
         // METHODS
-        // Helper method để clear tất cả labels
-        private void ClearAllLabels()
-        {
-            lblSender.Text = "";
-            lblReceiver.Text = "";
-            lblFromAccType.Text = "";
-            lblToAccType.Text = "";
-            lblMoney.Text = "";
-        }
-
         // Helper method để update và display thông tin tài khoản nguồn
         private void DisplayFromAccountInfo(string accNum)
         {
             if (string.IsNullOrEmpty(accNum))
             {
-                lblSender.Text = "";
+                lblSenderNum.Text = "";
                 lblFromAccType.Text = "";
                 lblMoney.Text = "";
                 return;
@@ -74,27 +118,14 @@ namespace BankManagement
             Account? acc = _accountMgr[accNum];
             if (acc != null)
             {
-                // Hiển thị số dư
                 lblMoney.Text = $"{acc.Balance:N0} VND";
-
-                // Hiển thị loại tài khoản
                 lblFromAccType.Text = "Type: " + acc.Type.AccType;
-
-                // Lấy thông tin khách hàng
-                Customer? customer = _customerMgr.FindById(acc.CustomerID);
-                if (customer != null)
-                {
-                    lblSender.Text = $"{customer.LastName} {customer.FirstName}";
-                }
-                else
-                {
-                    lblSender.Text = "Unknown";
-                }
+                lblSenderNum.Text = acc.AccountNumber; // number instead of name
             }
             else
             {
                 lblMoney.Text = "Account not found";
-                lblSender.Text = "";
+                lblSenderNum.Text = "";
                 lblFromAccType.Text = "";
             }
         }
@@ -104,7 +135,7 @@ namespace BankManagement
         {
             if (string.IsNullOrEmpty(accNum))
             {
-                lblReceiver.Text = "";
+                lblReceiverNum.Text = "";
                 lblToAccType.Text = "";
                 return;
             }
@@ -112,23 +143,12 @@ namespace BankManagement
             Account? acc = _accountMgr[accNum];
             if (acc != null)
             {
-                // Hiển thị loại tài khoản
                 lblToAccType.Text = "Type: " + acc.Type.AccType;
-
-                // Lấy thông tin khách hàng
-                Customer? customer = _customerMgr.FindById(acc.CustomerID);
-                if (customer != null)
-                {
-                    lblReceiver.Text = $"{customer.LastName} {customer.FirstName}";
-                }
-                else
-                {
-                    lblReceiver.Text = "Unknown";
-                }
+                lblReceiverNum.Text = acc.AccountNumber; // number instead of name
             }
             else
             {
-                lblReceiver.Text = "";
+                lblReceiverNum.Text = "";
                 lblToAccType.Text = "";
             }
         }
@@ -140,16 +160,16 @@ namespace BankManagement
 
             if (string.IsNullOrEmpty(toAcc))
             {
-                MessageBox.Show("Vui lòng nhập tài khoản nhận.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtToAcc.Focus();
+                MessageBox.Show("Please select a destination account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cboReceiver.Focus();
                 return false;
             }
 
             toAccount = _accountMgr[toAcc];
             if (toAccount == null)
             {
-                MessageBox.Show("Tài khoản nhận không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtToAcc.Focus();
+                MessageBox.Show("The destination account does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cboReceiver.Focus();
                 return false;
             }
 
@@ -164,16 +184,16 @@ namespace BankManagement
 
             if (string.IsNullOrEmpty(fromAcc))
             {
-                MessageBox.Show("Vui lòng nhập tài khoản nguồn.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtFromAcc.Focus();
+                MessageBox.Show("Please select a source account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cboSender.Focus();
                 return false;
             }
 
             fromAccount = _accountMgr[fromAcc];
             if (fromAccount == null)
             {
-                MessageBox.Show("Tài khoản nguồn không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtFromAcc.Focus();
+                MessageBox.Show("The source account does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cboSender.Focus();
                 return false;
             }
 
@@ -181,11 +201,11 @@ namespace BankManagement
             if (!fromAccount.Type.AllowOverdraft && fromAccount.Balance < amount)
             {
                 MessageBox.Show(
-                    $"Số dư không đủ cho giao dịch này.\n\n" +
-                    $"Số dư hiện tại: {fromAccount.Balance:N0} VND\n" +
-                    $"Số tiền cần rút: {amount:N0} VND\n" +
-                    $"Còn thiếu: {(amount - fromAccount.Balance):N0} VND",
-                    "Số dư không đủ",
+                    $"Insufficient balance for this transaction.\n\n" +
+                    $"Current balance: {fromAccount.Balance:N0} VND\n" +
+                    $"Withdrawal amount: {amount:N0} VND\n" +
+                    $"Shortfall: {(amount - fromAccount.Balance):N0} VND",
+                    "Insufficient Balance",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
                 txtAmount.Focus();
@@ -201,18 +221,18 @@ namespace BankManagement
                 double exceededAmount = amount - totalAvailable;
 
                 MessageBox.Show(
-                    $"Vượt quá hạn mức tín dụng!\n\n" +
-                    $"Thông tin tài khoản Credit:\n" +
+                    $"Credit limit exceeded!\n\n" +
+                    $"Credit Account Information:\n" +
                     $"━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
-                    $"Số dư hiện tại: {fromAccount.Balance:N0} VND\n" +
-                    $"Nợ hiện tại: {currentDebt:N0} VND\n" +
-                    $"Hạn mức tín dụng: {fromAccount.Type.CreditLimit:N0} VND\n" +
-                    $"Số tiền khả dụng: {availableCredit:N0} VND\n\n" +
-                    $"Giao dịch:\n" +
+                    $"Current balance: {fromAccount.Balance:N0} VND\n" +
+                    $"Current debt: {currentDebt:N0} VND\n" +
+                    $"Credit limit: {fromAccount.Type.CreditLimit:N0} VND\n" +
+                    $"Available credit: {availableCredit:N0} VND\n\n" +
+                    $"Transaction:\n" +
                     $"━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
-                    $"Số tiền muốn rút: {amount:N0} VND\n" +
-                    $"Vượt quá: {exceededAmount:N0} VND",
-                    "Vượt hạn mức tín dụng",
+                    $"Withdrawal amount: {amount:N0} VND\n" +
+                    $"Exceeded by: {exceededAmount:N0} VND",
+                    "Credit Limit Exceeded",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 txtAmount.Focus();
@@ -233,39 +253,38 @@ namespace BankManagement
 
             if (string.IsNullOrEmpty(fromAcc) || string.IsNullOrEmpty(toAcc))
             {
-                MessageBox.Show("Vui lòng nhập cả tài khoản nguồn và tài khoản đích.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please select both source and destination accounts.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             if (fromAcc == toAcc)
             {
-                MessageBox.Show("Không thể chuyển tiền cho cùng một tài khoản.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Cannot transfer to the same account.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
             fromAccount = _accountMgr[fromAcc];
             if (fromAccount == null)
             {
-                MessageBox.Show("Tài khoản nguồn không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtFromAcc.Focus();
+                MessageBox.Show("The source account does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cboSender.Focus();
                 return false;
             }
 
             toAccount = _accountMgr[toAcc];
             if (toAccount == null)
             {
-                MessageBox.Show("Tài khoản nhận không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtToAcc.Focus();
+                MessageBox.Show("The destination account does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                cboReceiver.Focus();
                 return false;
             }
-
 
             if (!fromAccount.Type.CanTransfer)
             {
                 MessageBox.Show(
-                    $"Tài khoản {fromAccount.Type.AccType} không được phép chuyển tiền.\n\n" +
-                    $"Chỉ tài khoản Debit và Credit mới có thể thực hiện chuyển khoản.",
-                    "Không có quyền chuyển tiền",
+                    $"Account type {fromAccount.Type.AccType} is not allowed to transfer funds.\n\n" +
+                    $"Only Debit and Credit accounts can perform transfers.",
+                    "No Transfer Permission",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 return false;
@@ -275,14 +294,13 @@ namespace BankManagement
             if (!fromAccount.Type.AllowOverdraft && fromAccount.Balance < amount)
             {
                 MessageBox.Show(
-                    $"Số dư không đủ cho giao dịch này.\n\n" +
-                    $"Số dư hiện tại: {fromAccount.Balance:N0} VND\n" +
-                    $"Số tiền chuyển: {amount:N0} VND\n" +
-                    $"Còn thiếu: {(amount - fromAccount.Balance):N0} VND",
-                    "Số dư không đủ",
+                    $"Insufficient balance for this transaction.\n\n" +
+                    $"Current balance: {fromAccount.Balance:N0} VND\n" +
+                    $"Transfer amount: {amount:N0} VND\n" +
+                    $"Shortfall: {(amount - fromAccount.Balance):N0} VND",
+                    "Insufficient Balance",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
-                txtAmount.Focus();
                 return false;
             }
 
@@ -295,21 +313,21 @@ namespace BankManagement
                 double exceededAmount = amount - totalAvailable;
 
                 MessageBox.Show(
-                    $"Vượt quá hạn mức tín dụng!\n\n" +
-                    $"Thông tin tài khoản Nguồn:\n" +
+                    $"Credit limit exceeded!\n\n" +
+                    $"Source Account Information:\n" +
                     $"━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
-                    $"Số dư hiện tại: {fromAccount.Balance:N0} VND\n" +
-                    $"Nợ hiện tại: {currentDebt:N0} VND\n" +
-                    $"Hạn mức tín dụng: {fromAccount.Type.CreditLimit:N0} VND\n" +
-                    $"Tín dụng khả dụng: {availableCredit:N0} VND\n" +
-                    $"Tổng khả dụng: {totalAvailable:N0} VND\n\n" +
-                    $"Giao dịch chuyển khoản:\n" +
+                    $"Current balance: {fromAccount.Balance:N0} VND\n" +
+                    $"Current debt: {currentDebt:N0} VND\n" +
+                    $"Credit limit: {fromAccount.Type.CreditLimit:N0} VND\n" +
+                    $"Available credit: {availableCredit:N0} VND\n" +
+                    $"Total available: {totalAvailable:N0} VND\n\n" +
+                    $"Transfer transaction:\n" +
                     $"━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
-                    $"Người nhận: {toAcc}\n" +
-                    $"Số tiền muốn chuyển: {amount:N0} VND\n" +
-                    $"Vượt quá hạn mức: {exceededAmount:N0} VND\n\n" +
-                    $"Gợi ý: Bạn chỉ có thể chuyển tối đa {totalAvailable:N0} VND",
-                    "Vượt hạn mức tín dụng",
+                    $"Receiver: {toAcc}\n" +
+                    $"Transfer amount: {amount:N0} VND\n" +
+                    $"Exceeded by: {exceededAmount:N0} VND\n\n" +
+                    $"Note: You can only transfer up to {totalAvailable:N0} VND",
+                    "Credit Limit Exceeded",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
                 txtAmount.Focus();
@@ -352,145 +370,197 @@ namespace BankManagement
             }
             catch (IOException ioEx)
             {
-                throw new Exception($"Không thể ghi file: {ioEx.Message}\nVui lòng kiểm tra quyền truy cập hoặc đóng file nếu đang mở.");
+                throw new Exception($"Unable to write file: {ioEx.Message}\nPlease check file permissions or close the file if it is open.");
             }
             catch (UnauthorizedAccessException)
             {
-                throw new Exception("Không có quyền ghi file. Vui lòng chạy ứng dụng với quyền Administrator.");
+                throw new Exception("No write permission. Please run the application as Administrator.");
             }
             catch (Exception ex)
             {
-                throw new Exception($"Lỗi không xác định khi lưu dữ liệu: {ex.Message}");
+                throw new Exception($"Unknown error while saving data: {ex.Message}");
             }
         }
         // Method xây dựng message xác nhận
         private string ConfirmationMessage(string fromAcc, string toAcc, double amount)
         {
+            // Lấy tên hiển thị từ ComboBox, số tài khoản từ labels
+            string senderName = cboSender.SelectedItem is AccountComboItem s ? s.CustomerName : "";
+            string receiverName = cboReceiver.SelectedItem is AccountComboItem r ? r.CustomerName : "";
+
             string message = "";
 
             switch (_mode)
             {
                 case TransactionType.Deposit:
-                    message = $"Xác nhận nạp tiền:\n\n" +
-                             $"Tài khoản nhận: {toAcc}\n" +
-                             $"Người nhận: {lblReceiver.Text}\n" +
-                             $"Số tiền: {amount:N0} VND\n\n" +
-                             $"Bạn có chắc chắn muốn thực hiện giao dịch này?";
+                    message = $"Confirm deposit:\n\n" +
+                              $"Destination account: {toAcc} ({receiverName})\n" +
+                              $"Amount: {amount:N0} VND\n\n" +
+                              $"Are you sure you want to proceed with this transaction?";
                     break;
 
                 case TransactionType.Withdraw:
-                    message = $"Xác nhận rút tiền:\n\n" +
-                             $"Tài khoản nguồn: {fromAcc}\n" +
-                             $"Người rút: {lblSender.Text}\n" +
-                             $"Số tiền: {amount:N0} VND\n\n" +
-                             $"Bạn có chắc chắn muốn thực hiện giao dịch này?";
+                    message = $"Confirm withdrawal:\n\n" +
+                              $"Source account: {fromAcc} ({senderName})\n" +
+                              $"Amount: {amount:N0} VND\n\n" +
+                              $"Are you sure you want to proceed with this transaction?";
                     break;
 
                 case TransactionType.Transfer:
-                    message = $"Xác nhận chuyển khoản:\n\n" +
-                             $"Từ tài khoản: {fromAcc} ({lblSender.Text})\n" +
-                             $"Đến tài khoản: {toAcc} ({lblReceiver.Text})\n" +
-                             $"Số tiền: {amount:N0} VND\n" +
-                             $"Ghi chú: {txtNotes.Text}\n\n" +
-                             $"Bạn có chắc chắn muốn thực hiện giao dịch này?";
+                    message = $"Confirm transfer:\n\n" +
+                              $"From account: {fromAcc} ({senderName})\n" +
+                              $"To account: {toAcc} ({receiverName})\n" +
+                              $"Amount: {amount:N0} VND\n" +
+                              $"Note: {txtNotes.Text}\n\n" +
+                              $"Are you sure you want to proceed with this transaction?";
                     break;
             }
 
             return message;
         }
         
+        // Data model for ComboBox
+        private sealed class AccountComboItem
+        {
+            public required string AccountNumber { get; init; }
+            public required string CustomerName { get; init; }
+            public required string AccountType { get; init; }
+        }
+        private List<AccountComboItem> _comboItems = new();
+        private List<AccountComboItem> BuildAccountItems()
+        {
+            return _accountMgr.Accounts
+                .Select(acc =>
+                {
+                    var c = _customerMgr.FindById(acc.CustomerID);
+                    var name = c != null ? $"{c.LastName} {c.FirstName}" : "Unknown";
+                    return new AccountComboItem
+                    {
+                        AccountNumber = acc.AccountNumber,
+                        CustomerName = name,
+                        AccountType = acc.Type.AccType
+                    };
+                })
+                .OrderBy(i => i.CustomerName)
+                .ThenBy(i => i.AccountNumber)
+                .ToList();
+        }
+
+        private void BindAccountCombo(ComboBox combo, List<AccountComboItem> items)
+        {
+            combo.DropDownStyle = ComboBoxStyle.DropDownList;
+            combo.DisplayMember = nameof(AccountComboItem.CustomerName);
+            combo.ValueMember = nameof(AccountComboItem.AccountNumber);
+            combo.DataSource = new List<AccountComboItem>(items);
+
+            // Owner-draw to show full info in dropdown, name in edit area
+            combo.DrawMode = DrawMode.OwnerDrawFixed;
+            combo.DrawItem += cbo_DrawItem;
+
+            // Limit dropdown to at most 10 visible items, and allow custom height
+            combo.MaxDropDownItems = 10;         // shows <= 10 items
+            combo.IntegralHeight = false;        // allow DropDownHeight control
+            combo.DropDown += cbo_DropDownResizeToScreen;
+
+            // No autocomplete (as you set earlier)
+            combo.AutoCompleteMode = AutoCompleteMode.None;
+            combo.AutoCompleteSource = AutoCompleteSource.None;
+
+            combo.SelectedIndex = -1;
+        }
+
+        // Ensure dropdown fits below the ComboBox and doesn’t overflow the screen
+        private void cbo_DropDownResizeToScreen(object? sender, EventArgs e)
+        {
+            if (sender is not ComboBox combo) return;
+
+            // Desired height for up to 10 items (plus border)
+            int itemHeight = Math.Max(1, combo.ItemHeight);
+            int visibleItems = Math.Min(10, combo.Items.Count);
+            int desiredHeight = (itemHeight * visibleItems) + 2;
+
+            // Compute available space below the control
+            var screen = Screen.FromControl(combo).WorkingArea;
+            var topLeft = combo.PointToScreen(Point.Empty);
+            int spaceBelow = screen.Bottom - (topLeft.Y + combo.Height);
+
+            // Keep dropdown within the bottom of the screen
+            int safeHeight = Math.Max(itemHeight + 2, Math.Min(desiredHeight, spaceBelow - 4));
+            combo.DropDownHeight = safeHeight;
+        }
+
+        private void cbo_DrawItem(object? sender, DrawItemEventArgs e)
+        {
+            // Vẽ nền
+            bool isSelected = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
+            bool isFocused = (e.State & DrawItemState.Focus) == DrawItemState.Focus;
+
+            Color backColor = isSelected
+                ? Color.FromArgb(67, 69, 94)
+                : (e.BackColor.IsEmpty ? Color.White : e.BackColor);
+
+            using (SolidBrush backgroundBrush = new SolidBrush(backColor))
+            {
+                e.Graphics.FillRectangle(backgroundBrush, e.Bounds);
+            }
+
+            if (sender is not ComboBox combo)
+                return;
+
+            // Determine item to draw: handle edit area (e.Index == -1)
+            AccountComboItem? item = null;
+            bool isEditArea = (e.State & DrawItemState.ComboBoxEdit) == DrawItemState.ComboBoxEdit || e.Index < 0;
+
+            if (isEditArea)
+            {
+                item = combo.SelectedItem as AccountComboItem;
+                if (item == null)
+                    return;
+            }
+            else
+            {
+                item = combo.Items[e.Index] as AccountComboItem;
+                if (item == null)
+                    return;
+            }
+
+            // Màu chữ: trắng nếu được chọn, ngược lại dùng màu mặc định
+            using var textBrush = new SolidBrush(isSelected ? Color.White : e.ForeColor);
+
+            string text = isEditArea
+                ? item.CustomerName
+                : $"{item.CustomerName} — {item.AccountNumber} [{item.AccountType}]";
+
+            // Vẽ text
+            e.Graphics.DrawString(text, e.Font, textBrush, e.Bounds);
+
+            // Vẽ focus rectangle với màu custom nếu có focus
+            if (isFocused)
+            {
+                using (Pen focusPen = new Pen(Color.FromArgb(67, 69, 94), 2))
+                {
+                    Rectangle focusRect = new Rectangle(
+                        e.Bounds.X + 1, e.Bounds.Y + 1,
+                        e.Bounds.Width - 3, e.Bounds.Height - 3
+                    );
+                    e.Graphics.DrawRectangle(focusPen, focusRect);
+                }
+            }
+
+            // Không gọi e.DrawFocusRectangle() để tránh viền mặc định
+            // e.DrawFocusRectangle();
+        }
+
         // EVENT HANDLING
-        private void txtFromAcc_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                string? accNum = txtFromAcc?.Text?.Trim();
-
-                // Chỉ tra cứu khi nhập đủ 5 ký tự
-                if (!string.IsNullOrEmpty(accNum) && accNum.Length >= 5)
-                {
-                    DisplayFromAccountInfo(accNum);
-                }
-                else if (string.IsNullOrEmpty(accNum))
-                {
-                    // Clear labels khi xóa hết text
-                    lblSender.Text = "";
-                    lblFromAccType.Text = "";
-                    lblMoney.Text = "";
-                }
-            }
-            catch
-            {
-                // Silent
-            }
-        }
-        private void txtFromAcc_Leave(object? sender, EventArgs e)
-        {
-            try
-            {
-                string? fromAcc = txtFromAcc?.Text?.Trim();
-                if (string.IsNullOrEmpty(fromAcc)) return;
-
-                if (_accountMgr[fromAcc] == null)
-                {
-                    MessageBox.Show("Tài khoản nguồn không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtFromAcc.Focus();
-                }
-            }
-            catch
-            {
-                // Silent
-            }
-        }
-        private void txtToAcc_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                string? accNum = txtToAcc?.Text?.Trim();
-
-                if (!string.IsNullOrEmpty(accNum) && accNum.Length >= 5)
-                {
-                    DisplayToAccountInfo(accNum);
-                }
-                else if (string.IsNullOrEmpty(accNum))
-                {
-                    lblReceiver.Text = "";
-                    lblToAccType.Text = "";
-                }
-            }
-            catch
-            {
-                // Silent
-            }
-        }
-        private void txtToAcc_Leave(object? sender, EventArgs e)
-        {
-            try
-            {
-                string? toAcc = txtToAcc?.Text?.Trim();
-                if (string.IsNullOrEmpty(toAcc)) return;
-
-                DisplayToAccountInfo(toAcc); // Hiển thị thông tin
-
-                if (_accountMgr[toAcc] == null) // Kiểm tra và thông báo lỗi
-                {
-                    MessageBox.Show("Tài khoản nhận không tồn tại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtToAcc.Focus();
-                }
-            }
-            catch
-            {
-                // Silent
-            }
-        }
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-            string fromAccInput = txtFromAcc.Text.Trim();
-            string toAccInput = txtToAcc.Text.Trim();
+            // Lấy số tài khoản từ labels được set bởi ComboBox (không phụ thuộc txtFromAcc/txtToAcc)
+            string fromAccInput = _mode == TransactionType.Deposit ? "" : lblSenderNum.Text.Trim();
+            string toAccInput   = _mode == TransactionType.Withdraw ? "" : lblReceiverNum.Text.Trim();
 
             if (!double.TryParse(txtAmount.Text.Trim(), out double amount) || amount <= 0)
             {
-                MessageBox.Show("Vui lòng nhập số tiền hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please enter a valid amount.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtAmount.Focus();
                 return;
             }
@@ -511,7 +581,7 @@ namespace BankManagement
                 string confirmMessage = ConfirmationMessage(fromAccInput, toAccInput, amount);
                 DialogResult confirm = MessageBox.Show(
                     confirmMessage,
-                    "Xác nhận giao dịch",
+                    "Transaction Confirmation",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
                 );
@@ -580,7 +650,7 @@ namespace BankManagement
                 SaveTransactionData(transaction);
 
                 // Thông báo thành công
-                MessageBox.Show("Giao dịch thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Transaction successful!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // Hiển thị hóa đơn và đóng form
                 ShowBillAndClose(transaction);
@@ -603,8 +673,8 @@ namespace BankManagement
                 {
                     // Nếu rollback cũng lỗi, thông báo nghiêm trọng
                     MessageBox.Show(
-                        "Lỗi nghiêm trọng: Không thể hoàn tác giao dịch!\nVui lòng kiểm tra dữ liệu",
-                        "Lỗi nghiêm trọng",
+                        "Critical error: Unable to rollback transaction!\nPlease check your data.",
+                        "Critical Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                     );
@@ -612,8 +682,8 @@ namespace BankManagement
                 }
 
                 MessageBox.Show(
-                    $"Giao dịch thất bại:\n{ex.Message}\n\nSố dư đã được hoàn lại.",
-                    "Lỗi giao dịch",
+                    $"Transaction failed:\n{ex.Message}\n\nBalances have been restored.",
+                    "Transaction Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -623,7 +693,6 @@ namespace BankManagement
         {
             this.Close();
         }
-
         private void cboTransactionMode_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (cboTransactionMode.SelectedIndex)
@@ -631,12 +700,12 @@ namespace BankManagement
                 case 0: // Transfer
                     _mode = TransactionType.Transfer;
                     lblTitle.Text = "TRANSFER";
-                    lblFromAcc.Enabled = true;
-                    txtFromAcc.Enabled = true;
-                    lblToAcc.Enabled = true;
-                    txtToAcc.Enabled = true;
-                    lblSender.Enabled = true;
-                    lblReceiver.Enabled = true;
+
+                    cboSender.Enabled = true;
+                    cboReceiver.Enabled = true;
+
+                    lblSenderNum.Enabled = true;
+                    lblReceiverNum.Enabled = true;
                     lblFromAccType.Enabled = true;
                     lblToAccType.Enabled = true;
                     lblMoney.Enabled = true;
@@ -645,35 +714,37 @@ namespace BankManagement
                 case 1: // Deposit
                     _mode = TransactionType.Deposit;
                     lblTitle.Text = "DEPOSIT";
-                    lblFromAcc.Enabled = false;
-                    txtFromAcc.Enabled = false;
-                    txtFromAcc.Clear();
-                    lblToAcc.Enabled = true;
-                    txtToAcc.Enabled = true;
-                    lblSender.Enabled = false;
-                    lblSender.Text = "";
-                    lblReceiver.Enabled = true;
-                    lblFromAccType.Enabled = false;
+
+                    // Sender not used
+                    cboSender.Enabled = false;
+                    cboSender.SelectedIndex = -1;
+                    lblSenderNum.Text = "";
                     lblFromAccType.Text = "";
+                    lblMoney.Text = "";
+
+                    // Receiver used
+                    cboReceiver.Enabled = true;
+
+                    lblFromAccType.Enabled = false;
                     lblToAccType.Enabled = true;
                     lblMoney.Enabled = false;
-                    lblMoney.Text = "";
                     break;
 
                 case 2: // Withdraw
                     _mode = TransactionType.Withdraw;
                     lblTitle.Text = "WITHDRAW";
-                    lblFromAcc.Enabled = true;
-                    txtFromAcc.Enabled = true;
-                    lblToAcc.Enabled = false;
-                    txtToAcc.Enabled = false;
-                    txtToAcc.Clear();
-                    lblSender.Enabled = true;
-                    lblReceiver.Enabled = false;
-                    lblReceiver.Text = "";
+
+                    // Sender used
+                    cboSender.Enabled = true;
+
+                    // Receiver not used
+                    cboReceiver.Enabled = false;
+                    cboReceiver.SelectedIndex = -1;
+                    lblReceiverNum.Text = "";
+                    lblToAccType.Text = "";
+
                     lblFromAccType.Enabled = true;
                     lblToAccType.Enabled = false;
-                    lblToAccType.Text = "";
                     lblMoney.Enabled = true;
                     break;
             }

@@ -17,11 +17,11 @@ namespace BankManagement
                 if (splash.ShowDialog() != DialogResult.OK)
                     return;
             }
-            using (var login = new FormLogin())
-            {
-                if (login.ShowDialog() != DialogResult.OK)
-                    return;
-            }
+            //using (var login = new FormLogin())
+            //{
+            //    if (login.ShowDialog() != DialogResult.OK)
+            //        return;
+            //}
             Application.Run(new FormMenu());
         }
     }

@@ -17,9 +17,9 @@ namespace BankManagement
         private List<Account> initAccountList = new();  // danh sách khi khởi tạo form hoặc tạo giao dịch (để đối chiếu thay đổi và save file)
         private bool isChanged = false;
         private FormMenu formMenu;
-        
+
         // Transaction view mode tracking
-        private bool _showAllTransactions = false; // Default: show filtered
+        private bool _showAllTransactions = true; // Default: show all
         private string? _currentAccountNumber = null; // Track selected account
 
         // Dùng cho chức năng sort
@@ -59,7 +59,7 @@ namespace BankManagement
                 }
             }
         }
-
+        // Reload Account List
         private void ReloadAccountGrid(List<Account> list)
         {
             dgvMain.DataSource = null;
@@ -81,36 +81,36 @@ namespace BankManagement
             {
                 _currentAccountNumber = accountNumber;
             }
-            
+
             // If showing all transactions (toggle mode)
             if (_showAllTransactions)
             {
                 TransactionList.ResetFilter(); // Show all
-                
+
                 dgvSub.DataSource = null;
                 dgvSub.DataSource = TransactionList.Transactions;
                 dgvSub.Refresh();
 
                 lblSubText.Text = "Showing All Transaction History";
                 lblAccountNumberDisplay.Text = "";
-                
+
                 // Format columns
                 if (dgvSub.Columns["Amount"] != null)
                     dgvSub.Columns["Amount"].DefaultCellStyle.Format = "N0";
-                
+
                 // Cập nhật số thứ tự cho dgvSub
                 UpdateRowNumbers(dgvSub, "SubSTT");
-                
+
                 // Statistics for ALL transactions
                 (int depositCountAll, int withdrawCountAll, int transferCountAll) = TransactionList.GetTotalItemsEachTransactionType(all: true);
                 tslblSubDataRowCount.Text = $"Total: {TransactionList.GetTotalItemsInList(all: true)}";
                 tslblDeposit.Text = $"Deposit: {depositCountAll}";
                 tslblWithdraw.Text = $"Withdraw: {withdrawCountAll}";
                 tslblTransfer.Text = $"Transfer: {transferCountAll}";
-                
+
                 return;
             }
-            
+
             // Original logic: filtered by account
             if (string.IsNullOrEmpty(accountNumber))
             {
@@ -180,9 +180,9 @@ namespace BankManagement
                     isChanged = true;
 
                     MessageBox.Show(
-                        $"Đã thêm tài khoản: {formAdd.NewAccount?.AccountNumber}\n" +
-                        $"Khách hàng: {formAdd.NewCustomer?.LastName} {formAdd.NewCustomer?.FirstName}",
-                        "Thành công",
+                        $"Account added: {formAdd.NewAccount?.AccountNumber}\n" +
+                        $"Customer: {formAdd.NewCustomer?.LastName} {formAdd.NewCustomer?.FirstName}",
+                        "Success",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information
                     );
@@ -190,7 +190,7 @@ namespace BankManagement
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi phát sinh: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
         }
@@ -241,8 +241,8 @@ namespace BankManagement
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"Lỗi khi tải lại dữ liệu sau giao dịch:\n{ex.Message}",
-                    "Lỗi",
+                    $"Error reloading data after transaction:\n{ex.Message}",
+                    "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
@@ -268,13 +268,13 @@ namespace BankManagement
 
             // Tạo bản sao độc lập để so sánh về sau
             initAccountList = AccountList.Accounts.Select(a => new Account(a)).ToList();
-            
+
             dgvMain.RowsDefaultCellStyle.BackColor = Color.White;
             dgvMain.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
             dgvMain.AutoGenerateColumns = false;
             dgvMain.Columns["Balance"].DefaultCellStyle.Format = "N0";
             dgvMain.Columns["OpenAt"].DefaultCellStyle.Format = "dd/MM/yyyy";
-            
+
             ReloadAccountGrid(AccountList.Accounts);
 
             dgvSub.AutoGenerateColumns = false;
@@ -289,14 +289,17 @@ namespace BankManagement
             tslblTransfer.Text = "Transfer: 0";
 
             // Setup button with Resources
-            btnViewMode.Image = Properties.Resources.view_all;
+            //btnViewMode.Image = Properties.Resources.view_all;
+            btnViewMode.Image = Properties.Resources.view_selected;
             btnViewMode.Text = "";
             btnViewMode.ImageAlign = ContentAlignment.MiddleCenter;
             btnViewMode.TextAlign = ContentAlignment.MiddleCenter;
-            
-            // Add tooltip
-            toolTip.SetToolTip(btnViewMode, "Click to show all transactions");
 
+            LoadTransactionHistory(null);
+
+            // Add tooltip
+            //toolTip.SetToolTip(btnViewMode, "Click to show all transactions");
+            toolTip.SetToolTip(btnViewMode, "Click to show filtered view");
             // Tạo và liên kết FormMenu
             if (formMenu != null)
             {
@@ -306,6 +309,8 @@ namespace BankManagement
 
             dgvMain.DataBindingComplete += (_, __) => UpdateRowNumbers(dgvMain, "MainSTT");
             dgvSub.DataBindingComplete += (_, __) => UpdateRowNumbers(dgvSub, "SubSTT");
+
+           
         }
 
         private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -313,8 +318,8 @@ namespace BankManagement
             if (IsAccountListChanged() || isChanged)
             {
                 var result = MessageBox.Show(
-                    "Dữ liệu đã thay đổi. Bạn có muốn lưu lại không?",
-                    "Xác nhận lưu",
+                    "Data has changed. Do you want to save it?",
+                    "Save Confirmation",
                     MessageBoxButtons.YesNoCancel,
                     MessageBoxIcon.Question
                 );
@@ -330,8 +335,8 @@ namespace BankManagement
                         CustomerList.SaveCustomersToCSV();
 
                         MessageBox.Show(
-                            "Lưu dữ liệu thành công!",
-                            "Thông báo",
+                            "Data saved successfully!",
+                            "Notification",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information
                         );
@@ -341,8 +346,8 @@ namespace BankManagement
                     catch (Exception ex)
                     {
                         MessageBox.Show(
-                            $"Lỗi khi lưu dữ liệu:\n{ex.Message}",
-                            "Lỗi",
+                            $"Error while saving data:\n{ex.Message}",
+                            "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error
                         );
@@ -392,7 +397,7 @@ namespace BankManagement
         {
             // Toggle mode
             _showAllTransactions = !_showAllTransactions;
-            
+
             if (_showAllTransactions)
             {
                 // Switch to "All" mode
@@ -406,7 +411,7 @@ namespace BankManagement
                 // Switch to "Filtered" mode
                 btnViewMode.Image = Properties.Resources.view_all;
                 toolTip.SetToolTip(btnViewMode, "Click to show all transactions");
-                
+
                 // Restore filtered view
                 if (!string.IsNullOrEmpty(_currentAccountNumber))
                 {
@@ -422,7 +427,7 @@ namespace BankManagement
         // Xử lý Edit, Delete
         private void dgvMain_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
             string colName = dgvMain.Columns[e.ColumnIndex].Name;
 
             if (colName == "Edit")
@@ -459,8 +464,8 @@ namespace BankManagement
             else if (colName == "Delete")
             {
                 DialogResult confirm = MessageBox.Show(
-                    "Bạn có chắc muốn xóa dòng này?",
-                    "Xác nhận xóa",
+                    "Are you sure you want to delete this row?",
+                    "Delete Confirmation",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
                 );
@@ -487,7 +492,7 @@ namespace BankManagement
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
             string colName = dgvMain.Columns[e.ColumnIndex].Name;
-            
+
             // Lấy Account từ row được chọn
             if (colName != "Edit" && colName != "Delete")
             {
@@ -664,12 +669,33 @@ namespace BankManagement
                 catch (Exception ex)
                 {
                     MessageBox.Show(
-                        $"Lỗi khi hiển thị chi tiết giao dịch:\n{ex.Message}",
-                        "Lỗi",
+                        $"Error displaying transaction details:\n{ex.Message}",
+                        "Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                     );
                 }
+            }
+        }
+
+        private void dgv_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            // Kiểm tra nếu là ô header
+            if (e.RowIndex == -1 && e.ColumnIndex >= 0)
+            {
+                e.PaintBackground(e.CellBounds, false);
+                string headerText = e.FormattedValue?.ToString() ?? string.Empty;
+                using (StringFormat sf = new StringFormat())
+                {
+                    sf.Alignment = StringAlignment.Center;
+                    sf.LineAlignment = StringAlignment.Center;
+                    using (Brush textBrush = new SolidBrush(Color.FromArgb(50, 52, 76)))
+                    {
+                        e.Graphics.DrawString(headerText, e.CellStyle.Font, textBrush, e.CellBounds, sf);
+                    }
+                }
+
+                e.Handled = true;
             }
         }
     }

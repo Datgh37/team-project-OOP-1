@@ -85,13 +85,13 @@ namespace BankManagement
                 // Update Account
                 if (!double.TryParse(txtBalance.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out double balance))
                 {
-                    MessageBox.Show("Số dư không hợp lệ!", "Lỗi nhập liệu",
+                    MessageBox.Show("Invalid balance!", "Input Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 if (!double.TryParse(txtInterestRate.Text, NumberStyles.Any, CultureInfo.CurrentCulture, out double rate))
                 {
-                    MessageBox.Show("Mức lãi không hợp lệ!, Kiểm tra input", "Lỗi nhập liệu",
+                    MessageBox.Show("Invalid interest rate! Please check your input.", "Input Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -103,12 +103,12 @@ namespace BankManagement
                 if (nameChanged)
                 {
                     DialogResult result = MessageBox.Show(
-                        $"Bạn đã thay đổi họ tên khách hàng:\n\n" +
-                        $"Từ: {_originalLastName} {_originalFirstName}\n" +
-                        $"Thành: {txtLastName.Text.Trim()} {txtFirstName.Text.Trim()}\n\n" +
-                        "LƯU Ý: Tên sẽ được cập nhật cho TẤT CẢ tài khoản của khách hàng này!\n\n" +
-                        "Bạn có chắc chắn muốn tiếp tục?",
-                        "Xác nhận thay đổi họ tên",
+                        $"You have changed the customer's name:\n\n" +
+                        $"From: {_originalLastName} {_originalFirstName}\n" +
+                        $"To: {txtLastName.Text.Trim()} {txtFirstName.Text.Trim()}\n\n" +
+                        "NOTE: The name will be updated for ALL accounts of this customer!\n\n" +
+                        "Are you sure you want to continue?",
+                        "Confirm Name Change",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning);
 
@@ -130,11 +130,6 @@ namespace BankManagement
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
-        }
-
-        private void grpCustomerInfo_Enter(object sender, EventArgs e)
-        {
-
         }
     }
 }

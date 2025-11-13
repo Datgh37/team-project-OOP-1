@@ -291,7 +291,6 @@
             grpCustomerInfo.TabIndex = 0;
             grpCustomerInfo.TabStop = false;
             grpCustomerInfo.Text = " Customer Information";
-            grpCustomerInfo.Enter += grpCustomerInfo_Enter;
             // 
             // txtPhone
             // 
@@ -307,7 +306,7 @@
             lblPhone.AutoSize = true;
             lblPhone.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lblPhone.ForeColor = Color.FromArgb(50, 52, 76);
-            lblPhone.Location = new Point(468, 367);
+            lblPhone.Location = new Point(463, 367);
             lblPhone.Margin = new Padding(4, 0, 4, 0);
             lblPhone.Name = "lblPhone";
             lblPhone.Size = new Size(71, 25);
@@ -328,7 +327,7 @@
             lblEmail.AutoSize = true;
             lblEmail.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lblEmail.ForeColor = Color.FromArgb(50, 52, 76);
-            lblEmail.Location = new Point(71, 367);
+            lblEmail.Location = new Point(66, 367);
             lblEmail.Margin = new Padding(4, 0, 4, 0);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(63, 25);
@@ -337,15 +336,14 @@
             // 
             // dtpDoB
             // 
-            dtpDoB.CustomFormat = "dd/MM/yyyy";
+            dtpDoB.CustomFormat = "";
             dtpDoB.Font = new Font("Source Sans 3", 12F);
-            dtpDoB.Format = DateTimePickerFormat.Custom;
-            dtpDoB.Location = new Point(468, 234);
+            dtpDoB.Location = new Point(376, 234);
             dtpDoB.Margin = new Padding(4);
-            dtpDoB.MaxDate = new DateTime(2025, 11, 5, 0, 0, 0, 0);
+            dtpDoB.MaxDate = new DateTime(2025, 11, 12, 0, 0, 0, 0);
             dtpDoB.MinDate = new DateTime(1900, 1, 1, 0, 0, 0, 0);
             dtpDoB.Name = "dtpDoB";
-            dtpDoB.Size = new Size(256, 36);
+            dtpDoB.Size = new Size(348, 36);
             dtpDoB.TabIndex = 7;
             dtpDoB.Value = new DateTime(2025, 11, 5, 0, 0, 0, 0);
             // 
@@ -354,12 +352,12 @@
             lblDoB.AutoSize = true;
             lblDoB.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lblDoB.ForeColor = Color.FromArgb(50, 52, 76);
-            lblDoB.Location = new Point(468, 204);
+            lblDoB.Location = new Point(372, 204);
             lblDoB.Margin = new Padding(4, 0, 4, 0);
             lblDoB.Name = "lblDoB";
-            lblDoB.Size = new Size(105, 25);
+            lblDoB.Size = new Size(128, 25);
             lblDoB.TabIndex = 13;
-            lblDoB.Text = "Birth Date:";
+            lblDoB.Text = "Date of Birth:";
             // 
             // cboGender
             // 
@@ -370,7 +368,7 @@
             cboGender.Location = new Point(71, 234);
             cboGender.Margin = new Padding(4);
             cboGender.Name = "cboGender";
-            cboGender.Size = new Size(118, 33);
+            cboGender.Size = new Size(163, 33);
             cboGender.TabIndex = 6;
             // 
             // lblGender
@@ -378,7 +376,7 @@
             lblGender.AutoSize = true;
             lblGender.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lblGender.ForeColor = Color.FromArgb(50, 52, 76);
-            lblGender.Location = new Point(71, 204);
+            lblGender.Location = new Point(66, 204);
             lblGender.Margin = new Padding(4, 0, 4, 0);
             lblGender.Name = "lblGender";
             lblGender.Size = new Size(80, 25);
@@ -399,7 +397,7 @@
             lblAddress.AutoSize = true;
             lblAddress.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lblAddress.ForeColor = Color.FromArgb(50, 52, 76);
-            lblAddress.Location = new Point(71, 286);
+            lblAddress.Location = new Point(66, 286);
             lblAddress.Margin = new Padding(4, 0, 4, 0);
             lblAddress.Name = "lblAddress";
             lblAddress.Size = new Size(85, 25);
@@ -420,7 +418,7 @@
             lblLastName.AutoSize = true;
             lblLastName.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lblLastName.ForeColor = Color.FromArgb(50, 52, 76);
-            lblLastName.Location = new Point(468, 125);
+            lblLastName.Location = new Point(463, 125);
             lblLastName.Margin = new Padding(4, 0, 4, 0);
             lblLastName.Name = "lblLastName";
             lblLastName.Size = new Size(106, 25);
@@ -441,7 +439,7 @@
             lblFirstName.AutoSize = true;
             lblFirstName.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lblFirstName.ForeColor = Color.FromArgb(50, 52, 76);
-            lblFirstName.Location = new Point(71, 125);
+            lblFirstName.Location = new Point(66, 125);
             lblFirstName.Margin = new Padding(4, 0, 4, 0);
             lblFirstName.Name = "lblFirstName";
             lblFirstName.Size = new Size(108, 25);
@@ -462,7 +460,7 @@
             lblCID.AutoSize = true;
             lblCID.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lblCID.ForeColor = Color.FromArgb(50, 52, 76);
-            lblCID.Location = new Point(483, 45);
+            lblCID.Location = new Point(478, 45);
             lblCID.Margin = new Padding(4, 0, 4, 0);
             lblCID.Name = "lblCID";
             lblCID.Size = new Size(148, 25);
@@ -487,7 +485,7 @@
             lblUID.AutoSize = true;
             lblUID.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
             lblUID.ForeColor = Color.FromArgb(50, 52, 76);
-            lblUID.Location = new Point(71, 45);
+            lblUID.Location = new Point(66, 45);
             lblUID.Margin = new Padding(4, 0, 4, 0);
             lblUID.Name = "lblUID";
             lblUID.Size = new Size(79, 25);
@@ -500,6 +498,7 @@
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(157, 157, 194);
+            CancelButton = btnCancel;
             ClientSize = new Size(855, 864);
             Controls.Add(panelBase);
             FormBorderStyle = FormBorderStyle.FixedSingle;
