@@ -30,19 +30,20 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle13 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
             dgvMain = new DataGridView();
             MainSTT = new DataGridViewTextBoxColumn();
             AccountNumber = new DataGridViewTextBoxColumn();
@@ -92,24 +93,24 @@
             dgvMain.AllowUserToAddRows = false;
             dgvMain.AllowUserToDeleteRows = false;
             dgvMain.AllowUserToOrderColumns = true;
-            dataGridViewCellStyle25.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle25.BackColor = SystemColors.Control;
-            dataGridViewCellStyle25.Font = new Font("Source Sans 3", 12F, FontStyle.Bold);
-            dataGridViewCellStyle25.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle25.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle25.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle25.WrapMode = DataGridViewTriState.True;
-            dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Source Sans 3", 12F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvMain.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvMain.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvMain.Columns.AddRange(new DataGridViewColumn[] { MainSTT, AccountNumber, Balance, InterestRate, OpenAt, AccountType, CustomerID, Edit, Delete });
-            dataGridViewCellStyle31.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle31.BackColor = SystemColors.Window;
-            dataGridViewCellStyle31.Font = new Font("Source Sans 3", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle31.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle31.SelectionBackColor = Color.FromArgb(67, 69, 94);
-            dataGridViewCellStyle31.SelectionForeColor = Color.White;
-            dataGridViewCellStyle31.WrapMode = DataGridViewTriState.False;
-            dgvMain.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = SystemColors.Window;
+            dataGridViewCellStyle7.Font = new Font("Source Sans 3", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle7.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(67, 69, 94);
+            dataGridViewCellStyle7.SelectionForeColor = Color.White;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.False;
+            dgvMain.DefaultCellStyle = dataGridViewCellStyle7;
             dgvMain.Dock = DockStyle.Fill;
             dgvMain.Location = new Point(4, 84);
             dgvMain.Margin = new Padding(4);
@@ -127,8 +128,8 @@
             // 
             // MainSTT
             // 
-            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            MainSTT.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            MainSTT.DefaultCellStyle = dataGridViewCellStyle2;
             MainSTT.HeaderText = "STT";
             MainSTT.MinimumWidth = 55;
             MainSTT.Name = "MainSTT";
@@ -140,8 +141,8 @@
             // 
             AccountNumber.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             AccountNumber.DataPropertyName = "AccountNumber";
-            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            AccountNumber.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            AccountNumber.DefaultCellStyle = dataGridViewCellStyle3;
             AccountNumber.HeaderText = "AccountNumber";
             AccountNumber.MinimumWidth = 196;
             AccountNumber.Name = "AccountNumber";
@@ -152,8 +153,8 @@
             // 
             Balance.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             Balance.DataPropertyName = "Balance";
-            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleRight;
-            Balance.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleRight;
+            Balance.DefaultCellStyle = dataGridViewCellStyle4;
             Balance.HeaderText = "Balance";
             Balance.MinimumWidth = 130;
             Balance.Name = "Balance";
@@ -164,8 +165,8 @@
             // 
             InterestRate.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             InterestRate.DataPropertyName = "InterestRate";
-            dataGridViewCellStyle29.Alignment = DataGridViewContentAlignment.MiddleRight;
-            InterestRate.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight;
+            InterestRate.DefaultCellStyle = dataGridViewCellStyle5;
             InterestRate.HeaderText = "InterestRate";
             InterestRate.MinimumWidth = 130;
             InterestRate.Name = "InterestRate";
@@ -176,8 +177,8 @@
             // 
             OpenAt.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             OpenAt.DataPropertyName = "OpenAt";
-            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            OpenAt.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            OpenAt.DefaultCellStyle = dataGridViewCellStyle6;
             OpenAt.HeaderText = "OpenAt";
             OpenAt.MinimumWidth = 113;
             OpenAt.Name = "OpenAt";
@@ -430,24 +431,24 @@
             dgvSub.AllowUserToDeleteRows = false;
             dgvSub.AllowUserToOrderColumns = true;
             dgvSub.BackgroundColor = SystemColors.Control;
-            dataGridViewCellStyle32.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle32.BackColor = SystemColors.Control;
-            dataGridViewCellStyle32.Font = new Font("Source Sans 3", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle32.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle32.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle32.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle32.WrapMode = DataGridViewTriState.True;
-            dgvSub.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = SystemColors.Control;
+            dataGridViewCellStyle8.Font = new Font("Source Sans 3", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle8.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle8.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.True;
+            dgvSub.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             dgvSub.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSub.Columns.AddRange(new DataGridViewColumn[] { SubSTT, FromAccount, ToAccount, Type, Amount });
-            dataGridViewCellStyle36.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle36.BackColor = SystemColors.Window;
-            dataGridViewCellStyle36.Font = new Font("Source Sans 3", 12F);
-            dataGridViewCellStyle36.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle36.SelectionBackColor = Color.FromArgb(67, 69, 94);
-            dataGridViewCellStyle36.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle36.WrapMode = DataGridViewTriState.False;
-            dgvSub.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle13.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle13.BackColor = SystemColors.Window;
+            dataGridViewCellStyle13.Font = new Font("Source Sans 3", 12F);
+            dataGridViewCellStyle13.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle13.SelectionBackColor = Color.FromArgb(67, 69, 94);
+            dataGridViewCellStyle13.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle13.WrapMode = DataGridViewTriState.False;
+            dgvSub.DefaultCellStyle = dataGridViewCellStyle13;
             dgvSub.Dock = DockStyle.Fill;
             dgvSub.Location = new Point(1082, 84);
             dgvSub.Margin = new Padding(4);
@@ -463,6 +464,8 @@
             // 
             // SubSTT
             // 
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            SubSTT.DefaultCellStyle = dataGridViewCellStyle9;
             SubSTT.HeaderText = "STT";
             SubSTT.MinimumWidth = 55;
             SubSTT.Name = "SubSTT";
@@ -473,8 +476,8 @@
             // 
             FromAccount.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             FromAccount.DataPropertyName = "FromAccountNumber";
-            dataGridViewCellStyle33.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            FromAccount.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            FromAccount.DefaultCellStyle = dataGridViewCellStyle10;
             FromAccount.HeaderText = "From";
             FromAccount.MinimumWidth = 70;
             FromAccount.Name = "FromAccount";
@@ -485,8 +488,8 @@
             // 
             ToAccount.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             ToAccount.DataPropertyName = "ToAccountNumber";
-            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            ToAccount.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            ToAccount.DefaultCellStyle = dataGridViewCellStyle11;
             ToAccount.HeaderText = "To";
             ToAccount.MinimumWidth = 70;
             ToAccount.Name = "ToAccount";
@@ -507,8 +510,8 @@
             // 
             Amount.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             Amount.DataPropertyName = "Amount";
-            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleRight;
-            Amount.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleRight;
+            Amount.DefaultCellStyle = dataGridViewCellStyle12;
             Amount.HeaderText = "Amount";
             Amount.MinimumWidth = 6;
             Amount.Name = "Amount";
@@ -565,11 +568,6 @@
         private Button btnViewMode;
         private ToolTip toolTip;
         private Label lblSubText;
-        private DataGridViewTextBoxColumn SubSTT;
-        private DataGridViewTextBoxColumn FromAccount;
-        private DataGridViewTextBoxColumn ToAccount;
-        private DataGridViewTextBoxColumn Type;
-        private DataGridViewTextBoxColumn Amount;
         private DataGridViewTextBoxColumn MainSTT;
         private DataGridViewTextBoxColumn AccountNumber;
         private DataGridViewTextBoxColumn Balance;
@@ -579,5 +577,10 @@
         private DataGridViewTextBoxColumn CustomerID;
         private DataGridViewImageColumn Edit;
         private DataGridViewImageColumn Delete;
+        private DataGridViewTextBoxColumn SubSTT;
+        private DataGridViewTextBoxColumn FromAccount;
+        private DataGridViewTextBoxColumn ToAccount;
+        private DataGridViewTextBoxColumn Type;
+        private DataGridViewTextBoxColumn Amount;
     }
 }

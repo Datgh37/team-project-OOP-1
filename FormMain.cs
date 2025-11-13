@@ -30,6 +30,10 @@ namespace BankManagement
         private SortState openAtSort = SortState.None;
         private bool accountTypeSorted = false;
         private bool isNormalState = true;
+        
+        // Dùng cho chức năng highlight search keyword
+        private string _searchKeyword = string.Empty;
+        
         // CUSTOM METHODS
         private bool IsAccountListChanged()
         {
@@ -280,13 +284,13 @@ namespace BankManagement
             dgvSub.AutoGenerateColumns = false;
             dgvSub.RowsDefaultCellStyle.BackColor = Color.White;
             dgvSub.AlternatingRowsDefaultCellStyle.BackColor = Color.WhiteSmoke;
-            LoadTransactionHistory(""); // Clear dgvSub khi khởi động
+            //LoadTransactionHistory(""); // Clear dgvSub khi khởi động
 
             // Initialize sub status bar
-            tslblSubDataRowCount.Text = "Total: 0";
-            tslblDeposit.Text = "Deposit: 0";
-            tslblWithdraw.Text = "Withdraw: 0";
-            tslblTransfer.Text = "Transfer: 0";
+            //tslblSubDataRowCount.Text = "Total: 0";
+            //tslblDeposit.Text = "Deposit: 0";
+            //tslblWithdraw.Text = "Withdraw: 0";
+            //tslblTransfer.Text = "Transfer: 0";
 
             // Setup button with Resources
             //btnViewMode.Image = Properties.Resources.view_all;
@@ -369,27 +373,38 @@ namespace BankManagement
 
             if (string.IsNullOrEmpty(keyword))
             {
+                // Xóa keyword và refresh để hủy highlight
+                _searchKeyword = string.Empty;
+                
                 // Nếu đã ở trạng thái bình thường thì không reload nữa
                 if (!isNormalState)
                     ReloadAccountGrid(AccountList.Accounts);
+                else
+                    dgvMain.Invalidate(); // Refresh để xóa highlight
                 return;
             }
-            // Lọc list theo AccountNumber hoặc Type hoặc CustomerID
-            var filtered = AccountList.Accounts.Where(a =>
-                a.AccountNumber.ToLower().Contains(keyword) ||
-                a.AccountTypeName.ToLower().Contains(keyword) ||
-                a.CustomerID.ToString().ToLower().Contains(keyword)
-            ).ToList();
+            
+            // Lưu keyword để highlight
+            _searchKeyword = keyword;
+            
+            // Lọc list theo bất kỳ input nào được tìm thấy trong table
+            var filtered = AccountList.FindByStringInput(keyword);
+            
             // Bind lại DataGridView
             ReloadAccountGrid(filtered);
             isNormalState = false;
+            
+            // Trigger repaint để highlight
+            dgvMain.Invalidate();
         }
         // Xử lý phụ cho Search, reload table
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtSearch.Text))
             {
+                _searchKeyword = string.Empty;
                 ReloadAccountGrid(AccountList.Accounts);
+                dgvMain.Invalidate();
             }
         }
         // Xử lý ViewMode cho dgvSub: All/Filtered transaction view
@@ -677,7 +692,7 @@ namespace BankManagement
                 }
             }
         }
-
+        // Event handler chung: Căn lề header cho tất cả DataGridView
         private void dgv_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             // Kiểm tra nếu là ô header

@@ -79,7 +79,17 @@ namespace BankManagement.Utils
             _accounts.Where(acc => acc.Balance == balance).ToList(); // Find exact balance
         public List<Account> FindByBalance(double min, double max) =>
             _accounts.Where(acc => acc.Balance >= min && acc.Balance <= max).ToList(); // Find in range
-        
+        public List<Account> FindByStringInput(string input) =>
+            _accounts.Where(acc =>
+                acc.AccountNumber.ToLower().Contains(input) ||
+                acc.AccountTypeName.ToLower().Contains(input) ||
+                acc.Balance.ToString().Contains(input) ||
+                acc.CustomerID.ToString().ToLower().Contains(input) ||
+                acc.OpenAt.ToString().ToLower().Contains(input) || 
+                acc.InterestRate.ToString().Contains(input) ||
+                acc.CustomerID.ToString().ToLower().Equals(input)
+            )
+            .ToList();
         // INDEXER, Used to find by Number
         public Account? this[string number] => 
             _accounts.FirstOrDefault(acc => acc.AccountNumber == number); // Return null if Not found account
