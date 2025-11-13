@@ -64,7 +64,7 @@ namespace BankManagement.Models
             Receiver = string.IsNullOrWhiteSpace(line[4]) ? null : line[4];
             Amount = line[5].ToDouble();
             
-            // ✅ Parse TransactionType - hỗ trợ cả số và tên enum
+            // Parse TransactionType - hỗ trợ cả số và tên enum
             if (int.TryParse(line[6], out int enumValue))
             {
                 Type = (TransactionType)enumValue;
@@ -74,7 +74,7 @@ namespace BankManagement.Models
                 Type = Enum.Parse<TransactionType>(line[6]);
             }
             
-            // ✅ Parse TransactionTime - hỗ trợ nhiều format
+            // Parse TransactionTime - hỗ trợ nhiều format
             if (line.Length > 7 && !string.IsNullOrWhiteSpace(line[7]))
             {
                 TransactionTime = line[7].ToDateMonthYear();
