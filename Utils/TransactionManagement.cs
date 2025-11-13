@@ -16,7 +16,11 @@ namespace BankManagement.Utils
             _transactions.Add(transaction);
             _allTransactions.Add(transaction);
         }
-
+        public void RemoveTransaction(Transaction transaction)
+        {
+            _transactions.Remove(transaction);
+            _allTransactions.Remove(transaction);
+        }
         public void ImportTransactionListFromCSV(string filePath = "")
         {
             filePath = string.IsNullOrWhiteSpace(filePath) ? GlobalSettings.TransactionInfoPath : filePath;
